@@ -4,3 +4,217 @@ info:
   version: "1.0.0"
   title: Api-Transportes
 
+tags:
+  - name: "Sedes"
+    description: "Descreve os endpoints para o gerenciamento das Sedes"
+
+servers:
+  - url: "http://localhost:8080/"
+    description: "Desenvolvimento local"
+
+paths:
+  /sedes:
+    post:
+      operationId: "criarSede"
+      summary: "criarSede"
+      description: "Cria uma sede com base nos dados fornecidos."
+      tags:
+        - Sedes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriarSede'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sede'
+
+components:
+  schemas:
+
+    Endereco:
+      type: object
+      properties:
+        rua:
+          type: string
+          description: "Nome da rua onde a sede está localizada"
+          example: "Rua dos Bobos"
+        numero:
+          type: integer
+          description: "Número, complemento à rua"
+          example: "1015"
+        cep:
+          type: string
+          description: "CEP da localidade."
+          pattern: '\d{5}\-\d{3}'
+        cidade:
+          type: string
+          description: "Nome da cidade onde a sede está localizada"
+          example: "Tijucas"
+        uf:
+          type: object
+          $ref: '#/components/schemas/Uf'
+          example: "SC"
+      required:
+        - rua
+        - numero
+        - cep
+        - cidade
+        - uf
+
+    Uf:
+      type: string
+      enum:
+        - RO
+        - AC
+        - AM
+        - RR
+        - PA
+        - AP
+        - TO
+        - MA
+        - PI
+        - CE
+        - RN
+        - PB
+        - PE
+        - AL
+        - SE
+        - BA
+        - MG
+        - ES
+        - RJ
+        - SP
+        - PR
+        - SC
+        - RS
+        - MS
+        - MT
+        - GO
+        - DF
+
+    CriarSede:
+      allOf:
+        - $ref: '#/components/schemas/Endereco'
+        - type: object
+          properties:
+            nome:
+              type: string
+              description: "Nome da sede ou referência à esta sede especificamente."
+              example: "DPE 01 - Criciuma."
+            observacao:
+              type: string
+              description: "Uma descrição sobre a sede, ponto de referência ou outra observação qualquer."
+              example: "Na Avenida Brasil, depois do shopping ABC."
+
+    Sede:
+      allOf:
+        - $ref: '#/components/schemas/CriarSede'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada sede de maneira única."
+              example: "56"
+
+    PropriedadesVeiculo:
+      type: object
+      properties:
+        modelo:
+          type: string
+          description: "Modelo do veículo."
+          example: "Hyundai HR Baú"
+        marca:
+          type: string
+          description: "Marca da montadora do veículo."
+          example: "Hyundai"
+        placa:
+          type: string
+          description: "Placa do veículo, atributo único."
+          pattern: '[A-Z]{3}\d{4}'
+        ano:
+          type: integer
+          description: "Ano de fabricação do veículo."
+          example: "2020"
+        renavan:
+          type: number
+          description: "Número de identificação do veículo."
+          example: "3214569871"
+          pattern: '\d{10}'
+        tamanho:
+          type: string
+          description: "Tamanho do veículo."
+          example: "3,58m"
+      required:
+        - modelo
+        - marca
+        - placa
+        - ano
+        - renavan
+        - tamanho
+
+    CriarVeiculo:
+      allOf:
+        - $ref: '#/components/schemas/PropriedadesVeiculo'
+
+    Veiculo:
+      allOf:
+        - $ref: '#/components/schemas/CriarVeiculo'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada veículo de maneira única."
+              example: "102"
+
+    PropriedadesMotorista:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: "Nome do motorista."
+          example: "João da Silva"
+        carteira:
+          type: string
+          description: "Numero da carteira de motorista."
+          pattern: '\d{11}'
+          example: "63365478917"
+        email:
+          type: string
+          description: "Email do motorista."
+          format: email
+      required:
+        - nome
+        - carteira
+        - email
+
+    CriarMotorista:
+      allOf:
+        - $ref: '#/components/schemas/PropriedadesMotorista'
+
+    Motorista:
+      allOf:
+        - $ref: '#/components/schemas/CriarMotorista'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada motorista de maneira única."
+              example: "22"
+
+  responses:
+    400:
+      description: "Algo de errado aconteceu com a requisicao."
+    403:
+      description: "Este usuário não tem permissões para executar esta ação."
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: [ ]
