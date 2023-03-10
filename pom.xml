@@ -88,7 +88,7 @@
 		<!-- Docker Infos & Properties -->
 		<docker.tag>${project.version}</docker.tag>
 		<docker.final.name>
-			${dockerhub.username}/${project.artifactId}:${docker.tag}
+			${dockerhub.username}/${parent.artifactId}-${project.artifactId}:${docker.tag}
 		</docker.final.name>
 	</properties>
 
