@@ -51,3 +51,6 @@ api-transportes.iml
 **/.classpath
 **/.factorypath
 **/.attach_pid*
+
+api-spec.iml
+full-api-impl.iml
