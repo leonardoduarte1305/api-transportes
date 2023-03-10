@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.com.transportes</groupId>
+	<artifactId>api-transportes</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>api-transportes</name>
+	<description>
+		Aplicação completa com especiicacao Openapi e um service que a implementa
+	</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -11,136 +20,173 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>br.com.transportes</groupId>
-	<artifactId>api-transportes-spec</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<modules>
+		<module>api-spec</module>
+		<module>service</module>
+	</modules>
+
+	<licenses>
+		<license>
+			<name>Software License 1.0</name>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:https://github.com/${git-username}/${git-repository-name}</connection>
+		<developerConnection>scm:git:git@github.com:${git-username}/${git-repository-name}</developerConnection>
+		<url>https://github.com/${git-username}/${git-repository-name}</url>
+		<tag>${project.version}</tag>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>nexus-maven-releases</id>
+			<name>Maven Hosted Releases Repository</name>
+			<url>http://${registry-ip-port}/repository/nexus-maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-maven-snapshots</id>
+			<name>Maven Hosted Snapshots Repository</name>
+			<url>http://${registry-ip-port}/repository/nexus-maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<properties>
+		<!-- Personal properties and local configs -->
+		<registry-ip-port>172.19.0.4:8081</registry-ip-port>
+		<git-username>leonardoduarte1305</git-username>
+		<git-repository-name>api-transportes-spec.git</git-repository-name>
+
+		<!-- JDK - JVM - Maven - Configs -->
+		<java.version>17</java.version>
+		<encoding>UTF-8</encoding>
+		<revision>0.0.1-SNAPSHOT</revision>
+
+		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+		<project.reporting.source>${encoding}</project.reporting.source>
+		<maven.build.indentSize>4</maven.build.indentSize>
+		<maven.deploy.only>false</maven.deploy.only>
+
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Api-Spec Shoul be the same version of the api-spec module -->
+		<api-spec.version>${project.version}</api-spec.version>
+
 		<!-- Dependency Management Versions -->
 		<spring-boot-starter-parent.version>${project.parent.version}</spring-boot-starter-parent.version>
 		<jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
 		<springfox-swagger2.version>3.0.0</springfox-swagger2.version>
 		<swagger-annotations.version>2.2.8</swagger-annotations.version>
 		<jsr305.version>3.0.2</jsr305.version>
+		<micrometer-registry-prometheus.version>1.11.0-M1</micrometer-registry-prometheus.version>
+
+		<!-- Plugins Versions -->
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
 
-
-		<client-base-package>br.com.transportes.client</client-base-package>
-		<server-base-package>br.com.transportes.server</server-base-package>
-		<api-resources>${project.basedir}/src/main/resources</api-resources>
+		<!-- Docker Infos & Properties -->
+		<docker.tag>${project.version}</docker.tag>
+		<docker.final.name>
+			${dockerhub.username}/${project.artifactId}:${docker.tag}
+		</docker.final.name>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.openapitools</groupId>
-			<artifactId>jackson-databind-nullable</artifactId>
-			<version>${jackson-databind-nullable.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-swagger2.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger-annotations.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>${jsr305.version}</version>
-		</dependency>
-	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.openapitools</groupId>
+				<artifactId>jackson-databind-nullable</artifactId>
+				<version>${jackson-databind-nullable.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox-swagger2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger-annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>${jsr305.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<goals>
+								<goal>build-info</goal>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
-			<!-- https://openapi-generator.tech/docs/generators/spring/ -->
 			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>${openapi-generator-maven-plugin.version}</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
-						<id>Generating Client Artifacts</id>
+						<id>Enforce Plugin in Action</id>
 						<goals>
-							<goal>generate</goal>
+							<goal>enforce</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${api-resources}/api-specification.yaml</inputSpec>
-							<templateDirectory>${api-resources}/client-templates</templateDirectory>
-							<generatorName>java</generatorName>
-							<generateApiTests>false</generateApiTests>
-							<generateModelTests>false</generateModelTests>
-							<output>${project.build.directory}/generated-sources/openapi/</output>
-							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
-								<library>resttemplate</library>
-								<dateLibrary>java8</dateLibrary>
-								<useJakartaEe>true</useJakartaEe>
-								<interfaceOnly>true</interfaceOnly>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<apiPackage>${client-base-package}</apiPackage>
-								<modelPackage>${client-base-package}.model</modelPackage>
-								<configurationPackage>${client-base-package}.configuration</configurationPackage>
-								<invokerPackage>${client-base-package}.invoker</invokerPackage>
-
-								<!--Set Springboot version used in generated code (use recent log4j version)-->
-								<parentGroupId>org.springframework.boot</parentGroupId>
-								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
-								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
-							</configOptions>
-							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
+							<rules>
+								<banDuplicatePomDependencyVersions/>
+								<requireMavenVersion>
+									<version>[3.8.5,)</version>
+									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>[17,)</version>
+									<message>Invalid Java version. It should, at least, be 17</message>
+								</requireJavaVersion>
+							</rules>
 						</configuration>
 					</execution>
-
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<flattenMode>bom</flattenMode>
+				</configuration>
+				<executions>
+					<!-- enable flattening -->
 					<execution>
-						<id>Generating Server Artifacts</id>
+						<id>Activate Flatten</id>
+						<phase>process-resources</phase>
 						<goals>
-							<goal>generate</goal>
+							<goal>flatten</goal>
 						</goals>
-						<configuration>
-							<inputSpec>${api-resources}/api-specification.yaml</inputSpec>
-							<templateDirectory>${api-resources}/server-templates
-							</templateDirectory>
-							<generatorName>spring</generatorName>
-							<output>${project.build.directory}/generated-sources/openapi/</output>
-							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
-								<useJakartaEe>true</useJakartaEe>
-								<library>spring-boot</library>
-								<dateLibrary>java8</dateLibrary>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<interfaceOnly>true</interfaceOnly>
-								<dateLibrary>java17</dateLibrary>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<apiPackage>${server-base-package}</apiPackage>
-								<modelPackage>${server-base-package}.model</modelPackage>
-								<configurationPackage>${server-base-package}.configuration</configurationPackage>
-								<invokerPackage>${server-base-package}.invoker</invokerPackage>
+					</execution>
 
-								<!--Set Springboot version used in generated code (use recent log4j version)-->
-								<parentGroupId>org.springframework.boot</parentGroupId>
-								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
-								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
-							</configOptions>
-							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
-						</configuration>
+					<!-- ensure proper cleanup -->
+					<execution>
+						<id>Flatten Clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

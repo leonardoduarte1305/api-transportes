@@ -1,0 +1,18 @@
+[schema]
+version = 3
+
+[owner]
+team = "My amazing team name"
+
+[status]
+maturity = "developing"
+stage = "Integration tests Environment"
+
+[meta]
+kind = "sample project for general usage"
+labels = ["demo-projects"]
+technologies = ["Swagger", "OpenAPI", "Spring"]
+languages = ["java"]
+
+[build]
+server = "localhost"
