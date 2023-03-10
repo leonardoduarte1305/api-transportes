@@ -7,6 +7,14 @@ info:
 tags:
   - name: "Sedes"
     description: "Descreve os endpoints para o gerenciamento das Sedes"
+  - name: "Veiculos"
+    description: "Descreve os endpoints para o gerenciamento dos Veiculos"
+  - name: "Motoristas"
+    description: "Descreve os endpoints para o gerenciamento dos Motoristas"
+  - name: "Viagens"
+    description: "Descreve os endpoints para o gerenciamento das Viagens"
+  - name: "Destinos"
+    description: "Descreve os endpoints para o gerenciamento dos Destinos"
 
 servers:
   - url: "http://localhost:8080/"
@@ -56,7 +64,6 @@ components:
           description: "Nome da cidade onde a sede está localizada"
           example: "Tijucas"
         uf:
-          type: object
           $ref: '#/components/schemas/Uf'
           example: "SC"
       required:
@@ -110,6 +117,9 @@ components:
               type: string
               description: "Uma descrição sobre a sede, ponto de referência ou outra observação qualquer."
               example: "Na Avenida Brasil, depois do shopping ABC."
+          required:
+            - nome
+            - observacao
 
     Sede:
       allOf:
@@ -205,6 +215,65 @@ components:
               type: integer
               description: "Atributo que identifica cada motorista de maneira única."
               example: "22"
+
+    Transporte:
+      type: object
+      description: "Todas as informações de uma viagem"
+      properties:
+        motoristaId:
+          type: integer
+          description: "Id único que identifica o motorista desta viagem."
+        veiculoId:
+          type: integer
+          description: "Id único que identifica o veiculo usado nesta viagem."
+        paradas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Destino'
+        dataSaida:
+          type: string
+          description: "Data de partida da viagem."
+        horaDeSaida:
+          type: string
+          description: "Hora programada para partida da viagem."
+        dataChegada:
+          type: string
+          description: "Data prevista para a chegada de volta no armazém central."
+        horaDeChegada:
+          type: string
+          description: "Hora prevista para a chegada de volta no armazém central."
+
+    Destino:
+      type: object
+      description: "Sede por onde o transporte deve passar e a lista de itens que ele deve deixar neste destino."
+      properties:
+        sedeId:
+          type: integer
+          description: "Id da sede para onde devem ir os materiais transportados"
+        materiais:
+          type: array
+          items:
+            $ref: '#/components/schemas/Material'
+        status:
+          type: string
+          enum:
+            - CONFIRMADO
+            - NAO_CONFIRMADO
+
+    Material:
+      type: object
+      description: "Material que será levado ao destino."
+      properties:
+        nome:
+          type: object
+          description: "Nome do produto em questão."
+        descricao:
+          type: string
+          description: "Descricao do material a ser transportado."
+          example: "Malote de socumentos"
+        setor:
+          type: string
+          description: "Setor"
 
   responses:
     400:
