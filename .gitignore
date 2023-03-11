@@ -52,5 +52,5 @@ api-transportes.iml
 **/.factorypath
 **/.attach_pid*
 
-api-spec.iml
-full-api-impl.iml
+exemplo.yaml
+/gen

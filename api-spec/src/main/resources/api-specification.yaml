@@ -32,7 +32,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CriarSede'
+              $ref: '#/components/schemas/UpsertSede'
       responses:
         201:
           description: "Created"
@@ -40,6 +40,241 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Sede'
+    get:
+      description: "Lista todas as sedes ordenadas por ID."
+      summary: listaTodasAsSedes
+      operationId: listaTodasAsSedes
+      tags:
+        - Sedes
+      responses:
+        200:
+          description: "Lista de Sedes ordenadas por ID."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sede'
+  /sedes/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID da sede que se deseja editar ou excluir"
+        schema:
+          type: string
+    put:
+      operationId: "editarSede"
+      summary: "editarSede"
+      description: "Altera uma sede com base nos dados fornecidos."
+      tags:
+        - Sedes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertSede'
+      responses:
+        201:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sede'
+    delete:
+      description: "Exclui o registro de uma sede específica."
+      summary: excluirSede
+      operationId: excluirSede
+      tags:
+        - Sedes
+      responses:
+        200:
+          description: "Deleted"
+        400:
+          description: "Id inválido"
+    get:
+      description: "Devolve uma sede específica, selecionando-a pelo seu ID."
+      summary: trazSedePorId
+      operationId: trazSedePorId
+      tags:
+        - Sedes
+      responses:
+        200:
+          description: "Devolve uma sede específica buscando por ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sede'
+
+  /motoristas:
+    post:
+      operationId: criarMotorista
+      summary: criarMotorista
+      description: "Cria um motorista com base nos dados fornecidos."
+      tags:
+        - Motoristas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtributosMotorista'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Motorista'
+    get:
+      description: "Lista todos os motoristas ordenados por ID."
+      summary: listaTodosMotoristas
+      operationId: listaTodosMotoristas
+      tags:
+        - Motoristas
+      responses:
+        200:
+          description: "Lista dos motoristas ordenados por ID."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Motorista'
+  /motoristas/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID do motorista que se deseja editar ou excluir"
+        schema:
+          type: string
+    put:
+      operationId: editarMotorista
+      summary: editarMotorista
+      description: "Altera o cadastro de um motorista com base no seu ID e nos dados fornecidos."
+      tags:
+        - Motoristas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtributosMotorista'
+      responses:
+        201:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Motorista'
+    delete:
+      description: "Exclui o registro de um motorista específico."
+      summary: excluirMotorista
+      operationId: excluirMotorista
+      tags:
+        - Motoristas
+      responses:
+        200:
+          description: "Deleted"
+        400:
+          description: "Id inválido"
+    get:
+      description: "Devolve um motorista específico, selecionando-o pelo seu ID."
+      summary: trazMotoristaPorId
+      operationId: trazMotoristaPorId
+      tags:
+        - Motoristas
+      responses:
+        200:
+          description: "Devolve um motorista específico buscando por ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Motorista'
+
+  /veiculos:
+    post:
+      operationId: criarVeiculo
+      summary: criarVeiculo
+      description: "Cria um veículo com base nos dados fornecidos."
+      tags:
+        - Veiculos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertVeiculo'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
+    get:
+      description: "Lista todos os veiculos ordenados por ID."
+      summary: listaTodosVeiculos
+      operationId: listaTodosVeiculos
+      tags:
+        - Veiculos
+      responses:
+        200:
+          description: "Lista dos veiculos ordenados por ID."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Veiculo'
+  /veiculos/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID do veiculo que se deseja editar ou excluir"
+        schema:
+          type: string
+    put:
+      operationId: editarVeiculo
+      summary: editarVeiculo
+      description: "Altera o cadastro de um veiculo com base no seu ID e nos dados fornecidos."
+      tags:
+        - Veiculos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertVeiculo'
+      responses:
+        201:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
+    delete:
+      description: "Exclui o registro de um veículo específico."
+      summary: excluirVeiculo
+      operationId: excluirVeiculo
+      tags:
+        - Veiculos
+      responses:
+        200:
+          description: "Deleted"
+        400:
+          description: "Id inválido"
+    get:
+      description: "Devolve um veículo específico, selecionando-o pelo seu ID."
+      summary: trazVeiculoPorId
+      operationId: trazVeiculoPorId
+      tags:
+        - Veiculos
+      responses:
+        200:
+          description: "Devolve um veiculo específico buscando por ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Veiculo'
 
 components:
   schemas:
@@ -72,7 +307,6 @@ components:
         - cep
         - cidade
         - uf
-
     Uf:
       type: string
       enum:
@@ -104,26 +338,29 @@ components:
         - GO
         - DF
 
-    CriarSede:
+    AtributosSede:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: "Nome da sede ou referência à esta sede especificamente."
+          example: "DPE 01 - Criciuma."
+        observacao:
+          type: string
+          description: "Uma descrição sobre a sede, ponto de referência ou outra observação qualquer."
+          example: "Na Avenida Brasil, depois do shopping ABC."
+      required:
+        - nome
+        - observacao
+
+    UpsertSede:
       allOf:
         - $ref: '#/components/schemas/Endereco'
-        - type: object
-          properties:
-            nome:
-              type: string
-              description: "Nome da sede ou referência à esta sede especificamente."
-              example: "DPE 01 - Criciuma."
-            observacao:
-              type: string
-              description: "Uma descrição sobre a sede, ponto de referência ou outra observação qualquer."
-              example: "Na Avenida Brasil, depois do shopping ABC."
-          required:
-            - nome
-            - observacao
+        - $ref: '#/components/schemas/AtributosSede'
 
     Sede:
       allOf:
-        - $ref: '#/components/schemas/CriarSede'
+        - $ref: '#/components/schemas/UpsertSede'
         - type: object
           properties:
             id:
@@ -131,7 +368,44 @@ components:
               description: "Atributo que identifica cada sede de maneira única."
               example: "56"
 
-    PropriedadesVeiculo:
+
+    AtributosMotorista:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: "Nome do motorista."
+          example: "João da Silva"
+        carteira:
+          type: string
+          description: "Numero da carteira de motorista."
+          pattern: '\d{11}'
+          example: "63365478917"
+        email:
+          type: string
+          description: "Email do motorista."
+          format: email
+      required:
+        - nome
+        - carteira
+        - email
+
+    UpsertMotorista:
+      allOf:
+        - $ref: '#/components/schemas/AtributosMotorista'
+
+    Motorista:
+      allOf:
+        - $ref: '#/components/schemas/AtributosMotorista'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada motorista de maneira única."
+              example: "22"
+
+
+    AtributosVeiculo:
       type: object
       properties:
         modelo:
@@ -167,13 +441,13 @@ components:
         - renavan
         - tamanho
 
-    CriarVeiculo:
+    UpsertVeiculo:
       allOf:
-        - $ref: '#/components/schemas/PropriedadesVeiculo'
+        - $ref: '#/components/schemas/AtributosVeiculo'
 
     Veiculo:
       allOf:
-        - $ref: '#/components/schemas/CriarVeiculo'
+        - $ref: '#/components/schemas/UpsertVeiculo'
         - type: object
           properties:
             id:
@@ -181,40 +455,6 @@ components:
               description: "Atributo que identifica cada veículo de maneira única."
               example: "102"
 
-    PropriedadesMotorista:
-      type: object
-      properties:
-        nome:
-          type: string
-          description: "Nome do motorista."
-          example: "João da Silva"
-        carteira:
-          type: string
-          description: "Numero da carteira de motorista."
-          pattern: '\d{11}'
-          example: "63365478917"
-        email:
-          type: string
-          description: "Email do motorista."
-          format: email
-      required:
-        - nome
-        - carteira
-        - email
-
-    CriarMotorista:
-      allOf:
-        - $ref: '#/components/schemas/PropriedadesMotorista'
-
-    Motorista:
-      allOf:
-        - $ref: '#/components/schemas/CriarMotorista'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada motorista de maneira única."
-              example: "22"
 
     Transporte:
       type: object
