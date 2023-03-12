@@ -71,7 +71,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<!-- Api-Spec Shoul be the same version of the api-spec module -->
-		<api-spec.version>${project.version}</api-spec.version>
+		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 
 		<!-- Dependency Management Versions -->
 		<spring-boot-starter-parent.version>${project.parent.version}</spring-boot-starter-parent.version>
