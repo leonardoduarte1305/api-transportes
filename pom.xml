@@ -80,6 +80,7 @@
 		<swagger-annotations.version>2.2.8</swagger-annotations.version>
 		<jsr305.version>3.0.2</jsr305.version>
 		<micrometer-registry-prometheus.version>1.11.0-M1</micrometer-registry-prometheus.version>
+		<mapstruct.version>1.5.3.Final</mapstruct.version>
 
 		<!-- Plugins Versions -->
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
@@ -88,7 +89,7 @@
 		<!-- Docker Infos & Properties -->
 		<docker.tag>${project.version}</docker.tag>
 		<docker.final.name>
-			${dockerhub.username}/${parent.artifactId}-${project.artifactId}:${docker.tag}
+			${dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
 		</docker.final.name>
 	</properties>
 

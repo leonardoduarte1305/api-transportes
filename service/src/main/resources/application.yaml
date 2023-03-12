@@ -1,3 +1,22 @@
+spring:
+  application:
+    name: api-transporte-service
+  profiles:
+    active: default
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:mysql://localhost:3310/apiTransportes
+    username: ${MYSQL_ROOT_USERNAME:root}
+    password: ${MYSQL_ROOT_PASSWORD:senhaSegura}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    generate-ddl: true
 management:
   endpoints:
     enabled-by-default: false
@@ -13,3 +32,5 @@ management:
       enabled: true
     metrics:
       enabled: true
+server:
+  port: 8080
