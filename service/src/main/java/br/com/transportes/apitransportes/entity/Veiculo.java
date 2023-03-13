@@ -1,11 +1,9 @@
-package br.com.transportes.apitransportes.model.entity;
+package br.com.transportes.apitransportes.entity;
+
+import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import br.com.transportes.server.model.Uf;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -18,29 +16,27 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "sede")
+@Table(name = "veiculo")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
-public class Sede {
+public class Veiculo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
-	private String rua;
+	private String modelo;
 
-	private Integer numero;
+	private String marca;
 
-	private String cep;
+	private String placa;
 
-	private String cidade;
+	private Integer ano;
 
-	private Uf uf;
+	private BigDecimal renavan;
 
-	private String nome;
-
-	private String observacao;
+	private String tamanho;
 }

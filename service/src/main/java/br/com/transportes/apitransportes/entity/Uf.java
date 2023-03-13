@@ -1,4 +1,4 @@
-package br.com.transportes.apitransportes.model.entity;
+package br.com.transportes.apitransportes.entity;
 
 import lombok.Getter;
 import lombok.ToString;

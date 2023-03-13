@@ -26,21 +26,21 @@ public class SedesService {
 	public Sede upsertSede(String id, UpsertSede upsertSede) {
 
 		if (id.isBlank() || id.isEmpty()) {
-			br.com.transportes.apitransportes.model.entity.Sede sedeSalva = sedesRepository.save(
+			br.com.transportes.apitransportes.entity.Sede sedeSalva = sedesRepository.save(
 					sedesMapper.toSedeEntity(upsertSede));
 
 			return sedesMapper.toSedeDto(sedeSalva);
 		} else {
-			br.com.transportes.apitransportes.model.entity.Sede encontrada = encontrarSedePorId(id);
+			br.com.transportes.apitransportes.entity.Sede encontrada = encontrarSedePorId(id);
 			BeanUtils.copyProperties(upsertSede, encontrada);
 
-			br.com.transportes.apitransportes.model.entity.Sede sedeEditada = sedesRepository.save(encontrada);
+			br.com.transportes.apitransportes.entity.Sede sedeEditada = sedesRepository.save(encontrada);
 			return sedesMapper.toSedeDto(sedeEditada);
 		}
 	}
 
 	public List<Sede> listarTodas() {
-		List<br.com.transportes.apitransportes.model.entity.Sede> encontradas = sedesRepository.findAll();
+		List<br.com.transportes.apitransportes.entity.Sede> encontradas = sedesRepository.findAll();
 		return encontradas.stream().map(sedesMapper::toSedeDto).toList();
 	}
 
@@ -53,7 +53,7 @@ public class SedesService {
 		return sedesMapper.toSedeDto(encontrarSedePorId(id));
 	}
 
-	br.com.transportes.apitransportes.model.entity.Sede encontrarSedePorId(String id) throws NumberFormatException {
+	br.com.transportes.apitransportes.entity.Sede encontrarSedePorId(String id) throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return sedesRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(

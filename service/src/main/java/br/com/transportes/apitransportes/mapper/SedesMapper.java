@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import br.com.transportes.apitransportes.model.entity.Sede;
+import br.com.transportes.apitransportes.entity.Sede;
 import br.com.transportes.server.model.UpsertSede;
 
 @Mapper

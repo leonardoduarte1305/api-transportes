@@ -3,8 +3,8 @@ package br.com.transportes.apitransportes.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.transportes.apitransportes.entity.Sede;
+import br.com.transportes.apitransportes.entity.Veiculo;
 
 @Repository
-public interface SedesRepository extends JpaRepository<Sede, Long> {
+public interface VeiculosRepository extends JpaRepository<Veiculo, Long> {
 }
