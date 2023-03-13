@@ -6,9 +6,9 @@ spring:
   flyway:
     enabled: false
   datasource:
-    url: jdbc:mysql://localhost:3310/apiTransportes
-    username: ${MYSQL_ROOT_USERNAME:root}
-    password: ${MYSQL_ROOT_PASSWORD:senhaSegura}
+    url: jdbc:mysql://localhost:3310/apiTransportes?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: senhaSegura
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect

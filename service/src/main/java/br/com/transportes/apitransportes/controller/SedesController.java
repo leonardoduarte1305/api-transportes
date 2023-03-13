@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,23 +27,31 @@ public class SedesController implements SedesApi {
 
 	@PostMapping
 	@Override public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
-		Sede sedeSalva = sedesService.salvarNovaSede(upsertSede);
+		Sede sedeSalva = sedesService.upsertSede("", upsertSede);
 		return ResponseEntity.ok(sedeSalva);
 	}
 
+	@PutMapping("/{id}")
 	@Override public ResponseEntity<Sede> editarSede(String id, UpsertSede upsertSede) {
-		return null;
+		Sede sedeEditada = sedesService.upsertSede(id, upsertSede);
+		return ResponseEntity.ok(sedeEditada);
 	}
 
+	@DeleteMapping("/{id}")
 	@Override public ResponseEntity<Void> excluirSede(String id) {
-		return null;
+		sedesService.excluirSedePorId(id);
+		return ResponseEntity.noContent().build();
 	}
 
+	@GetMapping
 	@Override public ResponseEntity<List<Sede>> listaTodasAsSedes() {
-		return null;
+		List<Sede> sedes = sedesService.listarTodas();
+		return ResponseEntity.ok(sedes);
 	}
 
+	@GetMapping("/{id}")
 	@Override public ResponseEntity<Sede> trazSedePorId(String id) {
-		return null;
+		Sede encontrada = sedesService.trazerSedePorId(id);
+		return ResponseEntity.ok(encontrada);
 	}
 }
