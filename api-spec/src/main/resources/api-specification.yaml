@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 
 info:
   version: "1.0.0"
@@ -276,6 +276,96 @@ paths:
               schema:
                 $ref: '#/components/schemas/Veiculo'
 
+  /materiais:
+    post:
+      operationId: criarMaterial
+      summary: criarMaterial
+      description: "Cria uma Material com base nos dados fornecidos."
+      tags:
+        - Materiais
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertMaterial'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Material'
+    get:
+      description: "Lista todos os materiais cadastrados ordenados por ID."
+      summary: listaTodosMateriaisCadastrados
+      operationId: listaTodosMateriaisCadastrados
+      tags:
+        - Materiais
+      responses:
+        200:
+          description: "Lista dos materiais cadastrados ordenados por ID."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Material'
+  /materiais/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID do material que se deseja editar ou excluir"
+        schema:
+          type: string
+    put:
+      operationId: editarCadastroMaterial
+      summary: editarCadastroMaterial
+      description: "Altera o cadastro de um material com base no seu ID e nos dados fornecidos.
+          Ao alterar este material ele será alterado em todos os lugares onde ele é utilizado."
+      tags:
+        - Materiais
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertMaterial'
+      responses:
+        201:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Material'
+    delete:
+      description: "Exclui o registro de um material específico.
+          Ao remover este material ele será removido de todos os lugares onde ele é utilizado."
+      summary: excluirMaterial
+      operationId: excluirMaterial
+      tags:
+        - Materiais
+      responses:
+        200:
+          description: "Deleted"
+        400:
+          description: "Id inválido"
+    get:
+      description: "Devolve um material específico, selecionando-o pelo seu ID."
+      summary: trazMaterialPorId
+      operationId: trazMaterialPorId
+      tags:
+        - Materiais
+      responses:
+        200:
+          description: "Devolve um material específico buscando por ID."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Material'
+
+# TODO -> Adicionar um material em um Destino especifico
+# TODO -> Excluir um material de um Destino especifico
+
 components:
   schemas:
 
@@ -337,7 +427,6 @@ components:
         - MT
         - GO
         - DF
-
     AtributosSede:
       type: object
       properties:
@@ -352,12 +441,10 @@ components:
       required:
         - nome
         - observacao
-
     UpsertSede:
       allOf:
         - $ref: '#/components/schemas/Endereco'
         - $ref: '#/components/schemas/AtributosSede'
-
     Sede:
       allOf:
         - $ref: '#/components/schemas/UpsertSede'
@@ -389,11 +476,9 @@ components:
         - nome
         - carteira
         - email
-
     UpsertMotorista:
       allOf:
         - $ref: '#/components/schemas/AtributosMotorista'
-
     Motorista:
       allOf:
         - $ref: '#/components/schemas/AtributosMotorista'
@@ -440,11 +525,9 @@ components:
         - ano
         - renavan
         - tamanho
-
     UpsertVeiculo:
       allOf:
         - $ref: '#/components/schemas/AtributosVeiculo'
-
     Veiculo:
       allOf:
         - $ref: '#/components/schemas/UpsertVeiculo'
@@ -456,53 +539,10 @@ components:
               example: "102"
 
 
-    Transporte:
+    UpsertMaterial:
       type: object
-      description: "Todas as informações de uma viagem"
-      properties:
-        motoristaId:
-          type: integer
-          description: "Id único que identifica o motorista desta viagem."
-        veiculoId:
-          type: integer
-          description: "Id único que identifica o veiculo usado nesta viagem."
-        paradas:
-          type: array
-          items:
-            $ref: '#/components/schemas/Destino'
-        dataSaida:
-          type: string
-          description: "Data de partida da viagem."
-        horaDeSaida:
-          type: string
-          description: "Hora programada para partida da viagem."
-        dataChegada:
-          type: string
-          description: "Data prevista para a chegada de volta no armazém central."
-        horaDeChegada:
-          type: string
-          description: "Hora prevista para a chegada de volta no armazém central."
-
-    Destino:
-      type: object
-      description: "Sede por onde o transporte deve passar e a lista de itens que ele deve deixar neste destino."
-      properties:
-        sedeId:
-          type: integer
-          description: "Id da sede para onde devem ir os materiais transportados"
-        materiais:
-          type: array
-          items:
-            $ref: '#/components/schemas/Material'
-        status:
-          type: string
-          enum:
-            - CONFIRMADO
-            - NAO_CONFIRMADO
-
-    Material:
-      type: object
-      description: "Material que será levado ao destino."
+      description: "Cadastra um material no banco de dados. Neste passo ele é apenas cadastrado no banco de dados.
+          Para adicionálo em uma sugestão de viagem específica deve-se utilizar o endpoint correto."
       properties:
         nome:
           type: object
@@ -511,9 +551,97 @@ components:
           type: string
           description: "Descricao do material a ser transportado."
           example: "Malote de socumentos"
-        setor:
+    Material:
+      allOf:
+        - $ref: '#/components/schemas/UpsertMaterial'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada material de maneira única."
+              example: "188"
+
+
+    MaterialQuantidadeSetor:
+      type: object
+      properties:
+        materialId:
+          type: integer
+          description: "Id do material que deve ser transportado."
+        quantidade:
+          type: integer
+          description: "Quantidade do material que deve ser transportado."
+        setorDestino:
+          $ref: '#/components/schemas/Setor'
+          description: "Setor onde o materia deve ser entregue na unidade de destino."
+    Setor:
+      type: string
+      enum:
+        - RH
+        - GERENCIA
+        - COMERCIAL
+        - SECRETARIA
+        - FINANCEIRO
+        - SUPERVISAO
+    UpsertDestino:
+      type: object
+      description: "Sede por onde o transporte deve passar e os materiais que ele deve deixar nesta parada."
+      properties:
+        sedeId:
+          type: integer
+          description: "Id da sede para onde devem ir os materiais transportados"
+        materiaisQntdSetor:
+          type: array
+          items:
+            $ref: '#/components/schemas/MaterialQuantidadeSetor'
+            # O status será adicionado automáticamente no backend
+            # -> se o ADMIN criar este destino ele terá status = true
+            # -> se outro usuário criar este destino ele terá status = false até que o ADMIN confirme
+    Destino:
+      allOf:
+        - $ref: '#/components/schemas/UpsertDestino'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada destino de maneira única."
+              example: "3"
+            status:
+              type: boolean
+              description: "Mostra o status do destino.
+                  true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
+
+    UpsertViagem:
+      type: object
+      description: "Todas as informacoes necessarias para o agendamento de uma viagem"
+      properties:
+        motoristaId:
+          type: integer
+          description: "Id único que identifica o motorista desta viagem."
+        veiculoId:
+          type: integer
+          description: "Id único que identifica o veiculo usado nesta viagem."
+        destinos:
+          type: array
+          items:
+            type: integer
+
+        dataSaida:
           type: string
-          description: "Setor"
+          description: "Data de partida da viagem."
+        horaDeSaida:
+          type: string
+          description: "Hora programada para partida da viagem."
+
+    Viagem:
+      type: object
+      properties:
+        dataChegada:
+          type: string
+          description: "Data prevista para a chegada de volta no armazém central."
+        horaDeChegada:
+          type: string
+          description: "Hora prevista para a chegada de volta no armazém central."
 
   responses:
     400:
