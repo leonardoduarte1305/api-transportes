@@ -7,14 +7,18 @@ info:
 tags:
   - name: "Sedes"
     description: "Descreve os endpoints para o gerenciamento das Sedes"
+
   - name: "Veiculos"
     description: "Descreve os endpoints para o gerenciamento dos Veiculos"
+
   - name: "Motoristas"
     description: "Descreve os endpoints para o gerenciamento dos Motoristas"
-  - name: "Viagens"
-    description: "Descreve os endpoints para o gerenciamento das Viagens"
+
   - name: "Destinos"
     description: "Descreve os endpoints para o gerenciamento dos Destinos"
+
+  - name: "Viagens"
+    description: "Descreve os endpoints para o gerenciamento das Viagens"
 
 servers:
   - url: "http://localhost:8080/"
@@ -23,8 +27,8 @@ servers:
 paths:
   /sedes:
     post:
-      operationId: "criarSede"
-      summary: "criarSede"
+      operationId: criarSede
+      summary: criarSede
       description: "Cria uma sede com base nos dados fornecidos."
       tags:
         - Sedes
@@ -41,9 +45,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Sede'
     get:
-      description: "Lista todas as sedes ordenadas por ID."
-      summary: listaTodasAsSedes
       operationId: listaTodasAsSedes
+      summary: listaTodasAsSedes
+      description: "Lista todas as sedes ordenadas por ID."
       tags:
         - Sedes
       responses:
@@ -60,12 +64,12 @@ paths:
       - in: path
         name: id
         required: true
-        description: "O ID da sede que se deseja editar ou excluir"
+        description: "O ID da sede que se deseja analisar"
         schema:
           type: string
     put:
-      operationId: "editarSede"
-      summary: "editarSede"
+      operationId: editarSede
+      summary: editarSede
       description: "Altera uma sede com base nos dados fornecidos."
       tags:
         - Sedes
@@ -82,9 +86,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Sede'
     delete:
-      description: "Exclui o registro de uma sede específica."
-      summary: excluirSede
       operationId: excluirSede
+      summary: excluirSede
+      description: "Exclui o registro de uma sede específica. 
+          Se esta sede for referenciada em algum Destino ou Viagem ela não será excluída."
       tags:
         - Sedes
       responses:
@@ -93,9 +98,9 @@ paths:
         400:
           description: "Id inválido"
     get:
-      description: "Devolve uma sede específica, selecionando-a pelo seu ID."
-      summary: trazSedePorId
       operationId: trazSedePorId
+      summary: trazSedePorId
+      description: "Devolve uma sede específica, selecionando-a pelo seu ID."
       tags:
         - Sedes
       responses:
@@ -126,9 +131,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Motorista'
     get:
-      description: "Lista todos os motoristas ordenados por ID."
-      summary: listaTodosMotoristas
       operationId: listaTodosMotoristas
+      summary: listaTodosMotoristas
+      description: "Lista todos os motoristas ordenados por ID."
       tags:
         - Motoristas
       responses:
@@ -145,7 +150,7 @@ paths:
       - in: path
         name: id
         required: true
-        description: "O ID do motorista que se deseja editar ou excluir"
+        description: "O ID do motorista que se deseja analisar"
         schema:
           type: string
     put:
@@ -167,9 +172,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Motorista'
     delete:
-      description: "Exclui o registro de um motorista específico."
-      summary: excluirMotorista
       operationId: excluirMotorista
+      summary: excluirMotorista
+      description: "Exclui o registro de um motorista específico."
       tags:
         - Motoristas
       responses:
@@ -178,9 +183,9 @@ paths:
         400:
           description: "Id inválido"
     get:
-      description: "Devolve um motorista específico, selecionando-o pelo seu ID."
-      summary: trazMotoristaPorId
       operationId: trazMotoristaPorId
+      summary: trazMotoristaPorId
+      description: "Devolve um motorista específico, selecionando-o pelo seu ID."
       tags:
         - Motoristas
       responses:
@@ -211,9 +216,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Veiculo'
     get:
-      description: "Lista todos os veiculos ordenados por ID."
-      summary: listaTodosVeiculos
       operationId: listaTodosVeiculos
+      summary: listaTodosVeiculos
+      description: "Lista todos os veiculos ordenados por ID."
       tags:
         - Veiculos
       responses:
@@ -230,7 +235,7 @@ paths:
       - in: path
         name: id
         required: true
-        description: "O ID do veiculo que se deseja editar ou excluir"
+        description: "O ID do veiculo que se deseja analisar"
         schema:
           type: string
     put:
@@ -252,9 +257,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Veiculo'
     delete:
-      description: "Exclui o registro de um veículo específico."
-      summary: excluirVeiculo
       operationId: excluirVeiculo
+      summary: excluirVeiculo
+      description: "Exclui o registro de um veículo específico."
       tags:
         - Veiculos
       responses:
@@ -263,9 +268,9 @@ paths:
         400:
           description: "Id inválido"
     get:
-      description: "Devolve um veículo específico, selecionando-o pelo seu ID."
-      summary: trazVeiculoPorId
       operationId: trazVeiculoPorId
+      summary: trazVeiculoPorId
+      description: "Devolve um veículo específico, selecionando-o pelo seu ID."
       tags:
         - Veiculos
       responses:
@@ -296,9 +301,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Material'
     get:
-      description: "Lista todos os materiais cadastrados ordenados por ID."
-      summary: listaTodosMateriaisCadastrados
       operationId: listaTodosMateriaisCadastrados
+      summary: listaTodosMateriaisCadastrados
+      description: "Lista todos os materiais cadastrados ordenados por ID."
       tags:
         - Materiais
       responses:
@@ -315,7 +320,7 @@ paths:
       - in: path
         name: id
         required: true
-        description: "O ID do material que se deseja editar ou excluir"
+        description: "O ID do material que se deseja analisar"
         schema:
           type: string
     put:
@@ -338,10 +343,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Material'
     delete:
+      operationId: excluirMaterial
+      summary: excluirMaterial
       description: "Exclui o registro de um material específico.
           Ao remover este material ele será removido de todos os lugares onde ele é utilizado."
-      summary: excluirMaterial
-      operationId: excluirMaterial
       tags:
         - Materiais
       responses:
@@ -350,9 +355,9 @@ paths:
         400:
           description: "Id inválido"
     get:
-      description: "Devolve um material específico, selecionando-o pelo seu ID."
-      summary: trazMaterialPorId
       operationId: trazMaterialPorId
+      summary: trazMaterialPorId
+      description: "Devolve um material específico, selecionando-o pelo seu ID."
       tags:
         - Materiais
       responses:
@@ -389,7 +394,7 @@ paths:
       - in: path
         name: id
         required: true
-        description: "O ID do destino que se deseja editar ou excluir"
+        description: "O ID do destino que se deseja analisar"
         schema:
           type: string
     put:
@@ -411,10 +416,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Destino'
     delete:
+      operationId: excluirDestino
+      summary: excluirDestino
       description: "Exclui o registro de um destino específico.
           Ao remover este destino ele será removido da Viagem onde ele está registrado."
-      summary: excluirDestino
-      operationId: excluirDestino
       tags:
         - Destinos
       responses:
@@ -423,9 +428,9 @@ paths:
         400:
           description: "Id inválido"
     get:
-      description: "Devolve um destino específico, selecionando-o pelo seu ID."
-      summary: trazDestinoPorId
       operationId: trazDestinoPorId
+      summary: trazDestinoPorId
+      description: "Devolve um destino específico, selecionando-o pelo seu ID."
       tags:
         - Destinos
       responses:
@@ -435,7 +440,157 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Destino'
+  /destinos/{id}/materiais:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID do destino que se deseja analisar"
+        schema:
+          type: string
+    get:
+      operationId: trazMateriaisDoDestino
+      summary: trazMateriaisDoDestino
+      description: "Devolve a lista de materiais deste destino específico."
+      tags:
+        - Destinos
+      responses:
+        200:
+          description: "Devolve a lista de materiais deste destino específico."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Material'
+  /destinos/{id}/confirmacao:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID do destino que se deseja analisar"
+        schema:
+          type: string
+    post:
+      operationId: confirmaDestino
+      summary: confirmaDestino
+      description: "Confirma um destino."
+      tags:
+        - Destinos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Confirmacao'
+      responses:
+        200:
+          description: "Destino foi confirmado."
 
+  /viagens:
+    post:
+      operationId: criarViagem
+      summary: criarViagem
+      description: "Cria uma Viagem com base nos dados fornecidos."
+      tags:
+        - Viagens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertViagem'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Viagem'
+    get:
+      description: "Lista todas as viagens cadastradas ordenadas por ID."
+      summary: listaTodasViagens
+      operationId: listaTodasViagens
+      tags:
+        - Viagens
+      responses:
+        200:
+          description: "Lista das viagens cadastradas ordenadas por ID."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Viagem'
+  /viagens/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID da viagem que se deseja analisar"
+        schema:
+          type: string
+    put:
+      operationId: editarViagem
+      summary: editarViagem
+      description: "Altera o cadastro de uma viagem com base no seu ID e nos dados fornecidos."
+      tags:
+        - Viagens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertViagem'
+      responses:
+        201:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Viagem'
+  /viagens/{id}/destinos:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID da viagem que se deseja analisar"
+        schema:
+          type: string
+    get:
+      operationId: trazDestinosDaViagem
+      summary: trazDestinosDaViagem
+      description: "Devolve a lista de destinos desta viagem específica."
+      tags:
+        - Viagens
+      responses:
+        200:
+          description: "Devolve a lista de destinos desta viagem específica."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Destino'
+  /viagens/{id}/confirmacao:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: "O ID da viagem que se deseja analisar"
+        schema:
+          type: string
+    post:
+      operationId: confirmaViagem
+      summary: confirmaViagem
+      description: "Confirma uma viagem e todos os destinos cadastrados até agora."
+      tags:
+        - Viagens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Confirmacao'
+      responses:
+        200:
+          description: "Viagem foi confirmada."
 
 # TODO -> Adicionar um material em um Destino especifico
 # TODO -> Excluir um material de um Destino especifico
@@ -685,6 +840,13 @@ components:
               description: "Mostra o status do destino.
                   true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
 
+    Confirmacao:
+      type: string
+      enum:
+        - CONFIRMADO
+        - NAO_CONFIRMADO
+
+
     UpsertViagem:
       type: object
       description: "Todas as informacoes necessarias para o agendamento de uma viagem"
@@ -715,12 +877,6 @@ components:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."
               example: "44"
-            dataChegada:
-              type: string
-              description: "Data prevista para a chegada de volta no armazém central."
-            horaDeChegada:
-              type: string
-              description: "Hora prevista para a chegada de volta no armazém central."
 
   responses:
     400:
@@ -732,5 +888,6 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+
 security:
   - bearerAuth: [ ]
