@@ -53,7 +53,8 @@ public class SedesService {
 		return sedesMapper.toSedeDto(encontrarSedePorId(id));
 	}
 
-	br.com.transportes.apitransportes.entity.Sede encontrarSedePorId(String id) throws NumberFormatException {
+	private br.com.transportes.apitransportes.entity.Sede encontrarSedePorId(String id)
+			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return sedesRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(

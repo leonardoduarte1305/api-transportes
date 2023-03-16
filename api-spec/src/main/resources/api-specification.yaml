@@ -14,6 +14,9 @@ tags:
   - name: "Motoristas"
     description: "Descreve os endpoints para o gerenciamento dos Motoristas"
 
+  - name: "Materiais"
+    description: "Descreve os endpoints para o gerenciamento dos Materiais"
+
   - name: "Destinos"
     description: "Descreve os endpoints para o gerenciamento dos Destinos"
 
@@ -774,8 +777,9 @@ components:
           Para adicionálo em uma sugestão de viagem específica deve-se utilizar o endpoint correto."
       properties:
         nome:
-          type: object
+          type: string
           description: "Nome do produto em questão."
+          example: "Monitor de 21 polegadas"
         descricao:
           type: string
           description: "Descricao do material a ser transportado."
@@ -850,6 +854,8 @@ components:
     UpsertViagem:
       type: object
       description: "Todas as informacoes necessarias para o agendamento de uma viagem"
+      required:
+        - datetimeSaida
       properties:
         motoristaId:
           type: integer
@@ -861,18 +867,22 @@ components:
           type: array
           items:
             type: integer
-        dataSaida:
+        datetimeSaida:
           type: string
-          description: "Data de partida da viagem."
-        horaDeSaida:
+          description: "Data e hora de partida da viagem."
+        datetimeVolta:
           type: string
-          description: "Hora programada para partida da viagem."
+          description: "Data e hora de partida da viagem."
 
     Viagem:
       allOf:
         - $ref: '#/components/schemas/UpsertViagem'
         - type: object
           properties:
+            status:
+              type: boolean
+              description: "Mostra o status da viagem.
+                  true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
             id:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."

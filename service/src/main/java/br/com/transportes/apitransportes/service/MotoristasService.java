@@ -31,8 +31,8 @@ public class MotoristasService {
 			br.com.transportes.apitransportes.entity.Motorista encontrado = encontrarMotoristaPorId(id);
 			BeanUtils.copyProperties(atributosMotorista, encontrado);
 
-			br.com.transportes.apitransportes.entity.Motorista veiculoEditada = motoristasRepository.save(encontrado);
-			return motoristasMapper.toMotoristaDto(veiculoEditada);
+			br.com.transportes.apitransportes.entity.Motorista veiculoEditado = motoristasRepository.save(encontrado);
+			return motoristasMapper.toMotoristaDto(veiculoEditado);
 		}
 	}
 
@@ -50,7 +50,8 @@ public class MotoristasService {
 		return motoristasMapper.toMotoristaDto(encontrarMotoristaPorId(id));
 	}
 
-	private br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(String id) {
+	private br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(String id)
+			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return motoristasRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(

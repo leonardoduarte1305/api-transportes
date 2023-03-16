@@ -51,7 +51,8 @@ public class VeiculosService {
 		return veiculosMapper.toVeiculoDto(encontrarVeiculoPorId(id));
 	}
 
-	br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(String id) throws NumberFormatException {
+	private br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(String id)
+			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return veiculosRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
