@@ -57,7 +57,7 @@
 		<git-repository-name>api-transportes-spec.git</git-repository-name>
 
 		<!-- JDK - JVM - Maven - Configs -->
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 		<encoding>UTF-8</encoding>
 		<revision>0.0.1-SNAPSHOT</revision>
 
