@@ -10,7 +10,7 @@ import br.com.transportes.server.model.UpsertSede;
 @Mapper
 public interface SedesMapper {
 
-	SedesMapper SEDES_MAPPER_INSTANCE = Mappers.getMapper(SedesMapper.class);
+	SedesMapper INSTANCE = Mappers.getMapper(SedesMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	Sede toSedeEntity(UpsertSede sede);

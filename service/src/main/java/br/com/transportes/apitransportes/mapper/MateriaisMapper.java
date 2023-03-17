@@ -10,7 +10,7 @@ import br.com.transportes.server.model.UpsertMaterial;
 @Mapper
 public interface MateriaisMapper {
 
-	MateriaisMapper MATERIAIS_MAPPER_INSTANCE = Mappers.getMapper(MateriaisMapper.class);
+	MateriaisMapper INSTANCE = Mappers.getMapper(MateriaisMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	Material toMaterialEntity(UpsertMaterial upsertMaterial);

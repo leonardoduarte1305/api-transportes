@@ -10,7 +10,7 @@ import br.com.transportes.server.model.AtributosMotorista;
 @Mapper
 public interface MotoristasMapper {
 
-	MotoristasMapper MOTORISTAS_MAPPER_INSTANCE = Mappers.getMapper(MotoristasMapper.class);
+	MotoristasMapper INSTANCE = Mappers.getMapper(MotoristasMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	Motorista toMotoristaEntity(AtributosMotorista veiculo);

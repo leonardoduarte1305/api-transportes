@@ -10,7 +10,7 @@ import br.com.transportes.server.model.UpsertVeiculo;
 @Mapper
 public interface VeiculosMapper {
 
-	VeiculosMapper VEICULOS_MAPPER_INSTANCE = Mappers.getMapper(VeiculosMapper.class);
+	VeiculosMapper INSTANCE = Mappers.getMapper(VeiculosMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	Veiculo toVeiculoEntity(UpsertVeiculo veiculo);
