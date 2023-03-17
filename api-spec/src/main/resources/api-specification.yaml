@@ -840,7 +840,7 @@ components:
               description: "Atributo que identifica cada destino de maneira única."
               example: "3"
             status:
-              type: boolean
+              type: string
               description: "Mostra o status do destino.
                   true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
 
