@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.transportes.apitransportes.service.DestinosService;
 import br.com.transportes.server.DestinosApi;
 import br.com.transportes.server.model.Destino;
-import br.com.transportes.server.model.Material;
+import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
 import lombok.RequiredArgsConstructor;
 
@@ -51,8 +51,8 @@ public class DestinosController implements DestinosApi {
 	}
 
 	@GetMapping("/{id}/materiais")
-	@Override public ResponseEntity<List<Material>> trazMateriaisDoDestino(String id) {
-		List<Material> materiais = destinosService.trazMateriaisDoDestino(id);
+	@Override public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(String id) {
+		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(id);
 		return ResponseEntity.ok(materiais);
 	}
 

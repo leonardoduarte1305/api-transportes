@@ -465,7 +465,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Material'
+                  $ref: '#/components/schemas/MaterialQuantidadeSetor'
   /destinos/{id}/confirmacao:
     parameters:
       - in: path
