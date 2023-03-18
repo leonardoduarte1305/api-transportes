@@ -845,11 +845,15 @@ components:
                   true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
 
     Confirmacao:
-      type: string
-      enum:
-        - CONFIRMADO
-        - NAO_CONFIRMADO
-
+      type: object
+      properties:
+        confirmacao:
+          type: string
+          description: "Se passado por um ADMIN confirmará ou não a viagem, caso contrário, nada acontece."
+          example: "CONFIRMADO"
+          enum:
+            - CONFIRMADO
+            - NAO_CONFIRMADO
 
     UpsertViagem:
       type: object

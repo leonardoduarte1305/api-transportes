@@ -36,4 +36,12 @@ public class Destino {
 	private List<MaterialQuantidadeSetor> materiaisQntdSetor;
 
 	private String status;
+
+	public void confirmar() {
+		status = "CONFIRMADO";
+	}
+
+	public void desconfirmar() {
+		status = "NAO_CONFIRMADO";
+	}
 }

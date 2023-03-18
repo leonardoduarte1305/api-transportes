@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.transportes.apitransportes.service.DestinosService;
 import br.com.transportes.server.DestinosApi;
+import br.com.transportes.server.model.Confirmacao;
 import br.com.transportes.server.model.Destino;
 import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
@@ -57,7 +58,7 @@ public class DestinosController implements DestinosApi {
 	}
 
 	@PostMapping("/{id}/confirmacao")
-	@Override public ResponseEntity<Void> confirmaDestino(String id, String body) {
+	@Override public ResponseEntity<Void> confirmaDestino(String id, Confirmacao body) {
 		destinosService.confirmaDestino(id, body);
 		return ResponseEntity.noContent().build();
 	}

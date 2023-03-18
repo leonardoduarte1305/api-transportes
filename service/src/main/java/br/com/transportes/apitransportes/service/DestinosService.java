@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
 import br.com.transportes.apitransportes.mapper.DestinosMapper;
 import br.com.transportes.apitransportes.repository.DestinosRepository;
+import br.com.transportes.server.model.Confirmacao;
 import br.com.transportes.server.model.Destino;
 import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
@@ -28,7 +29,7 @@ public class DestinosService {
 		if (id.isBlank() || id.isEmpty()) {
 			br.com.transportes.apitransportes.entity.Destino salvarDestino = destinosMapper.toDestinoEntity(
 					upsertDestino);
-			salvarDestino.setStatus("NAO_CONFIRMADO");
+			salvarDestino.desconfirmar();
 
 			br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(
 					salvarDestino);
@@ -53,15 +54,22 @@ public class DestinosService {
 		return destinosMapper.toDestinoDto(encontrarDestinoPorId(id));
 	}
 
-	public void confirmaDestino(String id, String confirmacao) {
+	public void confirmaDestino(String id, Confirmacao confirmacao) {
 		br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
-		//TODO Implementar confirmaDestino
+
+		if ("CONFIRMADO".equals(confirmacao.getConfirmacao().toString())) {
+			encontrado.confirmar();
+		} else {
+			encontrado.desconfirmar();
+		}
+		destinosRepository.save(encontrado);
 	}
 
 	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(String id) {
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
 
-		return destino.getMateriaisQntdSetor().stream().map(destinosMapper::toMaterialQuantidadeSetorDto).collect(Collectors.toList());
+		return destino.getMateriaisQntdSetor().stream().map(destinosMapper::toMaterialQuantidadeSetorDto)
+				.collect(Collectors.toList());
 	}
 
 	private br.com.transportes.apitransportes.entity.Destino encontrarDestinoPorId(String id)
