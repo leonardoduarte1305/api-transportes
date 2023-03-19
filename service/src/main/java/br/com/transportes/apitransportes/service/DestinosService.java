@@ -34,18 +34,22 @@ public class DestinosService {
 	private final MaterialQuantidadeSetorMapper materialQuantidadeSetorMapper;
 
 	public Destino upsertDestino(String id, UpsertDestino upsertDestino) {
-		if (id.isBlank() || id.isEmpty()) {
-			br.com.transportes.apitransportes.entity.Sede sede = sedesService.encontrarSedePorId(
-					String.valueOf(upsertDestino.getSedeId()));
+		br.com.transportes.apitransportes.entity.Sede sede = sedesService.encontrarSedePorId(
+				String.valueOf(upsertDestino.getSedeId()));
 
+		if (id.isBlank() || id.isEmpty()) {
 			List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetor =
 					upsertDestino.getMateriaisQntdSetor().stream().map(item -> {
+
 						Setor setor = setoresService.encontrarSetorPorId(String.valueOf(item.getSetorDestino()));
 
-						Material material = materiaisService.encontrarMaterialPorId(String.valueOf(item.getMaterialId()));
+						Material material = materiaisService.encontrarMaterialPorId(
+								String.valueOf(item.getMaterialId()));
 
-						return materialQuantidadeSetorService.save(
-								materialQuantidadeSetorMapper.toMaterialQuantidadeSetorEntity(item, material, setor));
+						br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor paraSalvar =
+								materialQuantidadeSetorMapper.toMaterialQuantidadeSetorEntity(item, material, setor);
+
+						return materialQuantidadeSetorService.save(paraSalvar);
 					}).toList();
 
 			br.com.transportes.apitransportes.entity.Destino salvarDestino = destinosMapper.toDestinoEntity(sede,

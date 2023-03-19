@@ -42,7 +42,6 @@ public class Sede {
 	private String cidade;
 
 	@Enumerated(EnumType.STRING)
-	@JoinColumn(nullable = false)
 	private Uf uf;
 
 	@JoinColumn(nullable = false)

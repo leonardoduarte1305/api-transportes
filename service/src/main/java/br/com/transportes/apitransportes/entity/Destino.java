@@ -45,7 +45,7 @@ public class Destino {
 	private Confirmacao status;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "viagemId", nullable = false)
+	@JoinColumn(name = "viagem_id")
 	private Viagem viagem;
 
 	public void confirmar() {

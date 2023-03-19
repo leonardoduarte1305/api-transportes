@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 import br.com.transportes.apitransportes.entity.Destino;
 import br.com.transportes.apitransportes.entity.Sede;
-import br.com.transportes.server.model.MaterialQuantidadeSetor;
 
 @Mapper(uses = { SedesMapper.class, MaterialQuantidadeSetorMapper.class })
 public interface DestinosMapper {
@@ -29,14 +28,5 @@ public interface DestinosMapper {
 	}
 
 	@Mapping(target = "sedeId", source = "sede.id")
-	@Mapping(target = "materiaisQntdSetor", source = "materiaisQntdSetor")
 	br.com.transportes.server.model.Destino toDestinoDto(Destino destino);
-
-//	@Mapping(target = "id", ignore = true)
-//	br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor toMaterialQuantidadeSetorEntity(
-//			MaterialQuantidadeSetor materialQuantidadeSetor);
-
-//	MaterialQuantidadeSetor toMaterialQuantidadeSetorDto(
-//			br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor materialQuantidadeSetor);
-
 }

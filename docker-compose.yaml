@@ -1,7 +1,7 @@
 version: "3"
 services:
   apiService:
-    image: leonardoduarte1305/api-transportes-service:externas
+    image: leonardoduarte1305/api-transportes-service:19032023
     ports:
       - "8080:8080"
     environment:
