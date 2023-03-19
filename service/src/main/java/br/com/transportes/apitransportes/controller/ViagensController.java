@@ -38,7 +38,7 @@ public class ViagensController implements ViagensApi {
 		return ResponseEntity.ok(viagemEditada);
 	}
 
-	@PutMapping("/{id}/confirmacao")
+	@PostMapping("/{id}/confirmacao")
 	@Override public ResponseEntity<Void> confirmaViagem(String id, Confirmacao confirmacao) {
 		viagensService.confirmaViagem(id, confirmacao);
 		return ResponseEntity.noContent().build();
