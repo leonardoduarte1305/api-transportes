@@ -51,7 +51,7 @@ public class VeiculosService {
 		return veiculosMapper.toVeiculoDto(encontrarVeiculoPorId(id));
 	}
 
-	private br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(String id)
+	public br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(String id)
 			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return veiculosRepository.findById(idLong)

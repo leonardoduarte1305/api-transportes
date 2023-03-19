@@ -805,17 +805,8 @@ components:
           type: integer
           description: "Quantidade do material que deve ser transportado."
         setorDestino:
-          $ref: '#/components/schemas/Setor'
+          type: integer
           description: "Setor onde o materia deve ser entregue na unidade de destino."
-    Setor:
-      type: string
-      enum:
-        - RH
-        - GERENCIA
-        - COMERCIAL
-        - SECRETARIA
-        - FINANCEIRO
-        - SUPERVISAO
     UpsertDestino:
       type: object
       description: "Sede por onde o transporte deve passar e os materiais que ele deve deixar nesta parada."
@@ -887,6 +878,18 @@ components:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."
               example: "44"
+    Setor:
+      type: object
+      description: "Todas as informacoes necessarias para o agendamento de uma viagem"
+      required:
+        - datetimeSaida
+      properties:
+        id:
+          type: integer
+          description: "Id único que identifica o setor."
+        nome:
+          type: integer
+          description: "Nome do setor."
 
   responses:
     400:

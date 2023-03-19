@@ -50,7 +50,7 @@ public class MotoristasService {
 		return motoristasMapper.toMotoristaDto(encontrarMotoristaPorId(id));
 	}
 
-	private br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(String id)
+	public br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(String id)
 			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return motoristasRepository.findById(idLong)
