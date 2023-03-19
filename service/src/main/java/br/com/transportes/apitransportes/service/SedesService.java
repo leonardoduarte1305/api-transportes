@@ -2,7 +2,6 @@ package br.com.transportes.apitransportes.service;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
@@ -31,10 +30,12 @@ public class SedesService {
 
 			return sedesMapper.toSedeDto(sedeSalva);
 		} else {
-			br.com.transportes.apitransportes.entity.Sede encontrada = encontrarSedePorId(id);
-			BeanUtils.copyProperties(upsertSede, encontrada);
+			encontrarSedePorId(id);
 
-			br.com.transportes.apitransportes.entity.Sede sedeEditada = sedesRepository.save(encontrada);
+			br.com.transportes.apitransportes.entity.Sede sedeMapeada = sedesMapper.toSedeEntity(upsertSede);
+			sedeMapeada.setId(Long.valueOf(id));
+
+			br.com.transportes.apitransportes.entity.Sede sedeEditada = sedesRepository.save(sedeMapeada);
 			return sedesMapper.toSedeDto(sedeEditada);
 		}
 	}
