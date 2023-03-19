@@ -5,18 +5,23 @@ spring:
     active: default
   flyway:
     enabled: false
+    locations: classpath:/db/migration
+    baseline-on-migrate: true
   datasource:
     url: ${MYSQL_DATASOURCE_URL}
     username: ${MYSQL_ROOT_USERNAME}
     password: ${MYSQL_ROOT_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     hibernate:
       ddl-auto: update
     database: mysql
     generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
 management:
   endpoints:
     enabled-by-default: false

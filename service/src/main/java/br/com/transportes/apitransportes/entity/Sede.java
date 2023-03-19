@@ -2,12 +2,11 @@ package br.com.transportes.apitransportes.entity;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import br.com.transportes.server.model.Uf;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +37,7 @@ public class Sede {
 
 	private String cidade;
 
+	@Enumerated(EnumType.STRING)
 	private Uf uf;
 
 	private String nome;

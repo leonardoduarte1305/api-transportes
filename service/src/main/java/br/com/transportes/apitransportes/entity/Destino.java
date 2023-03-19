@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,13 +37,14 @@ public class Destino {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<MaterialQuantidadeSetor> materiaisQntdSetor;
 
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private Confirmacao status;
 
 	public void confirmar() {
-		status = "CONFIRMADO";
+		status = Confirmacao.CONFIRMADO;
 	}
 
 	public void desconfirmar() {
-		status = "NAO_CONFIRMADO";
+		status = Confirmacao.NAO_CONFIRMADO;
 	}
 }

@@ -840,9 +840,7 @@ components:
               description: "Atributo que identifica cada destino de maneira única."
               example: "3"
             status:
-              type: string
-              description: "Mostra o status do destino.
-                  true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
+              $ref: '#/components/schemas/Confirmacao'
 
     Confirmacao:
       type: object
@@ -884,9 +882,7 @@ components:
         - type: object
           properties:
             status:
-              type: boolean
-              description: "Mostra o status da viagem.
-                  true = Autorizado pelo Admin / false = Nao utorizado pelo admin. "
+              $ref: '#/components/schemas/Confirmacao'
             id:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."
