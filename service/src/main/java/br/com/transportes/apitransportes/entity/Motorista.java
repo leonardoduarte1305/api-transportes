@@ -7,6 +7,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +27,12 @@ public class Motorista {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JoinColumn(nullable = false)
 	private String nome;
 
+	@JoinColumn(nullable = false)
 	private String carteira;
 
+	@JoinColumn(nullable = false)
 	private String email;
 }

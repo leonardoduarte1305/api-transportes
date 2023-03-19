@@ -9,6 +9,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,15 +29,21 @@ public class Veiculo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JoinColumn(nullable = false)
 	private String modelo;
 
+	@JoinColumn(nullable = false)
 	private String marca;
 
+	@JoinColumn(nullable = false)
 	private String placa;
 
+	@JoinColumn(nullable = false)
 	private Integer ano;
 
+	@JoinColumn(nullable = false)
 	private BigDecimal renavan;
 
+	@JoinColumn(nullable = false)
 	private String tamanho;
 }

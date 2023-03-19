@@ -51,7 +51,7 @@ public class MateriaisService {
 		return materiaisMapper.toMaterialDto(encontrarMaterialPorId(id));
 	}
 
-	private br.com.transportes.apitransportes.entity.Material encontrarMaterialPorId(String id)
+	public br.com.transportes.apitransportes.entity.Material encontrarMaterialPorId(String id)
 			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return materiaisRepository.findById(idLong)
