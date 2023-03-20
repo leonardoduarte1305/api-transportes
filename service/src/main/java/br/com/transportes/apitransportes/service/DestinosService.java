@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import br.com.transportes.server.model.Confirmacao;
 import br.com.transportes.server.model.Destino;
 import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +35,7 @@ public class DestinosService {
 	private final DestinosMapper destinosMapper;
 	private final MaterialQuantidadeSetorMapper materialQuantidadeSetorMapper;
 
+	@Transactional
 	public Destino upsertDestino(String id, UpsertDestino upsertDestino) {
 		br.com.transportes.apitransportes.entity.Sede sede = sedesService.encontrarSedePorId(
 				String.valueOf(upsertDestino.getSedeId()));
@@ -46,15 +49,17 @@ public class DestinosService {
 			salvarDestino.desconfirmar();
 
 			br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(salvarDestino);
+			materialQuantidadeSetor.forEach(item -> item.setDestino(destinoSalvo));
 			return destinosMapper.toDestinoDto(destinoSalvo);
 		} else {
+			// TODO Arrumar o Update
 			br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
 
 			List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetor =
 					salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
 
-			br.com.transportes.apitransportes.entity.Destino salvarDestino =
-					getDestinoEntity(sede, materialQuantidadeSetor);
+			br.com.transportes.apitransportes.entity.Destino salvarDestino = getDestinoEntity(sede,
+					materialQuantidadeSetor);
 			salvarDestino.setStatus(encontrado.getStatus());
 			salvarDestino.setId(encontrado.getId());
 
@@ -86,7 +91,14 @@ public class DestinosService {
 	}
 
 	public Destino trazerDestinoPorId(String id) {
-		return destinosMapper.toDestinoDto(encontrarDestinoPorId(id));
+		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetors =
+				materialQuantidadeSetorService.findAllByDestino_Id(Integer.valueOf(id));
+
+		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
+		destino.setMateriaisQntdSetor(new ArrayList<>());
+		destino.setMateriaisQntdSetor(materialQuantidadeSetors);
+
+		return destinosMapper.toDestinoDto(destino);
 	}
 
 	public void confirmaDestino(String id, Confirmacao confirmacao) {
@@ -102,9 +114,9 @@ public class DestinosService {
 
 	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(String id) {
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
-
-
-		return destino.getMateriaisQntdSetor().stream().map(materialQuantidadeSetorMapper::toMaterialQuantidadeSetorDto)
+		return materialQuantidadeSetorService.findAllByDestino_Id(Integer.valueOf(id))
+				.stream()
+				.map(materialQuantidadeSetorMapper::toMaterialQuantidadeSetorDto)
 				.collect(Collectors.toList());
 	}
 
@@ -114,7 +126,7 @@ public class DestinosService {
 		br.com.transportes.apitransportes.entity.Destino encontrado = destinosRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Destino com o id: %d não foi encontrado", idLong)));
-		log.error("encontrado = " + encontrado);
+
 		return encontrado;
 	}
 
