@@ -37,5 +37,9 @@ management:
       enabled: true
     metrics:
       enabled: true
+springdoc:
+  show-actuator: true
+  api-docs:
+    enabled: true
 server:
   port: 8080
