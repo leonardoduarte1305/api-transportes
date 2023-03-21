@@ -54,16 +54,21 @@ public class DestinosService {
 		} else {
 			// TODO Arrumar o Update
 			br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
+			log.error("encontrado = " + encontrado);
 
 			List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetor =
 					salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
+			log.error("materialQuantidadeSetor = " + materialQuantidadeSetor);
 
 			br.com.transportes.apitransportes.entity.Destino salvarDestino = getDestinoEntity(sede,
 					materialQuantidadeSetor);
+			log.error("salvarDestino = " + salvarDestino);
 			salvarDestino.setStatus(encontrado.getStatus());
 			salvarDestino.setId(encontrado.getId());
-
+			log.error("salvarDestino = " + salvarDestino);
+			
 			br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(salvarDestino);
+			log.error("destinoSalvo = " + destinoSalvo);
 			return destinosMapper.toDestinoDto(destinoSalvo);
 		}
 	}
@@ -86,8 +91,9 @@ public class DestinosService {
 	}
 
 	public void excluirDestinoPorId(String id) {
-		encontrarDestinoPorId(id);
-		destinosRepository.deleteById(Long.valueOf(id));
+		br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
+		encontrado.excluirDoBancoLogicamente();
+		destinosRepository.save(encontrado);
 	}
 
 	public Destino trazerDestinoPorId(String id) {
@@ -124,6 +130,7 @@ public class DestinosService {
 			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		br.com.transportes.apitransportes.entity.Destino encontrado = destinosRepository.findById(idLong)
+				.filter(item -> !item.isExcluido())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Destino com o id: %d não foi encontrado", idLong)));
 
@@ -131,6 +138,6 @@ public class DestinosService {
 	}
 
 	public List<br.com.transportes.apitransportes.entity.Destino> findAllByIdIsIn(List<Integer> destinos) {
-		return destinosRepository.findByIdIsIn(destinos);
+		return destinosRepository.findByIdIsIn(destinos).stream().filter(item -> !item.isExcluido()).toList();
 	}
 }

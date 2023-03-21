@@ -67,7 +67,7 @@ public class ViagensService {
 
 	public List<Viagem> listarViagens() {
 		List<br.com.transportes.apitransportes.entity.Viagem> encontradas =
-				viagensRepository.findAll(Sort.by(Sort.Direction.ASC));
+				viagensRepository.findAll(Sort.by(Sort.Direction.ASC)).stream().filter(item -> !item.isExcluido()).toList();
 		//		return encontradas.stream().map(viagensMapper::toViagemDto).collect(Collectors.toList());
 		return null;
 	}
@@ -81,6 +81,7 @@ public class ViagensService {
 			throws NumberFormatException {
 		Long idLong = Long.parseLong(id);
 		return viagensRepository.findById(idLong)
+				.filter(item -> !item.isExcluido())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Viagem com o id: %d não foi encontrada", idLong)));
 	}

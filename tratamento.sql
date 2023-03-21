@@ -1,9 +1,0 @@
-#
-# TABLE STRUCTURE FOR: destino
-#
-
-
-
-
-
-

@@ -55,11 +55,18 @@ public class Viagem {
 	@JoinColumn(nullable = false)
 	private Confirmacao status;
 
+	@JoinColumn(nullable = true)
+	private boolean excluido;
+
 	public void confirmar() {
 		status = Confirmacao.CONFIRMADO;
 	}
 
 	public void desconfirmar() {
 		status = Confirmacao.NAO_CONFIRMADO;
+	}
+
+	public void excluirDoBancoLogicamente() {
+		excluido = true;
 	}
 }
