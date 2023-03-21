@@ -20,44 +20,38 @@ import br.com.transportes.server.model.UpsertDestino;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/destinos")
+@RequestMapping
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class DestinosController implements DestinosApi {
 
 	private final DestinosService destinosService;
 
-	@PostMapping
 	@Override public ResponseEntity<Destino> criarDestino(UpsertDestino upsertDestino) {
 		Destino destinoSalvo = destinosService.upsertDestino("", upsertDestino);
 		return ResponseEntity.ok(destinoSalvo);
 	}
 
-	@PutMapping("/{id}")
 	@Override public ResponseEntity<Destino> editarDestino(String id, UpsertDestino upsertDestino) {
 		Destino destinoEditado = destinosService.upsertDestino(id, upsertDestino);
 		return ResponseEntity.ok(destinoEditado);
 	}
 
-	@DeleteMapping("/{id}")
 	@Override public ResponseEntity<Void> excluirDestino(String id) {
 		destinosService.excluirDestinoPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/{id}")
 	@Override public ResponseEntity<Destino> trazDestinoPorId(String id) {
 		Destino encontrado = destinosService.trazerDestinoPorId(id);
 		return ResponseEntity.ok(encontrado);
 	}
 
-	@GetMapping("/{id}/materiais")
 	@Override public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(String id) {
 		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(id);
 		return ResponseEntity.ok(materiais);
 	}
 
-	@PostMapping("/{id}/confirmacao")
 	@Override public ResponseEntity<Void> confirmaDestino(String id, Confirmacao body) {
 		destinosService.confirmaDestino(id, body);
 		return ResponseEntity.noContent().build();

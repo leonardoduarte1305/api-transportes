@@ -18,38 +18,33 @@ import br.com.transportes.server.model.UpsertMaterial;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/materiais")
+@RequestMapping
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class MaterialController implements MateriaisApi {
 
 	private final MateriaisService materialsService;
 
-	@PostMapping
 	@Override public ResponseEntity<Material> criarMaterial(UpsertMaterial upsertMaterial) {
 		Material materialSalvo = materialsService.upsertMaterial("", upsertMaterial);
 		return ResponseEntity.ok(materialSalvo);
 	}
 
-	@PutMapping("/{id}")
 	@Override public ResponseEntity<Material> editarCadastroMaterial(String id, UpsertMaterial upsertMaterial) {
 		Material materialEditado = materialsService.upsertMaterial(id, upsertMaterial);
 		return ResponseEntity.ok(materialEditado);
 	}
 
-	@DeleteMapping("/{id}")
 	@Override public ResponseEntity<Void> excluirMaterial(String id) {
 		materialsService.excluirMaterialPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping
 	@Override public ResponseEntity<List<Material>> listaTodosMateriaisCadastrados() {
 		List<Material> materials = materialsService.listarTodos();
 		return ResponseEntity.ok(materials);
 	}
 
-	@GetMapping("/{id}")
 	@Override public ResponseEntity<Material> trazMaterialPorId(String id) {
 		Material encontrado = materialsService.trazerMaterialPorId(id);
 		return ResponseEntity.ok(encontrado);

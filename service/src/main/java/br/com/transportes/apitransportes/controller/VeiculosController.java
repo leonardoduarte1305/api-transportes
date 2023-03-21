@@ -18,38 +18,33 @@ import br.com.transportes.server.model.Veiculo;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/veiculos")
+@RequestMapping
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class VeiculosController implements VeiculosApi {
 
 	private final VeiculosService veiculosService;
 
-	@PostMapping
 	@Override public ResponseEntity<Veiculo> criarVeiculo(UpsertVeiculo upsertVeiculo) {
 		Veiculo veiculoSalvo = veiculosService.upsertVeiculo("", upsertVeiculo);
 		return ResponseEntity.ok(veiculoSalvo);
 	}
 
-	@PutMapping("/{id}")
 	@Override public ResponseEntity<Veiculo> editarVeiculo(String id, UpsertVeiculo upsertVeiculo) {
 		Veiculo veiculoEditado = veiculosService.upsertVeiculo(id, upsertVeiculo);
 		return ResponseEntity.ok(veiculoEditado);
 	}
 
-	@DeleteMapping("/{id}")
 	@Override public ResponseEntity<Void> excluirVeiculo(String id) {
 		veiculosService.excluirVeiculoPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping
 	@Override public ResponseEntity<List<Veiculo>> listaTodosVeiculos() {
 		List<Veiculo> veiculos = veiculosService.listarTodos();
 		return ResponseEntity.ok(veiculos);
 	}
 
-	@GetMapping("/{id}")
 	@Override public ResponseEntity<Veiculo> trazVeiculoPorId(String id) {
 		Veiculo encontrado = veiculosService.trazerVeiculoPorId(id);
 		return ResponseEntity.ok(encontrado);

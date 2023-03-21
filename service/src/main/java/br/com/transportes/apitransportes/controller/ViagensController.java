@@ -19,38 +19,33 @@ import br.com.transportes.server.model.Viagem;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/viagens")
+@RequestMapping
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class ViagensController implements ViagensApi {
 
 	private final ViagensService viagensService;
 
-	@PostMapping
 	@Override public ResponseEntity<Viagem> criarViagem(UpsertViagem upsertViagem) {
 		Viagem viagemSalva = viagensService.upsertViagem("", upsertViagem);
 		return ResponseEntity.ok(viagemSalva);
 	}
 
-	@PutMapping("/{id}")
 	@Override public ResponseEntity<Viagem> editarViagem(String id, UpsertViagem upsertViagem) {
 		Viagem viagemEditada = viagensService.upsertViagem(id, upsertViagem);
 		return ResponseEntity.ok(viagemEditada);
 	}
 
-	@PostMapping("/{id}/confirmacao")
 	@Override public ResponseEntity<Void> confirmaViagem(String id, Confirmacao confirmacao) {
 		viagensService.confirmaViagem(id, confirmacao);
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping
 	@Override public ResponseEntity<List<Viagem>> listaTodasViagens() {
 		List<Viagem> encontradas = viagensService.listarViagens();
 		return ResponseEntity.ok(encontradas);
 	}
 
-	@GetMapping("/{id}/destinos")
 	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(String id) {
 		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(id);
 		return ResponseEntity.ok(destinosDaViagem);

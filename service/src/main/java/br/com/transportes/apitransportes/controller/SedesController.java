@@ -18,38 +18,33 @@ import br.com.transportes.server.model.UpsertSede;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/sedes")
+@RequestMapping
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class SedesController implements SedesApi {
 
 	private final SedesService sedesService;
 
-	@PostMapping
 	@Override public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
 		Sede sedeSalva = sedesService.upsertSede("", upsertSede);
 		return ResponseEntity.ok(sedeSalva);
 	}
 
-	@PutMapping("/{id}")
 	@Override public ResponseEntity<Sede> editarSede(String id, UpsertSede upsertSede) {
 		Sede sedeEditada = sedesService.upsertSede(id, upsertSede);
 		return ResponseEntity.ok(sedeEditada);
 	}
 
-	@DeleteMapping("/{id}")
 	@Override public ResponseEntity<Void> excluirSede(String id) {
 		sedesService.excluirSedePorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping
 	@Override public ResponseEntity<List<Sede>> listaTodasAsSedes() {
 		List<Sede> sedes = sedesService.listarTodas();
 		return ResponseEntity.ok(sedes);
 	}
 
-	@GetMapping("/{id}")
 	@Override public ResponseEntity<Sede> trazSedePorId(String id) {
 		Sede encontrada = sedesService.trazerSedePorId(id);
 		return ResponseEntity.ok(encontrada);
