@@ -12,8 +12,7 @@ services:
       - transportes-network
     depends_on:
       - mysql-compose
-    links:
-      - mysql-compose
+      - keycloak
 
   mysql-compose:
     image: mysql:8.0
@@ -28,6 +27,18 @@ services:
     networks:
       - transportes-network
 
+  keycloak:
+    image: docker.io/bitnami/keycloak:20
+    ports:
+      - "80:8080"
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - transportes-network
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres
     env_file:
@@ -36,18 +47,6 @@ services:
     volumes:
       - postgresCompose:/var/lib/postgresql
       - postgresCompose-data:/var/lib/postgresql/data
-    networks:
-      - transportes-network
-
-  keycloak:
-    image: docker.io/bitnami/keycloak:20
-    ports:
-      - "80:8080"
-    env_file:
-      - .env
-    restart: always
-    depends_on:
-      - postgres
     networks:
       - transportes-network
 
