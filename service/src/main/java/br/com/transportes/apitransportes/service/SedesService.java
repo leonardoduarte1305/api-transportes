@@ -22,9 +22,9 @@ public class SedesService {
 	private final SedesMapper sedesMapper;
 
 	@Transactional
-	public Sede upsertSede(String id, UpsertSede upsertSede) {
+	public Sede upsertSede(Integer id, UpsertSede upsertSede) {
 
-		if (id.isBlank() || id.isEmpty()) {
+		if (id == null) {
 			br.com.transportes.apitransportes.entity.Sede sedeSalva = sedesRepository.save(
 					sedesMapper.toSedeEntity(upsertSede));
 
@@ -45,18 +45,18 @@ public class SedesService {
 		return encontradas.stream().map(sedesMapper::toSedeDto).toList();
 	}
 
-	public void excluirSedePorId(String id) {
+	public void excluirSedePorId(Integer id) {
 		encontrarSedePorId(id);
 		sedesRepository.deleteById(Long.valueOf(id));
 	}
 
-	public Sede trazerSedePorId(String id) {
+	public Sede trazerSedePorId(Integer id) {
 		return sedesMapper.toSedeDto(encontrarSedePorId(id));
 	}
 
-	public br.com.transportes.apitransportes.entity.Sede encontrarSedePorId(String id)
+	public br.com.transportes.apitransportes.entity.Sede encontrarSedePorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(id);
+		Long idLong = Long.parseLong(String.valueOf(id));
 		return sedesRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Sede com o id: %d não foi encontrada", idLong)));

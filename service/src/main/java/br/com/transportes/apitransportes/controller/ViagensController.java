@@ -32,14 +32,14 @@ public class ViagensController implements ViagensApi {
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Viagem> editarViagem(String id, UpsertViagem upsertViagem) {
-		Viagem viagemEditada = viagensService.upsertViagem(Integer.valueOf(id), upsertViagem);
+	@Override public ResponseEntity<Viagem> editarViagem(Integer id, UpsertViagem upsertViagem) {
+		Viagem viagemEditada = viagensService.upsertViagem(id, upsertViagem);
 		return ResponseEntity.ok(viagemEditada);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> confirmaViagem(String id, Confirmacao confirmacao) {
-		viagensService.confirmaViagem(Integer.valueOf(id), confirmacao);
+	@Override public ResponseEntity<Void> confirmaViagem(Integer id, Confirmacao confirmacao) {
+		viagensService.confirmaViagem(id, confirmacao);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -50,14 +50,14 @@ public class ViagensController implements ViagensApi {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(String id) {
-		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(Integer.valueOf(id));
+	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(Integer id) {
+		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(id);
 		return ResponseEntity.ok(destinosDaViagem);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')") //TODO Arrumar o encerramento da viagem
-	@Override public ResponseEntity<Void> encerraViagem(String id, Encerramento encerramento) {
-		viagensService.encerraViagem(Integer.valueOf(id), encerramento);
+	@Override public ResponseEntity<Void> encerraViagem(Integer id, Encerramento encerramento) {
+		viagensService.encerraViagem(id, encerramento);
 		return ResponseEntity.noContent().build();
 	}
 }

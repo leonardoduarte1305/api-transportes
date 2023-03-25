@@ -21,8 +21,8 @@ public class MotoristasService {
 	private final MotoristasRepository motoristasRepository;
 	private final MotoristasMapper motoristasMapper;
 
-	public Motorista upsertMotorista(String id, AtributosMotorista atributosMotorista) {
-		if (id.isBlank() || id.isEmpty()) {
+	public Motorista upsertMotorista(Integer id, AtributosMotorista atributosMotorista) {
+		if (id == null) {
 			br.com.transportes.apitransportes.entity.Motorista veiculoSalvo = motoristasRepository.save(
 					motoristasMapper.toMotoristaEntity(atributosMotorista));
 
@@ -41,18 +41,18 @@ public class MotoristasService {
 		return encontrados.stream().map(motoristasMapper::toMotoristaDto).toList();
 	}
 
-	public void excluirMotoristaPorId(String id) {
+	public void excluirMotoristaPorId(Integer id) {
 		encontrarMotoristaPorId(id);
 		motoristasRepository.deleteById(Long.valueOf(id));
 	}
 
-	public Motorista trazerMotoristaPorId(String id) {
+	public Motorista trazerMotoristaPorId(Integer id) {
 		return motoristasMapper.toMotoristaDto(encontrarMotoristaPorId(id));
 	}
 
-	public br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(String id)
+	public br.com.transportes.apitransportes.entity.Motorista encontrarMotoristaPorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(id);
+		Long idLong = Long.parseLong(String.valueOf(id));
 		return motoristasRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Motorista com o id: %d não foi encontrado", idLong)));

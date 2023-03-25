@@ -7,4 +7,6 @@ import br.com.transportes.apitransportes.entity.Material;
 
 @Repository
 public interface MateriaisRepository extends JpaRepository<Material, Long> {
+
+	Material findById(Integer id);
 }

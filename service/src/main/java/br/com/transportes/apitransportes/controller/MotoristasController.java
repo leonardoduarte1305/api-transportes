@@ -24,18 +24,18 @@ public class MotoristasController implements MotoristasApi {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Motorista> criarMotorista(AtributosMotorista atributosMotorista) {
-		Motorista motoristaSalvo = motoristasService.upsertMotorista("", atributosMotorista);
+		Motorista motoristaSalvo = motoristasService.upsertMotorista(null, atributosMotorista);
 		return ResponseEntity.ok(motoristaSalvo);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Motorista> editarMotorista(String id, AtributosMotorista atributosMotorista) {
+	@Override public ResponseEntity<Motorista> editarMotorista(Integer id, AtributosMotorista atributosMotorista) {
 		Motorista motoristaEditado = motoristasService.upsertMotorista(id, atributosMotorista);
 		return ResponseEntity.ok(motoristaEditado);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> excluirMotorista(String id) {
+	@Override public ResponseEntity<Void> excluirMotorista(Integer id) {
 		motoristasService.excluirMotoristaPorId(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -47,7 +47,7 @@ public class MotoristasController implements MotoristasApi {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<Motorista> trazMotoristaPorId(String id) {
+	@Override public ResponseEntity<Motorista> trazMotoristaPorId(Integer id) {
 		Motorista encontrado = motoristasService.trazerMotoristaPorId(id);
 		return ResponseEntity.ok(encontrado);
 	}

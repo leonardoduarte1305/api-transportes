@@ -24,18 +24,18 @@ public class MaterialController implements MateriaisApi {
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Material> criarMaterial(UpsertMaterial upsertMaterial) {
-		Material materialSalvo = materialsService.upsertMaterial("", upsertMaterial);
+		Material materialSalvo = materialsService.upsertMaterial(null, upsertMaterial);
 		return ResponseEntity.ok(materialSalvo);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Material> editarCadastroMaterial(String id, UpsertMaterial upsertMaterial) {
+	@Override public ResponseEntity<Material> editarCadastroMaterial(Integer id, UpsertMaterial upsertMaterial) {
 		Material materialEditado = materialsService.upsertMaterial(id, upsertMaterial);
 		return ResponseEntity.ok(materialEditado);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> excluirMaterial(String id) {
+	@Override public ResponseEntity<Void> excluirMaterial(Integer id) {
 		materialsService.excluirMaterialPorId(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -47,7 +47,7 @@ public class MaterialController implements MateriaisApi {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<Material> trazMaterialPorId(String id) {
+	@Override public ResponseEntity<Material> trazMaterialPorId(Integer id) {
 		Material encontrado = materialsService.trazerMaterialPorId(id);
 		return ResponseEntity.ok(encontrado);
 	}

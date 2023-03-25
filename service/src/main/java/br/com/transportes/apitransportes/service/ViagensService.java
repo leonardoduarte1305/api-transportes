@@ -63,15 +63,11 @@ public class ViagensService {
 	}
 
 	private Motorista getMotorista(UpsertViagem upsertViagem) {
-		String motoristaId = String.valueOf(upsertViagem.getMotoristaId());
-		Motorista motorista = motoristasService.encontrarMotoristaPorId(motoristaId);
-		return motorista;
+		return motoristasService.encontrarMotoristaPorId(upsertViagem.getMotoristaId());
 	}
 
 	private Veiculo getVeiculo(UpsertViagem upsertViagem) {
-		String veiculoId = String.valueOf(upsertViagem.getVeiculoId());
-		Veiculo veiculo = veiculosService.encontrarVeiculoPorId(String.valueOf(veiculoId));
-		return veiculo;
+		return veiculosService.encontrarVeiculoPorId(upsertViagem.getVeiculoId());
 	}
 
 	private br.com.transportes.apitransportes.entity.Viagem gerarViagemParaSalvar(UpsertViagem upsertViagem,

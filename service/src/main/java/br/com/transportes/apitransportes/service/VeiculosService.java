@@ -21,9 +21,9 @@ public class VeiculosService {
 	private final VeiculosRepository veiculosRepository;
 	private final VeiculosMapper veiculosMapper;
 
-	public Veiculo upsertVeiculo(String id, UpsertVeiculo upsertVeiculo) {
+	public Veiculo upsertVeiculo(Integer id, UpsertVeiculo upsertVeiculo) {
 
-		if (id.isBlank() || id.isEmpty()) {
+		if (id == null) {
 			br.com.transportes.apitransportes.entity.Veiculo veiculoSalvo = veiculosRepository.save(
 					veiculosMapper.toVeiculoEntity(upsertVeiculo));
 
@@ -42,18 +42,18 @@ public class VeiculosService {
 		return encontrados.stream().map(veiculosMapper::toVeiculoDto).toList();
 	}
 
-	public void excluirVeiculoPorId(String id) {
+	public void excluirVeiculoPorId(Integer id) {
 		encontrarVeiculoPorId(id);
 		veiculosRepository.deleteById(Long.valueOf(id));
 	}
 
-	public br.com.transportes.server.model.Veiculo trazerVeiculoPorId(String id) {
+	public br.com.transportes.server.model.Veiculo trazerVeiculoPorId(Integer id) {
 		return veiculosMapper.toVeiculoDto(encontrarVeiculoPorId(id));
 	}
 
-	public br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(String id)
+	public br.com.transportes.apitransportes.entity.Veiculo encontrarVeiculoPorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(id);
+		Long idLong = Long.parseLong(String.valueOf(id));
 		return veiculosRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Veiculo com o id: %d não foi encontrado", idLong)));

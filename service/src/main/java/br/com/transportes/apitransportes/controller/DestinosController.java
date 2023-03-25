@@ -31,32 +31,32 @@ public class DestinosController implements DestinosApi {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<Destino> editarDestino(String id, UpsertDestino upsertDestino) {
-		Destino destinoEditado = destinosService.upsertDestino(Integer.valueOf(id), upsertDestino);
+	@Override public ResponseEntity<Destino> editarDestino(Integer id, UpsertDestino upsertDestino) {
+		Destino destinoEditado = destinosService.upsertDestino(id, upsertDestino);
 		return ResponseEntity.ok(destinoEditado);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> excluirDestino(String id) {
-		destinosService.excluirDestinoPorId(Integer.valueOf(id));
+	@Override public ResponseEntity<Void> excluirDestino(Integer id) {
+		destinosService.excluirDestinoPorId(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<Destino> trazDestinoPorId(String id) {
-		Destino encontrado = destinosService.trazerDestinoPorId(Integer.valueOf(id));
+	@Override public ResponseEntity<Destino> trazDestinoPorId(Integer id) {
+		Destino encontrado = destinosService.trazerDestinoPorId(id);
 		return ResponseEntity.ok(encontrado);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(String id) {
-		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(Integer.valueOf(id));
+	@Override public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(Integer id) {
+		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(id);
 		return ResponseEntity.ok(materiais);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> confirmaDestino(String id, Confirmacao body) {
-		destinosService.confirmaDestino(Integer.valueOf(id), body);
+	@Override public ResponseEntity<Void> confirmaDestino(Integer id, Confirmacao body) {
+		destinosService.confirmaDestino(id, body);
 		return ResponseEntity.noContent().build();
 	}
 }

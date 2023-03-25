@@ -490,12 +490,7 @@ paths:
                   $ref: '#/components/schemas/Viagem'
   /viagens/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID da viagem que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarViagem
       summary: editarViagem
@@ -887,7 +882,7 @@ components:
       required: true
       description: "O id da entidade que desejamos analisar"
       schema:
-        type: string
+        type: integer
 
   securitySchemes:
     bearerAuth:

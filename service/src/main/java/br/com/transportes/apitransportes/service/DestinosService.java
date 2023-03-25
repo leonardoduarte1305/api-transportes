@@ -75,8 +75,7 @@ public class DestinosService {
 	}
 
 	private Sede getSedePorId(UpsertDestino upsertDestino) {
-		return sedesService.encontrarSedePorId(
-				String.valueOf(upsertDestino.getSedeId()));
+		return sedesService.encontrarSedePorId(upsertDestino.getSedeId());
 	}
 
 	private void limparListaDeMateriaisDoDestino(Integer id) {
@@ -92,7 +91,7 @@ public class DestinosService {
 			UpsertDestino upsertDestino) {
 		return upsertDestino.getMateriaisQntdSetor().stream().map(item -> {
 			Setor setor = setoresService.encontrarSetorPorId(String.valueOf(item.getSetorDestino()));
-			Material material = materiaisService.encontrarMaterialPorId(String.valueOf(item.getMaterialId()));
+			Material material = materiaisService.encontrarMaterialPorId(item.getMaterialId());
 
 			br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor paraSalvar =
 					materialQuantidadeSetorMapper.toMaterialQuantidadeSetorEntity(

@@ -22,8 +22,8 @@ public class MateriaisService {
 
 	private final MateriaisMapper materiaisMapper;
 
-	public Material upsertMaterial(String id, UpsertMaterial upsertMaterial) {
-		if (id.isBlank() || id.isEmpty()) {
+	public Material upsertMaterial(Integer id, UpsertMaterial upsertMaterial) {
+		if (id == null) {
 			br.com.transportes.apitransportes.entity.Material veiculoSalvo = materiaisRepository.save(
 					materiaisMapper.toMaterialEntity(upsertMaterial));
 
@@ -42,18 +42,18 @@ public class MateriaisService {
 		return encontrados.stream().map(materiaisMapper::toMaterialDto).toList();
 	}
 
-	public void excluirMaterialPorId(String id) {
+	public void excluirMaterialPorId(Integer id) {
 		encontrarMaterialPorId(id);
 		materiaisRepository.deleteById(Long.valueOf(id));
 	}
 
-	public Material trazerMaterialPorId(String id) {
+	public Material trazerMaterialPorId(Integer id) {
 		return materiaisMapper.toMaterialDto(encontrarMaterialPorId(id));
 	}
 
-	public br.com.transportes.apitransportes.entity.Material encontrarMaterialPorId(String id)
+	public br.com.transportes.apitransportes.entity.Material encontrarMaterialPorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(id);
+		Long idLong = Long.valueOf(String.valueOf(id));
 		return materiaisRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Material com o id: %d não foi encontrado", idLong)));

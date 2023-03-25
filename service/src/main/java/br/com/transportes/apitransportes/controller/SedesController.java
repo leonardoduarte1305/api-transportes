@@ -24,18 +24,18 @@ public class SedesController implements SedesApi {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
-		Sede sedeSalva = sedesService.upsertSede("", upsertSede);
+		Sede sedeSalva = sedesService.upsertSede(null, upsertSede);
 		return ResponseEntity.ok(sedeSalva);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Sede> editarSede(String id, UpsertSede upsertSede) {
+	@Override public ResponseEntity<Sede> editarSede(Integer id, UpsertSede upsertSede) {
 		Sede sedeEditada = sedesService.upsertSede(id, upsertSede);
 		return ResponseEntity.ok(sedeEditada);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> excluirSede(String id) {
+	@Override public ResponseEntity<Void> excluirSede(Integer id) {
 		sedesService.excluirSedePorId(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -47,7 +47,7 @@ public class SedesController implements SedesApi {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-	@Override public ResponseEntity<Sede> trazSedePorId(String id) {
+	@Override public ResponseEntity<Sede> trazSedePorId(Integer id) {
 		Sede encontrada = sedesService.trazerSedePorId(id);
 		return ResponseEntity.ok(encontrada);
 	}
