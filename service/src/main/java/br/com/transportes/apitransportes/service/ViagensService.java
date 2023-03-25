@@ -78,15 +78,23 @@ public class ViagensService {
 
 	@Transactional
 	private Viagem editarViagemExistente(Integer id, UpsertViagem upsertViagem) {
-		br.com.transportes.apitransportes.entity.Viagem viagemParaEditar = encontrarViagemPorId(id);
 		limparListaDeDestinos(id);
 
-		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = getNovosDestinosParaAViagem(
+		Motorista motorista = getMotorista(upsertViagem);
+		Veiculo veiculo = getVeiculo(upsertViagem);
+		List<br.com.transportes.apitransportes.entity.Destino> destinosEncontrados = getNovosDestinosParaAViagem(
 				upsertViagem);
-		viagemParaEditar.setDestinos(novosDestinos);
-		novosDestinos.forEach(destino -> destino.setViagem(viagemParaEditar));
 
-		return viagensMapper.toViagemDto(viagemParaEditar);
+		br.com.transportes.apitransportes.entity.Viagem viagemParaSalvar = gerarViagemParaSalvar(upsertViagem,
+				motorista, veiculo, destinosEncontrados);
+		viagemParaSalvar.desconfirmar();
+		viagemParaSalvar.setId(id);
+
+		br.com.transportes.apitransportes.entity.Viagem viagemSalva = viagensRepository.save(viagemParaSalvar);
+		destinosEncontrados.forEach(destino -> destino.setViagem(viagemSalva));
+		destinosService.salvarTodos(destinosEncontrados);
+
+		return viagensMapper.toViagemDto(viagemSalva);
 	}
 
 	private List<br.com.transportes.apitransportes.entity.Destino> getNovosDestinosParaAViagem(
@@ -111,9 +119,7 @@ public class ViagensService {
 
 	public List<Viagem> listarViagens() {
 		List<br.com.transportes.apitransportes.entity.Viagem> encontradas =
-				viagensRepository.findAll();//.stream().filter(item -> !item.isExcluido())
-		//.toList();
-		log.error("encontradas = " + encontradas);
+				viagensRepository.findAll().stream().filter(item -> !item.isExcluido()).toList();
 		return encontradas.stream().map(viagensMapper::toViagemDto).collect(Collectors.toList());
 	}
 
@@ -126,7 +132,6 @@ public class ViagensService {
 		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
 
 		if ("ENCERRAR".equals(encerramento.getEncerrado().toString())) {
-			log.error("VIAGEM ID: {} ENCERRAR ==========================", id);
 			encontrada.encerrar();
 			viagensRepository.save(encontrada);
 		}
@@ -139,5 +144,11 @@ public class ViagensService {
 				.filter(item -> !item.isExcluido())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Viagem com o id: %d não foi encontrada", idLong)));
+	}
+
+	@Transactional
+	public void excluirViagem(Integer id) {
+		br.com.transportes.apitransportes.entity.Viagem viagem = encontrarViagemPorId(id);
+		viagem.excluirDoBancoLogicamente();
 	}
 }

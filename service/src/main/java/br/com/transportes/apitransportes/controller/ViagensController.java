@@ -55,9 +55,14 @@ public class ViagensController implements ViagensApi {
 		return ResponseEntity.ok(destinosDaViagem);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')") //TODO Arrumar o encerramento da viagem
+	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Void> encerraViagem(Integer id, Encerramento encerramento) {
 		viagensService.encerraViagem(id, encerramento);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Override public ResponseEntity<Void> excluirViagem(Integer id) {
+		viagensService.excluirViagem(id);
 		return ResponseEntity.noContent().build();
 	}
 }

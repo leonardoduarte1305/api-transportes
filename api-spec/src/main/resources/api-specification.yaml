@@ -509,6 +509,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Viagem'
+    delete:
+      operationId: excluirViagem
+      summary: excluirViagem
+      description: "Exclui o registro de uma viagem específica.
+              Aremoção é apenas lógica, o registro continua persistido no banco de dados
+              e pode ser consultado apenas utilizando queries contra o banco."
+      tags:
+        - Viagens
+      responses:
+        200:
+          description: "Deleted"
+        400:
+          description: "Id inválido"
   /viagens/{id}/destinos:
     parameters:
       - $ref: '#/components/parameters/id'
