@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@Profile({ "production", "default" })
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
@@ -36,7 +38,9 @@ public class SecurityConfiguration {
 		return http
 				.authorizeHttpRequests(request -> request
 						.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-						.anyRequest().authenticated())
+						.requestMatchers("/swagger-ui*/**").permitAll()
+						.anyRequest().authenticated()
+				)
 				.oauth2ResourceServer(
 						oAuth2Config -> oAuth2Config.authenticationManagerResolver(
 								this.authenticationManagerResolver(clientId)))
