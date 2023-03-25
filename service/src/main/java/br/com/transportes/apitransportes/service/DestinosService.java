@@ -151,4 +151,16 @@ public class DestinosService {
 	public List<br.com.transportes.apitransportes.entity.Destino> findAllByIdIsIn(List<Integer> destinos) {
 		return destinosRepository.findByIdIsIn(destinos).stream().filter(item -> !item.isExcluido()).toList();
 	}
+
+	public void excluirDestinosByViagemId(Integer id) {
+		destinosRepository.removeAllByViagem_Id(id);
+	}
+
+	public List<br.com.transportes.apitransportes.entity.Destino> trazerDestinosDaViagem(Integer id) {
+		return destinosRepository.findAllByViagem_Id(id);
+	}
+
+	public void salvarTodos(List<br.com.transportes.apitransportes.entity.Destino> destinos) {
+		destinosRepository.saveAll(destinos);
+	}
 }

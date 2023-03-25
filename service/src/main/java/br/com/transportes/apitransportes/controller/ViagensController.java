@@ -27,19 +27,19 @@ public class ViagensController implements ViagensApi {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Viagem> criarViagem(UpsertViagem upsertViagem) {
-		Viagem viagemSalva = viagensService.upsertViagem("", upsertViagem);
+		Viagem viagemSalva = viagensService.upsertViagem(null, upsertViagem);
 		return ResponseEntity.ok(viagemSalva);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Viagem> editarViagem(String id, UpsertViagem upsertViagem) {
-		Viagem viagemEditada = viagensService.upsertViagem(id, upsertViagem);
+		Viagem viagemEditada = viagensService.upsertViagem(Integer.valueOf(id), upsertViagem);
 		return ResponseEntity.ok(viagemEditada);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Void> confirmaViagem(String id, Confirmacao confirmacao) {
-		viagensService.confirmaViagem(id, confirmacao);
+		viagensService.confirmaViagem(Integer.valueOf(id), confirmacao);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -51,13 +51,13 @@ public class ViagensController implements ViagensApi {
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(String id) {
-		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(id);
+		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(Integer.valueOf(id));
 		return ResponseEntity.ok(destinosDaViagem);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')") //TODO Arrumar o encerramento da viagem
 	@Override public ResponseEntity<Void> encerraViagem(String id, Encerramento encerramento) {
-		viagensService.encerraViagem(id, encerramento);
+		viagensService.encerraViagem(Integer.valueOf(id), encerramento);
 		return ResponseEntity.noContent().build();
 	}
 }

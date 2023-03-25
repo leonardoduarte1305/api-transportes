@@ -33,7 +33,7 @@ public class Viagem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "motoristaId", nullable = false)
@@ -75,5 +75,9 @@ public class Viagem {
 
 	public void encerrar() {
 		encerrado = true;
+	}
+
+	public String isEncerrado() {
+		return encerrado ? "ENCERRADO" : "NAO_ENCERRADO";
 	}
 }

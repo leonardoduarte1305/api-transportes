@@ -37,6 +37,7 @@ public interface ViagensMapper {
 
 	@Mapping(target = "motoristaId", source = "motorista.id")
 	@Mapping(target = "veiculoId", source = "veiculo.id")
+	@Mapping(target = "encerrado", expression = "java(viagem.isEncerrado())")
 	br.com.transportes.server.model.Viagem toViagemDto(Viagem viagem);
 
 	default List<Integer> map(List<Destino> destinos) {
