@@ -1,0 +1,1 @@
+ALTER TABLE viagem ADD COLUMN encerrado BIT(1) NOT NULL;

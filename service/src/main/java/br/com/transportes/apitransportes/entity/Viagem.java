@@ -58,6 +58,9 @@ public class Viagem {
 	@JoinColumn(nullable = true)
 	private boolean excluido;
 
+	@JoinColumn(nullable = true)
+	private boolean encerrado;
+
 	public void confirmar() {
 		status = Confirmacao.CONFIRMADO;
 	}
@@ -68,5 +71,9 @@ public class Viagem {
 
 	public void excluirDoBancoLogicamente() {
 		excluido = true;
+	}
+
+	public void encerrar() {
+		encerrado = true;
 	}
 }

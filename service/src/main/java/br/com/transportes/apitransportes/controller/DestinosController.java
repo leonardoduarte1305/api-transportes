@@ -30,7 +30,7 @@ public class DestinosController implements DestinosApi {
 		return ResponseEntity.ok(destinoSalvo);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Destino> editarDestino(String id, UpsertDestino upsertDestino) {
 		Destino destinoEditado = destinosService.upsertDestino(id, upsertDestino);
 		return ResponseEntity.ok(destinoEditado);

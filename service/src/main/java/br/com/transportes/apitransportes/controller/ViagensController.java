@@ -12,6 +12,7 @@ import br.com.transportes.apitransportes.service.ViagensService;
 import br.com.transportes.server.ViagensApi;
 import br.com.transportes.server.model.Confirmacao;
 import br.com.transportes.server.model.Destino;
+import br.com.transportes.server.model.Encerramento;
 import br.com.transportes.server.model.UpsertViagem;
 import br.com.transportes.server.model.Viagem;
 import lombok.RequiredArgsConstructor;
@@ -52,5 +53,11 @@ public class ViagensController implements ViagensApi {
 	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(String id) {
 		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(id);
 		return ResponseEntity.ok(destinosDaViagem);
+	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@Override public ResponseEntity<Void> encerraViagem(String id, Encerramento encerramento) {
+		viagensService.encerraViagem(id, encerramento);
+		return ResponseEntity.noContent().build();
 	}
 }

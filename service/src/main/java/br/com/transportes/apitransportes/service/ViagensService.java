@@ -15,6 +15,7 @@ import br.com.transportes.apitransportes.mapper.ViagensMapper;
 import br.com.transportes.apitransportes.repository.ViagensRepository;
 import br.com.transportes.server.model.Confirmacao;
 import br.com.transportes.server.model.Destino;
+import br.com.transportes.server.model.Encerramento;
 import br.com.transportes.server.model.UpsertViagem;
 import br.com.transportes.server.model.Viagem;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,15 @@ public class ViagensService {
 
 	public Viagem upsertViagem(String viagemId, UpsertViagem upsertViagem) {
 		if (viagemId.isBlank() || viagemId.isEmpty()) {
-			Motorista motorista = motoristasService.encontrarMotoristaPorId(String.valueOf(upsertViagem.getMotoristaId()));
+			Motorista motorista = motoristasService.encontrarMotoristaPorId(
+					String.valueOf(upsertViagem.getMotoristaId()));
 			Veiculo veiculo = veiculosService.encontrarVeiculoPorId(String.valueOf(upsertViagem.getVeiculoId()));
-			List<br.com.transportes.apitransportes.entity.Destino> destinosEncontrados = destinosService.findAllByIdIsIn(upsertViagem.getDestinos());
+			List<br.com.transportes.apitransportes.entity.Destino> destinosEncontrados =
+					destinosService.findAllByIdIsIn(
+					upsertViagem.getDestinos());
 
-			br.com.transportes.apitransportes.entity.Viagem salvarViagem = viagensMapper.toViagemEntity(upsertViagem, motorista, veiculo, destinosEncontrados);
+			br.com.transportes.apitransportes.entity.Viagem salvarViagem = viagensMapper.toViagemEntity(upsertViagem,
+					motorista, veiculo, destinosEncontrados);
 			salvarViagem.desconfirmar();
 
 			br.com.transportes.apitransportes.entity.Viagem viagemSalva = viagensRepository.save(salvarViagem);
@@ -67,7 +72,8 @@ public class ViagensService {
 
 	public List<Viagem> listarViagens() {
 		List<br.com.transportes.apitransportes.entity.Viagem> encontradas =
-				viagensRepository.findAll(Sort.by(Sort.Direction.ASC)).stream().filter(item -> !item.isExcluido()).toList();
+				viagensRepository.findAll(Sort.by(Sort.Direction.ASC)).stream().filter(item -> !item.isExcluido())
+						.toList();
 		//		return encontradas.stream().map(viagensMapper::toViagemDto).collect(Collectors.toList());
 		return null;
 	}
@@ -75,6 +81,15 @@ public class ViagensService {
 	public List<Destino> listarDestinosDaViagem(String id) {
 		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
 		return encontrada.getDestinos().stream().map(destinosMapper::toDestinoDto).collect(Collectors.toList());
+	}
+
+	public void encerraViagem(String id, Encerramento encerramento) {
+		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
+
+		if ("ENCERRAR".equals(encerramento.getEncerramento().toString())) {
+			encontrada.encerrar();
+			viagensRepository.save(encontrada);
+		}
 	}
 
 	private br.com.transportes.apitransportes.entity.Viagem encontrarViagemPorId(String id)

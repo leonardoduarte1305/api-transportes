@@ -22,7 +22,7 @@ public class MaterialController implements MateriaisApi {
 
 	private final MateriaisService materialsService;
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Material> criarMaterial(UpsertMaterial upsertMaterial) {
 		Material materialSalvo = materialsService.upsertMaterial("", upsertMaterial);
 		return ResponseEntity.ok(materialSalvo);

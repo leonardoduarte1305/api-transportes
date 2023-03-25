@@ -64,12 +64,7 @@ paths:
                   $ref: '#/components/schemas/Sede'
   /sedes/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID da sede que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarSede
       summary: editarSede
@@ -150,12 +145,7 @@ paths:
                   $ref: '#/components/schemas/Motorista'
   /motoristas/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do motorista que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarMotorista
       summary: editarMotorista
@@ -235,12 +225,7 @@ paths:
                   $ref: '#/components/schemas/Veiculo'
   /veiculos/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do veiculo que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarVeiculo
       summary: editarVeiculo
@@ -320,12 +305,7 @@ paths:
                   $ref: '#/components/schemas/Material'
   /materiais/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do material que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarCadastroMaterial
       summary: editarCadastroMaterial
@@ -394,12 +374,7 @@ paths:
                 $ref: '#/components/schemas/Destino'
   /destinos/{id}:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do destino que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     put:
       operationId: editarDestino
       summary: editarDestino
@@ -445,12 +420,7 @@ paths:
                 $ref: '#/components/schemas/Destino'
   /destinos/{id}/materiais:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do destino que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     get:
       operationId: trazMateriaisDoDestino
       summary: trazMateriaisDoDestino
@@ -468,12 +438,7 @@ paths:
                   $ref: '#/components/schemas/MaterialQuantidadeSetor'
   /destinos/{id}/confirmacao:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID do destino que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     post:
       operationId: confirmaDestino
       summary: confirmaDestino
@@ -551,12 +516,7 @@ paths:
                 $ref: '#/components/schemas/Viagem'
   /viagens/{id}/destinos:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID da viagem que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     get:
       operationId: trazDestinosDaViagem
       summary: trazDestinosDaViagem
@@ -574,12 +534,7 @@ paths:
                   $ref: '#/components/schemas/Destino'
   /viagens/{id}/confirmacao:
     parameters:
-      - in: path
-        name: id
-        required: true
-        description: "O ID da viagem que se deseja analisar"
-        schema:
-          type: string
+      - $ref: '#/components/parameters/id'
     post:
       operationId: confirmaViagem
       summary: confirmaViagem
@@ -594,9 +549,23 @@ paths:
       responses:
         200:
           description: "Viagem foi confirmada."
-
-# TODO -> Adicionar um material em um Destino especifico
-# TODO -> Excluir um material de um Destino especifico
+  /viagens/{id}/encerramento:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    post:
+      operationId: encerraViagem
+      summary: encerraViagem
+      description: "Confirma uma viagem e todos os destinos cadastrados até agora."
+      tags:
+        - Viagens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encerramento'
+      responses:
+        200:
+          description: "Viagem foi confirmada."
 
 components:
   schemas:
@@ -844,6 +813,16 @@ components:
             - CONFIRMADO
             - NAO_CONFIRMADO
 
+    Encerramento:
+      type: object
+      properties:
+        encerramento:
+          type: string
+          description: "Se passado por um ADMIN encerrará a viagem, caso contrário, nada acontece."
+          example: "ENCERRAR"
+          enum:
+            - ENCERRAR
+
     UpsertViagem:
       type: object
       description: "Todas as informacoes necessarias para o agendamento de uma viagem"
@@ -897,10 +876,14 @@ components:
     403:
       description: "Este usuário não tem permissões para executar esta ação."
 
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: "O id da entidade que desejamos analisar"
+      schema:
+        type: string
 
 security:
   - bearerAuth: [ ]

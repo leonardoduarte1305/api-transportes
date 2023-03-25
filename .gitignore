@@ -53,5 +53,8 @@ api-transportes.iml
 **/.attach_pid*
 
 exemplo.yaml
-/gen
+/gen/
 variaveis_de_ambiente.env
+.vscode
+**/**/.flattened-pom.xml
+dummy.*
