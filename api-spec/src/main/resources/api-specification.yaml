@@ -816,7 +816,7 @@ components:
     Encerramento:
       type: object
       properties:
-        encerramento:
+        encerrado:
           type: string
           description: "Se passado por um ADMIN encerrará a viagem, caso contrário, nada acontece."
           example: "ENCERRAR"
@@ -853,6 +853,10 @@ components:
           properties:
             status:
               $ref: '#/components/schemas/Confirmacao'
+            encerrado:
+              type: string
+              description: "Atributo que identifica se a viagem já foi encerrada possibilidades: ENCERRADO ou NAO_ENCERRADO"
+              example: "ENCERRADO"
             id:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."

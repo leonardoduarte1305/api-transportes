@@ -27,8 +27,8 @@ spring:
       client-name: api-transportes-client
       resourceserver:
         jwt:
-          trusted-issuers: http://localhost/realms/api-transportes
-          jwk-set-uri: http://localhost/realms/api-transportes/protocol/openid-connect/certs
+          trusted-issuers: ${TRUSTED_ISSUERS}
+          jwk-set-uri: ${JWK_SET_URI}
 management:
   endpoints:
     enabled-by-default: false
