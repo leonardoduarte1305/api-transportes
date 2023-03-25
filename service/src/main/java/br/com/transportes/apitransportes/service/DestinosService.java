@@ -35,42 +35,52 @@ public class DestinosService {
 	private final DestinosMapper destinosMapper;
 	private final MaterialQuantidadeSetorMapper materialQuantidadeSetorMapper;
 
-	@Transactional
-	public Destino upsertDestino(String id, UpsertDestino upsertDestino) {
-		br.com.transportes.apitransportes.entity.Sede sede = sedesService.encontrarSedePorId(
-				String.valueOf(upsertDestino.getSedeId()));
-
-		if (id.isBlank() || id.isEmpty()) {
-			List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetor =
-					salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
-
-			br.com.transportes.apitransportes.entity.Destino salvarDestino =
-					getDestinoEntity(sede, materialQuantidadeSetor);
-			salvarDestino.desconfirmar();
-
-			br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(salvarDestino);
-			materialQuantidadeSetor.forEach(item -> item.setDestino(destinoSalvo));
-			return destinosMapper.toDestinoDto(destinoSalvo);
+	public Destino upsertDestino(Integer id, UpsertDestino upsertDestino) {
+		if (id == null) {
+			return salvarNovoDestino(upsertDestino);
 		} else {
-			// TODO Arrumar o Update
-			br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
-			log.error("encontrado = " + encontrado);
-
-			List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetor =
-					salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
-			log.error("materialQuantidadeSetor = " + materialQuantidadeSetor);
-
-			br.com.transportes.apitransportes.entity.Destino salvarDestino = getDestinoEntity(sede,
-					materialQuantidadeSetor);
-			log.error("salvarDestino = " + salvarDestino);
-			salvarDestino.setStatus(encontrado.getStatus());
-			salvarDestino.setId(encontrado.getId());
-			log.error("salvarDestino = " + salvarDestino);
-			
-			br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(salvarDestino);
-			log.error("destinoSalvo = " + destinoSalvo);
-			return destinosMapper.toDestinoDto(destinoSalvo);
+			return editarDestinoExistente(id, upsertDestino);
 		}
+	}
+
+	@Transactional
+	private Destino salvarNovoDestino(UpsertDestino upsertDestino) {
+		br.com.transportes.apitransportes.entity.Sede sede = getSedePorId(upsertDestino);
+
+		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materiaisSalvos =
+				salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
+
+		br.com.transportes.apitransportes.entity.Destino destinoParaSalvar =
+				getDestinoEntity(sede, materiaisSalvos);
+		destinoParaSalvar.desconfirmar();
+
+		br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(destinoParaSalvar);
+		materiaisSalvos.forEach(item -> item.setDestino(destinoSalvo));
+
+		return destinosMapper.toDestinoDto(destinoSalvo);
+	}
+
+	@Transactional
+	private Destino editarDestinoExistente(Integer id, UpsertDestino upsertDestino) {
+		br.com.transportes.apitransportes.entity.Destino destinoParaEditar = encontrarDestinoPorId(id);
+		limparListaDeMateriaisDoDestino(id);
+
+		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> novosMateriaisSalvos =
+				salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
+
+		novosMateriaisSalvos.forEach(item -> item.setDestino(destinoParaEditar));
+		destinoParaEditar.setMateriaisQntdSetor(novosMateriaisSalvos);
+
+		return destinosMapper.toDestinoDto(destinoParaEditar);
+	}
+
+	private Sede getSedePorId(UpsertDestino upsertDestino) {
+		return sedesService.encontrarSedePorId(
+				String.valueOf(upsertDestino.getSedeId()));
+	}
+
+	private void limparListaDeMateriaisDoDestino(Integer id) {
+		materialQuantidadeSetorService.removerMateriaisDoDestino(id);
 	}
 
 	private br.com.transportes.apitransportes.entity.Destino getDestinoEntity(Sede sede,
@@ -82,23 +92,24 @@ public class DestinosService {
 			UpsertDestino upsertDestino) {
 		return upsertDestino.getMateriaisQntdSetor().stream().map(item -> {
 			Setor setor = setoresService.encontrarSetorPorId(String.valueOf(item.getSetorDestino()));
-			Material material = materiaisService.encontrarMaterialPorId(
-					String.valueOf(item.getMaterialId()));
+			Material material = materiaisService.encontrarMaterialPorId(String.valueOf(item.getMaterialId()));
+
 			br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor paraSalvar =
-					materialQuantidadeSetorMapper.toMaterialQuantidadeSetorEntity(item, material, setor);
+					materialQuantidadeSetorMapper.toMaterialQuantidadeSetorEntity(
+							item, material, setor);
 			return materialQuantidadeSetorService.save(paraSalvar);
 		}).toList();
 	}
 
-	public void excluirDestinoPorId(String id) {
+	public void excluirDestinoPorId(Integer id) {
 		br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
 		encontrado.excluirDoBancoLogicamente();
 		destinosRepository.save(encontrado);
 	}
 
-	public Destino trazerDestinoPorId(String id) {
+	public Destino trazerDestinoPorId(Integer id) {
 		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetors =
-				materialQuantidadeSetorService.findAllByDestino_Id(Integer.valueOf(id));
+				materialQuantidadeSetorService.findAllByDestino_Id(id);
 
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
 		destino.setMateriaisQntdSetor(new ArrayList<>());
@@ -107,7 +118,7 @@ public class DestinosService {
 		return destinosMapper.toDestinoDto(destino);
 	}
 
-	public void confirmaDestino(String id, Confirmacao confirmacao) {
+	public void confirmaDestino(Integer id, Confirmacao confirmacao) {
 		br.com.transportes.apitransportes.entity.Destino encontrado = encontrarDestinoPorId(id);
 
 		if ("CONFIRMADO".equals(confirmacao.getConfirmacao().toString())) {
@@ -118,7 +129,7 @@ public class DestinosService {
 		destinosRepository.save(encontrado);
 	}
 
-	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(String id) {
+	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(Integer id) {
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
 		return materialQuantidadeSetorService.findAllByDestino_Id(Integer.valueOf(id))
 				.stream()
@@ -126,9 +137,9 @@ public class DestinosService {
 				.collect(Collectors.toList());
 	}
 
-	public br.com.transportes.apitransportes.entity.Destino encontrarDestinoPorId(String id)
+	public br.com.transportes.apitransportes.entity.Destino encontrarDestinoPorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(id);
+		Long idLong = Long.parseLong(String.valueOf(id));
 		br.com.transportes.apitransportes.entity.Destino encontrado = destinosRepository.findById(idLong)
 				.filter(item -> !item.isExcluido())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(

@@ -23,4 +23,8 @@ public class MaterialQuantidadeSetorService {
 	public List<MaterialQuantidadeSetor> findAllByDestino_Id(Integer destinoId) {
 		return materialQuantidadeSetorRepository.findAllByDestino_Id(destinoId);
 	}
+
+	public void removerMateriaisDoDestino(Integer id) {
+		materialQuantidadeSetorRepository.removeAllByDestino_Id(id);
+	}
 }

@@ -26,37 +26,37 @@ public class DestinosController implements DestinosApi {
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Destino> criarDestino(UpsertDestino upsertDestino) {
-		Destino destinoSalvo = destinosService.upsertDestino("", upsertDestino);
+		Destino destinoSalvo = destinosService.upsertDestino(null, upsertDestino);
 		return ResponseEntity.ok(destinoSalvo);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Destino> editarDestino(String id, UpsertDestino upsertDestino) {
-		Destino destinoEditado = destinosService.upsertDestino(id, upsertDestino);
+		Destino destinoEditado = destinosService.upsertDestino(Integer.valueOf(id), upsertDestino);
 		return ResponseEntity.ok(destinoEditado);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Void> excluirDestino(String id) {
-		destinosService.excluirDestinoPorId(id);
+		destinosService.excluirDestinoPorId(Integer.valueOf(id));
 		return ResponseEntity.noContent().build();
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Destino> trazDestinoPorId(String id) {
-		Destino encontrado = destinosService.trazerDestinoPorId(id);
+		Destino encontrado = destinosService.trazerDestinoPorId(Integer.valueOf(id));
 		return ResponseEntity.ok(encontrado);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(String id) {
-		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(id);
+		List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(Integer.valueOf(id));
 		return ResponseEntity.ok(materiais);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Void> confirmaDestino(String id, Confirmacao body) {
-		destinosService.confirmaDestino(id, body);
+		destinosService.confirmaDestino(Integer.valueOf(id), body);
 		return ResponseEntity.noContent().build();
 	}
 }
