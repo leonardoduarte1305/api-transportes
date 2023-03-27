@@ -218,9 +218,13 @@
 									<docker>
 										<publishRegistry>
 											<!-- properties declared in a profile inside the settings.xml -->
+											<!--suppress UnresolvedMavenProperty -->
 											<username>${dockerhub.username}</username>
+											<!--suppress UnresolvedMavenProperty -->
 											<password>${dockerhub.password}</password>
+											<!--suppress UnresolvedMavenProperty -->
 											<url>${dockerhub.registry}</url>
+											<!--suppress UnresolvedMavenProperty -->
 											<email>${dockerhub.email}</email>
 										</publishRegistry>
 									</docker>
