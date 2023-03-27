@@ -1,7 +1,7 @@
 version: "3"
 services:
   apiService:
-    image: leonardoduarte1305/api-transportes-service:authOk
+    image: leonardoduarte1305/api-transportes-service:25032023
     ports:
       - "8080:8080"
     env_file:

@@ -79,22 +79,20 @@ public class ViagensService {
 	@Transactional
 	private Viagem editarViagemExistente(Integer id, UpsertViagem upsertViagem) {
 		limparListaDeDestinos(id);
+		br.com.transportes.apitransportes.entity.Viagem viagemParaSalvar = encontrarViagemPorId(id);
 
 		Motorista motorista = getMotorista(upsertViagem);
 		Veiculo veiculo = getVeiculo(upsertViagem);
-		List<br.com.transportes.apitransportes.entity.Destino> destinosEncontrados = getNovosDestinosParaAViagem(
-				upsertViagem);
+		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = getNovosDestinosParaAViagem(upsertViagem);
 
-		br.com.transportes.apitransportes.entity.Viagem viagemParaSalvar = gerarViagemParaSalvar(upsertViagem,
-				motorista, veiculo, destinosEncontrados);
-		viagemParaSalvar.desconfirmar();
-		viagemParaSalvar.setId(id);
+		viagemParaSalvar.setMotorista(motorista);
+		viagemParaSalvar.setVeiculo(veiculo);
+		viagemParaSalvar.setDestinos(novosDestinos);
 
-		br.com.transportes.apitransportes.entity.Viagem viagemSalva = viagensRepository.save(viagemParaSalvar);
-		destinosEncontrados.forEach(destino -> destino.setViagem(viagemSalva));
-		destinosService.salvarTodos(destinosEncontrados);
+		novosDestinos.forEach(destino -> destino.setViagem(viagemParaSalvar));
+		destinosService.salvarTodos(novosDestinos);
 
-		return viagensMapper.toViagemDto(viagemSalva);
+		return viagensMapper.toViagemDto(viagemParaSalvar);
 	}
 
 	private List<br.com.transportes.apitransportes.entity.Destino> getNovosDestinosParaAViagem(
@@ -102,8 +100,11 @@ public class ViagensService {
 		return destinosService.findAllByIdIsIn(upsertViagem.getDestinos());
 	}
 
+	@Transactional
 	private void limparListaDeDestinos(Integer id) {
-		destinosService.excluirDestinosByViagemId(id);
+		List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosService.trazerDestinosDaViagem(id);
+		destinos.forEach(destino -> destino.setViagem(null));
+		destinosService.salvarTodos(destinos);
 	}
 
 	public void confirmaViagem(Integer id, Confirmacao confirmacao) {
@@ -132,6 +133,7 @@ public class ViagensService {
 		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
 
 		if ("ENCERRAR".equals(encerramento.getEncerrado().toString())) {
+			log.error("VIAGEM ID: {} ENCERRAR ==========================", id);
 			encontrada.encerrar();
 			viagensRepository.save(encontrada);
 		}

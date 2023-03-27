@@ -46,7 +46,7 @@ public class Destino {
 	@Enumerated(EnumType.STRING)
 	private Confirmacao status;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "viagem_id")
 	private Viagem viagem;
 

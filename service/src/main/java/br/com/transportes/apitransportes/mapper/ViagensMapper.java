@@ -35,6 +35,7 @@ public interface ViagensMapper {
 		return entidade;
 	}
 
+	// https://www.tutorialspoint.com/mapstruct/mapstruct_using_expression.htm
 	@Mapping(target = "motoristaId", source = "motorista.id")
 	@Mapping(target = "veiculoId", source = "veiculo.id")
 	@Mapping(target = "encerrado", expression = "java(viagem.isEncerrado())")
