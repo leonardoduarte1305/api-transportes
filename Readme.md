@@ -3,25 +3,35 @@
 <hr>
 
 # Overview
+
 ### O projeto está separado em dois módulos:
+
 ### api-spec:
+
 #### Contém a OpenAPI Specification para todos os recursos disponíveis do projeto.
 
 ### service:
+
 #### Contém a implementação e todas as configurações para rodar o projeto.
 
 <hr>
 
 ## Rodando o projeto localmente
-## 1 - Requisitos mínimos: 
+
+## 1 - Requisitos mínimos:
+
 #### Java 17 instalado
+
 #### Docker instalado
 
+#### Sistema Linux
+
 ## 2- Levantando os serviços necessários
-### Levante o Mysql, o Postgres e o Keycloak executando na pasta [raiz](./) do projeto:
+
+### Levante o Postgres primeiramente executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker-compose up -d
+docker-compose up -d postgres
 ```
 
 <hr>
@@ -37,13 +47,13 @@ docker exec -it $(docker container ls | grep postgres | awk '{print $1}') /bin/b
 Conecte-se no servidor do Postgres digitando:
 
 ```bash
-psql postgres postgres
+`psql postgres postgres`
 ```
 
 Crie o database usado pelo Keycloak:
 
 ```bash
-create database bitnami_keycloak
+CREATE DATABASE bitnami_keycloak;
 ```
 
 Para verificar a criação do database use:
@@ -54,15 +64,25 @@ Para verificar a criação do database use:
 
 <hr>
 
-## 4 - Keycloak
+## 4- Levantando os demais serviços necessários
 
-Acesse http://localhost:8080/admin/
+### Levante o MySQL e o Keycloak executando na pasta [raiz](./) do projeto:
+
+```bash
+docker-compose up -d
+```
+
+<hr>
+
+## 5 - Keycloak
+
+Acesse http://localhost:80/admin/
 
     Longin: admin
     Senha: admin
 
 Na Primeira Utilização é necessário criar:
-    
+
     Realm:  Clique no dropdown à esquerda e em Create Realm
             Preencha o Realm name: api-transportes
             Clique em Create
@@ -92,6 +112,7 @@ Na Primeira Utilização é necessário criar:
 ## 4 - Rodando o projeto Api-Transportes
 
 ### Execute na pasta [raiz](./) o seguinte comando:
+
 ```bash
 export $(xargs < .env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw spring-boot:run
 ```

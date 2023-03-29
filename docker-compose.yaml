@@ -15,7 +15,7 @@ services:
   keycloak:
     image: docker.io/bitnami/keycloak:20
     ports:
-      - "8080:8080"
+      - "80:8080"
     env_file:
       - compose.env
     restart: always
