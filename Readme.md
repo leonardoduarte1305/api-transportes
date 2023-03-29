@@ -26,6 +26,9 @@
 
 #### Sistema Linux
 
+#### Sistema Windows (utilizando o bash environment)*
+
+
 ## 2- Levantando os serviços necessários
 
 ### Levante o Postgres primeiramente executando na pasta [raiz](./) do projeto:
