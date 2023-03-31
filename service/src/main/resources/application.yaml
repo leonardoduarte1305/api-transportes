@@ -8,9 +8,9 @@ spring:
     locations: classpath:/db/migration
     baseline-on-migrate: true
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
-    username: ${MYSQL_ROOT_USERNAME}
-    password: ${MYSQL_ROOT_PASSWORD}
+    url: jdbc:mysql://localhost:3306/apiTransportes?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: senhaSegura
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -22,13 +22,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  security:
-    oauth2:
-      client-name: ${CLIENT_NAME}
-      resourceserver:
-        jwt:
-          trusted-issuers: ${TRUSTED_ISSUERS}
-        jwk-set-uri: ${JWK_SET_URI}
 management:
   endpoints:
     enabled-by-default: false
