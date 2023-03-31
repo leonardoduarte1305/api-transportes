@@ -24,11 +24,11 @@ spring:
         format_sql: true
   security:
     oauth2:
-      client-name: api-transportes-client
+      client-name: ${CLIENT_NAME}
       resourceserver:
         jwt:
-          trusted-issuers: http://${KEYCLOAK_HOST}/realms/${KEYCLOAK_REALM}
-          jwk-set-uri: http://${KEYCLOAK_HOST}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs
+          trusted-issuers: ${TRUSTED_ISSUERS}
+        jwk-set-uri: ${JWK_SET_URI}
 management:
   endpoints:
     enabled-by-default: false
@@ -49,4 +49,4 @@ springdoc:
   api-docs:
     enabled: true
 server:
-  port: 8083
+  port: 8080
