@@ -1,8 +1,17 @@
 package br.com.transportes.apitransportes.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
 import br.com.transportes.apitransportes.email.EmailService;
@@ -171,5 +180,48 @@ public class ViagensService {
 	public void excluirViagem(Integer id) {
 		br.com.transportes.apitransportes.entity.Viagem viagem = encontrarViagemPorId(id);
 		viagem.excluirDoBancoLogicamente();
+	}
+
+	public InputStreamResource relatorioDeViagem(Integer id) {
+		List<br.com.transportes.apitransportes.entity.Viagem> viagens = viagensRepository.findAll();
+
+		// replace this with your header (if required)
+		String[] headers = { "idItinerario", "Motorista", "Veiculo", "Data de saída", "Data de chegada", "Status", "Encerrada?" };
+
+		// replace this with your data retrieving logic
+		List<List<String>> csvBody = new ArrayList<>();
+
+		viagens.forEach(encontrada -> csvBody.add(Arrays.asList(
+				encontrada.getId().toString(),
+				encontrada.getMotorista().getNome(),
+				encontrada.getVeiculo().getPlaca(),
+				encontrada.getDatetimeSaida(),
+				encontrada.getDatetimeVolta(),
+				encontrada.getStatus().toString(),
+				encontrada.isEncerrado()
+		)));
+
+		ByteArrayInputStream byteArrayOutputStream;
+
+		// closing resources by using a try with resources
+		// https://www.baeldung.com/java-try-with-resources
+		try (
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				// defining the CSV printer
+				CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), CSVFormat.DEFAULT.withHeader(headers));
+		) {
+			// populating the CSV content
+			for (List<String> record : csvBody)
+				csvPrinter.printRecord(record);
+
+			// writing the underlying stream
+			csvPrinter.flush();
+
+			byteArrayOutputStream = new ByteArrayInputStream(out.toByteArray());
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return new InputStreamResource(byteArrayOutputStream);
 	}
 }

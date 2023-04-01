@@ -82,6 +82,7 @@
 		<micrometer-registry-prometheus.version>1.11.0-M1</micrometer-registry-prometheus.version>
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
+		<commons-csv.version>1.10.0</commons-csv.version>
 
 		<!-- Plugins Versions -->
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>

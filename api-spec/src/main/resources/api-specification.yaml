@@ -574,6 +574,22 @@ paths:
       responses:
         200:
           description: "Viagem foi confirmada."
+  /viagens/{id}/exportar:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      operationId: relatorioDeViagem
+      summary: relatorioDeViagem
+      description: "Devolve um relatório de destinos para esta viagem específica."
+      tags:
+        - Viagens
+      responses:
+        200:
+          description: "Devolve um relatório de destinos para esta viagem específica."
+          content:
+            text/csv:
+              schema:
+                type: object
 
 components:
   schemas:

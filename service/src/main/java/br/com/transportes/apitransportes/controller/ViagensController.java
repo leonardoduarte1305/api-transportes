@@ -2,6 +2,9 @@ package br.com.transportes.apitransportes.controller;
 
 import java.util.List;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,8 +63,20 @@ public class ViagensController implements ViagensApi {
 		return ResponseEntity.noContent().build();
 	}
 
+	//@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Void> excluirViagem(Integer id) {
 		viagensService.excluirViagem(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	//@PreAuthorize("hasRole('ADMIN')")
+	@Override public ResponseEntity<Object> relatorioDeViagem(Integer id) {
+		InputStreamResource inputStreamResource = viagensService.relatorioDeViagem(id);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=viagem.csv");
+		headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
+
+		return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
 	}
 }
