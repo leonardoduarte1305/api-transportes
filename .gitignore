@@ -58,3 +58,4 @@ variaveis_de_ambiente.env
 .vscode
 **/**/.flattened-pom.xml
 dummy.*
+*.env
