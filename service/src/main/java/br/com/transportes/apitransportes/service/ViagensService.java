@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.transportes.apitransportes.email.EmailService;
 import br.com.transportes.apitransportes.entity.Motorista;
 import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
@@ -35,6 +36,7 @@ public class ViagensService {
 
 	private final ViagensMapper viagensMapper;
 	private final DestinosMapper destinosMapper;
+	private final EmailService emailService;
 
 	public Viagem upsertViagem(Integer id, UpsertViagem upsertViagem) {
 		if (id == null) {
@@ -83,7 +85,8 @@ public class ViagensService {
 
 		Motorista motorista = getMotorista(upsertViagem);
 		Veiculo veiculo = getVeiculo(upsertViagem);
-		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = getNovosDestinosParaAViagem(upsertViagem);
+		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = getNovosDestinosParaAViagem(
+				upsertViagem);
 
 		viagemParaSalvar.setMotorista(motorista);
 		viagemParaSalvar.setVeiculo(veiculo);
@@ -112,10 +115,26 @@ public class ViagensService {
 
 		if ("CONFIRMADO".equals(confirmacao.getConfirmacao().toString())) {
 			encontrada.confirmar();
+			encontrada.getDestinos().forEach(br.com.transportes.apitransportes.entity.Destino::confirmar);
 		} else {
 			encontrada.desconfirmar();
 		}
-		viagensRepository.save(encontrada);
+		br.com.transportes.apitransportes.entity.Viagem confirmada = viagensRepository.save(encontrada);
+		enviarEmailDeConfirmacao(confirmada);
+	}
+
+	private void enviarEmailDeConfirmacao(br.com.transportes.apitransportes.entity.Viagem viagem) {
+		String assunto = "Viagem confirmada.";
+		String mensagem = mensagemDeConfirmacaoDeViagem(viagem);
+		emailService.enviarEmailSimples(assunto, mensagem, viagem.getMotorista().getEmail());
+	}
+
+	private String mensagemDeConfirmacaoDeViagem(br.com.transportes.apitransportes.entity.Viagem confirmada) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("A viagem com o id: ").append(confirmada.getId()).append(" for confirmada.\n")
+				.append("Confira abaixo os dados completos desta viagem.\n\n")
+				.append(confirmada);
+		return builder.toString();
 	}
 
 	public List<Viagem> listarViagens() {

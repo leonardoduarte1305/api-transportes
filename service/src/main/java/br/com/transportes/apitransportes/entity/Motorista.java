@@ -35,4 +35,8 @@ public class Motorista {
 
 	@JoinColumn(nullable = false)
 	private String email;
+
+	@Override public String toString() {
+		return "Nome: " + nome + ", Email: " + email;
+	}
 }

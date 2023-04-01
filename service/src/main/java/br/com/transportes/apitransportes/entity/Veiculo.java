@@ -46,4 +46,8 @@ public class Veiculo {
 
 	@JoinColumn(nullable = false)
 	private String tamanho;
+
+	@Override public String toString() {
+		return "Modelo: " + modelo + " - " + marca + ", Placa: " + placa + " - " + ano + ", Tamanho: " + tamanho;
+	}
 }

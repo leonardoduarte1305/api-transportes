@@ -64,4 +64,11 @@ public class Destino {
 	public void excluirDoBancoLogicamente() {
 		excluido = true;
 	}
+
+	@Override public String toString() {
+		return "\nSede: " + sede.toString() +
+				", Lista de materiais: " + materiaisQntdSetor.toString() +
+				", status: " + status + "\n";
+	}
+
 }

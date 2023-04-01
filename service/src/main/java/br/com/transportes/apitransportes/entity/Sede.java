@@ -49,4 +49,9 @@ public class Sede {
 
 	@JoinColumn(nullable = false)
 	private String observacao;
+
+	@Override public String toString() {
+		return "Nome: " + nome + ", Observações" + observacao +
+				"\nEndereco: Rua " + rua + ", " + numero + " - CEP'" + cep + ", " + cidade + "/" + uf;
+	}
 }

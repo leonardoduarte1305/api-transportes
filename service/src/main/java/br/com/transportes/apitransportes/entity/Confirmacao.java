@@ -16,4 +16,8 @@ public enum Confirmacao {
 	Confirmacao(String value) {
 		this.value = value;
 	}
+
+	@Override public String toString() {
+		return value;
+	}
 }

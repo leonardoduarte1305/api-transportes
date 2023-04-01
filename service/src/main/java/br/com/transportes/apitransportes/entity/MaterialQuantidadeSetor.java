@@ -43,4 +43,8 @@ public class MaterialQuantidadeSetor {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "destinoId")
 	private Destino destino;
+
+	@Override public String toString() {
+		return "Material: " + material.toString() + ", Quantidade: " + quantidade + ", Setor de destino: " + setorDestino + "\n";
+	}
 }

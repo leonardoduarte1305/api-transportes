@@ -32,4 +32,8 @@ public class Material {
 
 	@JoinColumn(nullable = false)
 	private String descricao;
+
+	@Override public String toString() {
+		return "Nome: " + nome + ", Descricao: " + descricao;
+	}
 }

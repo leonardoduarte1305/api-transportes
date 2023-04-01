@@ -80,4 +80,16 @@ public class Viagem {
 	public String isEncerrado() {
 		return encerrado ? "ENCERRADO" : "NAO_ENCERRADO";
 	}
+
+	@Override
+	public String toString() {
+		return "Viagem: " +
+				"\nMotorista: " + motorista.toString() +
+				", \nVeiculo: " + veiculo.toString() +
+				", \nDestinos: " + destinos.toString() +
+				", \nData de Saída: '" + datetimeSaida + '\'' +
+				", \nData de Volta: '" + datetimeVolta + '\'' +
+				", \nStatus: " + status +
+				", \nencerrado: " + isEncerrado();
+	}
 }

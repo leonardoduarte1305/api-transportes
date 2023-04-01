@@ -29,4 +29,8 @@ public class Setor {
 
 	@JoinColumn(nullable = false)
 	private String nome;
+
+	@Override public String toString() {
+		return nome;
+	}
 }
