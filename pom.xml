@@ -32,9 +32,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:https://github.com/${git-username}/${git-repository-name}</connection>
-		<developerConnection>scm:git:git@github.com:${git-username}/${git-repository-name}</developerConnection>
-		<url>https://github.com/${git-username}/${git-repository-name}</url>
+		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}</connection>
+		<developerConnection>scm:${scm-provider}:git@github.com:${scm-username}/${repository-name}</developerConnection>
+		<url>${scm-url}/${scm-username}/${repository-name}</url>
 		<tag>${project.version}</tag>
 	</scm>
 	<distributionManagement>
@@ -52,9 +52,11 @@
 
 	<properties>
 		<!-- Personal properties and local configs -->
-		<registry-ip-port>172.19.0.4:8081</registry-ip-port>
-		<git-username>leonardoduarte1305</git-username>
-		<git-repository-name>api-transportes-spec.git</git-repository-name>
+		<registry-ip-port>loclhost:8081</registry-ip-port>
+		<scm-username>leonardoduarte1305</scm-username>
+		<repository-name>api-transportes-spec.git</repository-name>
+		<scm-provider>git</scm-provider>
+		<scm-url>https://github.com</scm-url>
 
 		<!-- JDK - JVM - Maven - Configs -->
 		<java.version>17</java.version>
@@ -66,6 +68,7 @@
 		<project.reporting.source>${encoding}</project.reporting.source>
 		<maven.build.indentSize>4</maven.build.indentSize>
 		<maven.deploy.only>false</maven.deploy.only>
+		<maven-release-plugin>3.0.0</maven-release-plugin>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -197,6 +200,11 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>${maven-release-plugin}</version>
 			</plugin>
 		</plugins>
 	</build>

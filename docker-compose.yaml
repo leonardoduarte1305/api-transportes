@@ -35,6 +35,18 @@ services:
     networks:
       - transportes-network
 
+  nexus:
+    image: sonatype/nexus3:3.42.0
+    user: nexus
+    ports:
+      - '8081:8081'
+    volumes:
+      - nexus-data:/nexus-data
+      - sonatype-work:/sonatype-work
+    restart: always
+    networks:
+      - transportes-network
+
 networks:
   transportes-network:
 
@@ -42,3 +54,5 @@ volumes:
   mysqlCompose:
   postgresCompose:
   postgresCompose-data:
+  nexus-data:
+  sonatype-work:
