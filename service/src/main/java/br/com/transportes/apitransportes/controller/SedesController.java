@@ -50,4 +50,16 @@ public class SedesController implements SedesApi {
 		Sede encontrada = sedesService.trazerSedePorId(id);
 		return ResponseEntity.ok(encontrada);
 	}
+
+	//@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@Override public ResponseEntity<Void> inscrever(Integer id, List<String> emails) {
+		sedesService.inscreverUsuarios(id, emails);
+		return ResponseEntity.noContent().build();
+	}
+
+	//@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@Override public ResponseEntity<Void> desinscrever(Integer id, List<String> emails) {
+		sedesService.desinscreverUsuarios(id, emails);
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -108,6 +108,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Sede'
+  /sedes/{id}/inscrever:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    post:
+      operationId: inscrever
+      summary: inscrever
+      description: "Inscreve um ou mais usuarios em uma fila. Quando alguém adiciona como
+       Destino uma sede relevante para esse(s) usuario(s), ele(s) recebe(m) notificação por email."
+      tags:
+        - Sedes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: "Inscrição feita com sucesso."
+  /sedes/{id}/desinscrever:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    post:
+      operationId: desinscrever
+      summary: desinscrever
+      description: "Desinscreve um ou mais usuarios de uma fila. Após ter sua inscricao cancelada, este
+      ou estes usuarios não mais receberão notificações referentes à esta sede."
+      tags:
+        - Sedes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        200:
+          description: "Inscrição feita com sucesso."
 
   /motoristas:
     post:

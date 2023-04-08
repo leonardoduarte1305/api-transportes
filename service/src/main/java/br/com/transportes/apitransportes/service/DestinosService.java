@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.transportes.apitransportes.email.EmailService;
 import br.com.transportes.apitransportes.entity.Material;
 import br.com.transportes.apitransportes.entity.Sede;
 import br.com.transportes.apitransportes.entity.Setor;
@@ -19,9 +20,7 @@ import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DestinosService {
@@ -34,6 +33,8 @@ public class DestinosService {
 
 	private final DestinosMapper destinosMapper;
 	private final MaterialQuantidadeSetorMapper materialQuantidadeSetorMapper;
+
+	private final EmailService emailService;
 
 	public Destino upsertDestino(Integer id, UpsertDestino upsertDestino) {
 		if (id == null) {
@@ -57,6 +58,9 @@ public class DestinosService {
 		br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(destinoParaSalvar);
 		materiaisSalvos.forEach(item -> item.setDestino(destinoSalvo));
 
+		if (!sede.getInscritos().isEmpty()) {
+			emailService.enviarConfirmacaoDeDestino(sede.getNome(), sede.getInscritos());
+		}
 		return destinosMapper.toDestinoDto(destinoSalvo);
 	}
 
@@ -149,10 +153,6 @@ public class DestinosService {
 
 	public List<br.com.transportes.apitransportes.entity.Destino> findAllByIdIsIn(List<Integer> destinos) {
 		return destinosRepository.findByIdIsIn(destinos).stream().filter(item -> !item.isExcluido()).toList();
-	}
-
-	public void excluirDestinosByViagemId(Integer id) {
-		destinosRepository.removeAllByViagem_Id(id);
 	}
 
 	public List<br.com.transportes.apitransportes.entity.Destino> trazerDestinosDaViagem(Integer id) {

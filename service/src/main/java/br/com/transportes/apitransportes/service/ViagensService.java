@@ -129,21 +129,7 @@ public class ViagensService {
 			encontrada.desconfirmar();
 		}
 		br.com.transportes.apitransportes.entity.Viagem confirmada = viagensRepository.save(encontrada);
-		enviarEmailDeConfirmacao(confirmada);
-	}
-
-	private void enviarEmailDeConfirmacao(br.com.transportes.apitransportes.entity.Viagem viagem) {
-		String assunto = "Viagem confirmada.";
-		String mensagem = mensagemDeConfirmacaoDeViagem(viagem);
-		emailService.enviarEmailSimples(assunto, mensagem, viagem.getMotorista().getEmail());
-	}
-
-	private String mensagemDeConfirmacaoDeViagem(br.com.transportes.apitransportes.entity.Viagem confirmada) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("A viagem com o id: ").append(confirmada.getId()).append(" for confirmada.\n")
-				.append("Confira abaixo os dados completos desta viagem.\n\n")
-				.append(confirmada);
-		return builder.toString();
+		emailService.enviarConfirmacaoDeViagem(encontrada);
 	}
 
 	public List<Viagem> listarViagens() {
@@ -186,7 +172,8 @@ public class ViagensService {
 		List<br.com.transportes.apitransportes.entity.Viagem> viagens = viagensRepository.findAll();
 
 		// replace this with your header (if required)
-		String[] headers = { "idItinerario", "Motorista", "Veiculo", "Data de saída", "Data de chegada", "Status", "Encerrada?" };
+		String[] headers = { "idItinerario", "Motorista", "Veiculo", "Data de saída", "Data de chegada", "Status",
+				"Encerrada?" };
 
 		// replace this with your data retrieving logic
 		List<List<String>> csvBody = new ArrayList<>();

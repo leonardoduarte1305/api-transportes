@@ -13,6 +13,7 @@ public interface SedesMapper {
 	SedesMapper INSTANCE = Mappers.getMapper(SedesMapper.class);
 
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "inscritos", ignore = true)
 	Sede toSedeEntity(UpsertSede sede);
 
 	br.com.transportes.server.model.Sede toSedeDto(Sede sede);

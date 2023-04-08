@@ -1,2 +1,0 @@
-ALTER TABLE destino ADD COLUMN excluido BIT(1) NOT NULL;
-ALTER TABLE viagem ADD COLUMN excluido BIT(1) NOT NULL;

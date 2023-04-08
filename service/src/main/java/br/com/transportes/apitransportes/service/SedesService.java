@@ -11,9 +11,7 @@ import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.UpsertSede;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SedesService {
@@ -60,6 +58,31 @@ public class SedesService {
 		return sedesRepository.findById(idLong)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Sede com o id: %d não foi encontrada", idLong)));
+	}
+
+	@Transactional
+	public void inscreverUsuarios(Integer id, List<String> emails) {
+		br.com.transportes.apitransportes.entity.Sede sedeEncontrada = encontrarSedePorId(id);
+
+		List<String> adicionar = adicionaEmailNaFila(sedeEncontrada.getInscritos(), emails);
+
+		adicionar.forEach(sedeEncontrada::inscreverUsuario);
+		sedesRepository.save(sedeEncontrada);
+	}
+
+	private List<String> adicionaEmailNaFila(List<String> jaInscritos, List<String> emails) {
+		return emails.stream()
+				.filter(jaInscrito -> jaInscritos.stream().noneMatch(email -> email.equals(jaInscrito)))
+				.toList();
+	}
+
+	@Transactional
+	public void desinscreverUsuarios(Integer id, List<String> paraDesinscrever) {
+		br.com.transportes.apitransportes.entity.Sede sedeEncontrada = encontrarSedePorId(id);
+		List<String> paraRetirarDaLista = paraDesinscrever.stream()
+				.filter(jaInscrito -> sedeEncontrada.getInscritos().stream()
+						.anyMatch(email -> email.equals(jaInscrito))).toList();
+		paraRetirarDaLista.forEach(sedeEncontrada::removerInscrito);
 	}
 
 }

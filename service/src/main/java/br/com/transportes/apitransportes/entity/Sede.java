@@ -1,11 +1,17 @@
 package br.com.transportes.apitransportes.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,8 +56,20 @@ public class Sede {
 	@JoinColumn(nullable = false)
 	private String observacao;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Column(name = "inscritos_emails")
+	private List<String> inscritos = new ArrayList<>();
+
 	@Override public String toString() {
 		return "Nome: " + nome + ", Observações" + observacao +
 				"\nEndereco: Rua " + rua + ", " + numero + " - CEP'" + cep + ", " + cidade + "/" + uf;
+	}
+
+	public void inscreverUsuario(String email) {
+		this.inscritos.add(email);
+	}
+
+	public void removerInscrito(String email) {
+		this.inscritos.remove(email);
 	}
 }
