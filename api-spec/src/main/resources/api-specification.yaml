@@ -909,6 +909,10 @@ components:
         datetimeVolta:
           type: string
           description: "Data e hora de partida da viagem."
+        sede:
+          type: integer
+          description: "Atributo que identifica a sede de onde parte a viagem."
+          example: "32"
 
     Viagem:
       allOf:
@@ -921,6 +925,10 @@ components:
               type: string
               description: "Atributo que identifica se a viagem já foi encerrada possibilidades: ENCERRADO ou NAO_ENCERRADO"
               example: "ENCERRADO"
+            sede:
+              type: integer
+              description: "Atributo que identifica a sede de onde parte a viagem."
+              example: "32"
             id:
               type: integer
               description: "Atributo que identifica cada viagem de maneira única."

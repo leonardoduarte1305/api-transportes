@@ -69,6 +69,7 @@
 		<maven.build.indentSize>4</maven.build.indentSize>
 		<maven.deploy.only>false</maven.deploy.only>
 		<maven-release-plugin>3.0.0</maven-release-plugin>
+		<jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>

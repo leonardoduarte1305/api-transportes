@@ -1,0 +1,1 @@
+ALTER TABLE viagem ADD COLUMN id_sede INTEGER;

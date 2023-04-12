@@ -31,6 +31,7 @@ public interface ViagensMapper {
 		entidade.setMotorista(motorista);
 		entidade.setVeiculo(veiculo);
 		entidade.setDestinos(destinos);
+		entidade.setSede(viagem.getSede());
 
 		return entidade;
 	}

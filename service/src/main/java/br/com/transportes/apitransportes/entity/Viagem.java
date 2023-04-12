@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -50,6 +51,9 @@ public class Viagem {
 	private String datetimeSaida;
 
 	private String datetimeVolta;
+
+	@Column(name = "id_sede")
+	private Integer sede;
 
 	@Enumerated(EnumType.STRING)
 	@JoinColumn(nullable = false)
