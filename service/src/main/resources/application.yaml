@@ -21,20 +21,21 @@ spring:
     locations: classpath:/db/migration
     baseline-on-migrate: true
   datasource:
-    url: jdbc:mysql://localhost:3306/apiTransportes?useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: senhaSegura
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:${DB_VENDOR}://${DB_HOST}/${DB_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: ${DB_PLATAFORM_DIALECT}
     show-sql: true
     hibernate:
       ddl-auto: none
-    database: mysql
+    database: ${DB_VENDOR}
     generate-ddl: true
     properties:
       hibernate:
         format_sql: true
+        show_sql: true
 management:
   endpoints:
     enabled-by-default: false
@@ -55,4 +56,4 @@ springdoc:
   api-docs:
     enabled: true
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}

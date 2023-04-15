@@ -1,143 +1,135 @@
 create table destino
 (
-    id        integer not null auto_increment,
-    excluido  bit     not null,
+    id        serial  not null,
+    excluido  boolean not null,
     status    varchar(255),
     sede_id   bigint  not null,
     viagem_id integer,
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table material
 (
-    id        integer not null auto_increment,
+    id        serial not null,
     descricao varchar(255),
     nome      varchar(255),
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table material_quantidade_setor
 (
-    id          integer not null auto_increment,
+    id          serial  not null,
     quantidade  integer,
     destino_id  integer,
     material_id integer not null,
     setor_id    integer not null,
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table motorista
 (
-    id       integer not null auto_increment,
+    id       serial not null,
     carteira varchar(255),
     email    varchar(255),
     nome     varchar(255),
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table sede
 (
-    id         bigint not null auto_increment,
+    id         bigserial not null,
     cep        varchar(255),
     cidade     varchar(255),
     nome       varchar(255),
     numero     integer,
     observacao varchar(255),
     rua        varchar(255),
-    uf         ENUM ('RO','AC','AM','RR','PA','AP','TO','MA','PI','CE','RN','PB','PE','AL','SE','BA','MG','ES','RJ','SP','PR','SC','RS','MS','MT','GO','DF'),
+    uf         varchar(255),
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table sede_inscritos
 (
     sede_id          bigint not null,
     inscritos_emails varchar(255)
-) engine = InnoDB;
-
+);
 
 create table setor
 (
-    id   integer not null auto_increment,
+    id   serial not null,
     nome varchar(255),
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table veiculo
 (
-    id      integer not null auto_increment,
+    id      serial not null,
     ano     integer,
     marca   varchar(255),
     modelo  varchar(255),
     placa   varchar(255),
-    renavan decimal(38, 2),
+    renavan numeric(38, 2),
     tamanho varchar(255),
     primary key (id)
-) engine = InnoDB;
-
+);
 
 create table viagem
 (
-    id             integer not null auto_increment,
+    id             serial  not null,
     datetime_saida varchar(255),
     datetime_volta varchar(255),
-    encerrado      bit     not null,
-    excluido       bit     not null,
+    encerrado      boolean not null,
+    excluido       boolean not null,
+    id_sede        integer,
     status         varchar(255),
     motorista_id   integer not null,
     veiculo_id     integer not null,
     primary key (id)
-) engine = InnoDB;
-
+);
 
 alter table destino
     add constraint FK_destino_sede
         foreign key (sede_id)
-            references sede (id);
+            references sede;
 
 
 alter table destino
     add constraint FK_destino_viagem
         foreign key (viagem_id)
-            references viagem (id);
+            references viagem;
 
 
 alter table material_quantidade_setor
     add constraint FK_materialquantidadesetor_destino
         foreign key (destino_id)
-            references destino (id);
+            references destino;
 
 
 alter table material_quantidade_setor
     add constraint FK_materialquantidadesetor_material
         foreign key (material_id)
-            references material (id);
+            references material;
 
 
 alter table material_quantidade_setor
     add constraint FK_materialquantidadesetor_setor
         foreign key (setor_id)
-            references setor (id);
+            references setor;
 
 
 alter table sede_inscritos
     add constraint FK_sedeinscritos_sede
         foreign key (sede_id)
-            references sede (id);
+            references sede;
 
 
 alter table viagem
     add constraint FK_viagem_motorista
         foreign key (motorista_id)
-            references motorista (id);
+            references motorista;
 
 
 alter table viagem
     add constraint FK_viagem_veiculo
         foreign key (veiculo_id)
-            references veiculo (id);
+            references veiculo;

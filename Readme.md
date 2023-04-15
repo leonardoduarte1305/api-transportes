@@ -50,7 +50,7 @@ docker exec -it $(docker container ls | grep postgres | awk '{print $1}') /bin/b
 Conecte-se no servidor do Postgres digitando:
 
 ```bash
-`psql postgres postgres`
+psql postgres postgres
 ```
 
 Crie o database usado pelo Keycloak:

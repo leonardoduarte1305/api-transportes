@@ -22,13 +22,15 @@ services:
     networks:
       - transportes-network
     depends_on:
-      - postgres
+      - postgresql
 
-  postgres:
+  postgresql:
     image: postgres
     env_file:
       - compose.env
     restart: always
+    ports:
+      - 5432:5432
     volumes:
       - postgresCompose:/var/lib/postgresql
       - postgresCompose-data:/var/lib/postgresql/data
