@@ -1,16 +1,17 @@
 version: "3"
 services:
-  mysql-compose:
-    image: mysql:8.0
+  api-transportes:
+    image: leonardoduarte1305/api-transportes-service:latest
     ports:
-      - "3306:3306"
+      - 8080:8080
     env_file:
       - compose.env
-    volumes:
-      - mysqlCompose
     restart: always
     networks:
       - transportes-network
+    depends_on:
+      - postgresql
+      - keycloak
 
   keycloak:
     image: docker.io/bitnami/keycloak:20

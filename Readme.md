@@ -28,6 +28,10 @@
 
 #### Sistema Windows (utilizando o bash environment)*
 
+### Informações Úteis
+Na raiz do projeto você encontra o arquivo [compose.env](./compose.env) e dentro dele, na linha 15 a seguinte expressão: `SPRING_MAIL_PASSWORD=` você deve ir no grupo do Teams e copiar de lá o token para o envio de email. Por motivos de segurança ele não é fornecido junto do projeto.
+
+#### *Lembre-se de nunca commitar credenciais. As credenciais já commitadas são exemplos e apenas para desenvolvimento local da aplicação, elas nunca serão usadas em produção.
 
 ## 2- Levantando os serviços necessários
 
@@ -53,13 +57,19 @@ Conecte-se no servidor do Postgres digitando:
 psql postgres postgres
 ```
 
+Crie o database usado pela nossa Aplicação:
+
+```bash
+CREATE DATABASE apitransportes;
+```
+
 Crie o database usado pelo Keycloak:
 
 ```bash
 CREATE DATABASE bitnami_keycloak;
 ```
 
-Para verificar a criação do database use:
+Para verificar a criação dos databases use:
 
 ```bash
 \list
@@ -67,17 +77,13 @@ Para verificar a criação do database use:
 
 <hr>
 
-## 4- Levantando os demais serviços necessários
+## 4 - Keycloak
 
-### Levante o MySQL e o Keycloak executando na pasta [raiz](./) do projeto:
+### Levante o Keycloak executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker-compose up -d
+docker-compose up -d keycloak
 ```
-
-<hr>
-
-## 5 - Keycloak
 
 Acesse http://localhost:80/admin/
 
@@ -112,10 +118,20 @@ Na Primeira Utilização é necessário criar:
 
 <hr>
 
-## 4 - Rodando o projeto Api-Transportes
+## 5 - Rodando o projeto Api-Transportes
 
 ### Execute na pasta [raiz](./) o seguinte comando:
 
 ```bash
 export $(xargs < .env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw spring-boot:run
 ```
+
+#### O arquivo .env não está junto do projeto, você deve baixá-lo no grupo do Teams
+
+## 5 - Rodando a imagem de container Docker da Api-Transportes
+
+
+```bash
+docker-compose up -d api-transportes
+```
+#### O arquivo compose.env está junto do projeto, porém você deve pegar no grupo do Teams 
