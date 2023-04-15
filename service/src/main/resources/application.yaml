@@ -1,6 +1,13 @@
 spring:
   application:
     name: api-transporte-service
+  security:
+    oauth2:
+      client-name: ${CLIENT_NAME}
+      resourceserver:
+        jwt:
+          trusted-issuers: ${TRUSTED_ISSUERS}
+        jwk-set-uri: ${JWK_SET_URI}
   mail:
     host: ${SPRING_MAIL_HOST}
     port: ${SPRING_MAIL_PORT}
