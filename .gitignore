@@ -59,3 +59,4 @@ variaveis_de_ambiente.env
 **/**/.flattened-pom.xml
 dummy.*
 *.env
+*.pdf
