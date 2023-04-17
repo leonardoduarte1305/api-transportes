@@ -1,10 +1,10 @@
 package br.com.transportes.apitransportes.pdf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -29,9 +29,13 @@ public class CriadorDeRelatorioDeViagem {
 	private static final Font FONT_14 = fontePadraoComTamanhoDe(14);
 	private static final Font FONT_12 = fontePadraoComTamanhoDe(12);
 
-	public void criaRelatorioDeViagem(Viagem viagem) throws FileNotFoundException, DocumentException {
+	// https://kb.itextpdf.com/home/it5kb/examples/cell-and-table-widths
+	// https://vangjee.wordpress.com/2010/11/02/how-to-create-an-in-memory-pdf-report-and-send-as-an-email-attachment-using-itext-and-java/
+	public byte[] criaRelatorioDeViagem(Viagem viagem) throws FileNotFoundException, DocumentException {
+		Document documento = new Document();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		Document documento = criaNovoDocumento();
+		PdfWriter.getInstance(documento, out);
 		documento.open();
 
 		cabecalhoComDadosGerais(viagem, documento);
@@ -40,12 +44,8 @@ public class CriadorDeRelatorioDeViagem {
 		criaTabelasDeDestinos(viagem.getDestinos(), documento);
 
 		documento.close();
-	}
 
-	private Document criaNovoDocumento() throws DocumentException, FileNotFoundException {
-		Document document = new Document();
-		PdfWriter.getInstance(document, new FileOutputStream(Instant.now().getEpochSecond() + ".pdf"));
-		return document;
+		return out.toByteArray();
 	}
 
 	private void cabecalhoComDadosGerais(Viagem viagem, Document document) throws DocumentException {
@@ -61,16 +61,18 @@ public class CriadorDeRelatorioDeViagem {
 	private Paragraph dadosDaViagem(Viagem viagem) {
 		StringBuilder dadosDaViagem = new StringBuilder()
 				.append("Viagem ID: ").append(viagem.getId()).append("\n")
-				.append("    Saida: ").append(formatarData(viagem.getDatetimeSaida())).append("\n")
-				.append("    Volta: ").append(formatarData(viagem.getDatetimeVolta())).append("\n");
+				.append("    Saida: ").append(formatarData(viagem.getDatetimeSaida())).append("\n");
 		return new Paragraph(dadosDaViagem.toString(), FONT_14);
 	}
 
-	private String formatarData(String data) {
+	private String formatarData(String dataHora) {
 		try {
-			return LocalDateTime.parse(data)
-					.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-		} catch (NullPointerException e) {
+			SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat formatoSaida = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+			Date data = formatoEntrada.parse(dataHora);
+			return formatoSaida.format(data);
+		} catch (NullPointerException | ParseException e) {
 			return "";
 		}
 	}

@@ -1,18 +1,14 @@
 package br.com.transportes.apitransportes.service;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+
+import com.itextpdf.text.DocumentException;
 
 import br.com.transportes.apitransportes.email.EmailService;
 import br.com.transportes.apitransportes.entity.Motorista;
@@ -20,6 +16,7 @@ import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
 import br.com.transportes.apitransportes.mapper.DestinosMapper;
 import br.com.transportes.apitransportes.mapper.ViagensMapper;
+import br.com.transportes.apitransportes.pdf.CriadorDeRelatorioDeViagem;
 import br.com.transportes.apitransportes.repository.MaterialQuantidadeSetorRepository;
 import br.com.transportes.apitransportes.repository.ViagensRepository;
 import br.com.transportes.server.model.Confirmacao;
@@ -155,11 +152,10 @@ public class ViagensService {
 
 	private br.com.transportes.apitransportes.entity.Viagem encontrarViagemPorId(Integer id)
 			throws NumberFormatException {
-		Long idLong = Long.parseLong(String.valueOf(id));
-		return viagensRepository.findById(idLong)
+		return viagensRepository.findById(id)
 				.filter(item -> !item.isExcluido())
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
-						String.format("Viagem com o id: %d não foi encontrada", idLong)));
+						String.format("Viagem com o id: %d não foi encontrada", id)));
 	}
 
 	@Transactional
@@ -169,44 +165,15 @@ public class ViagensService {
 	}
 
 	public InputStreamResource relatorioDeViagem(Integer id) {
-		List<br.com.transportes.apitransportes.entity.Viagem> viagens = viagensRepository.findAll();
-
-		// replace this with your header (if required)
-		String[] headers = { "idItinerario", "Motorista", "Veiculo", "Data de saída", "Data de chegada", "Status",
-				"Encerrada?" };
-
-		// replace this with your data retrieving logic
-		List<List<String>> csvBody = new ArrayList<>();
-
-		viagens.forEach(encontrada -> csvBody.add(Arrays.asList(
-				encontrada.getId().toString(),
-				encontrada.getMotorista().getNome(),
-				encontrada.getVeiculo().getPlaca(),
-				encontrada.getDatetimeSaida(),
-				encontrada.getDatetimeVolta(),
-				encontrada.getStatus().toString(),
-				encontrada.isEncerrado()
-		)));
-
+		final br.com.transportes.apitransportes.entity.Viagem viagem = encontrarViagemPorId(id);
 		ByteArrayInputStream byteArrayOutputStream;
 
-		// closing resources by using a try with resources
-		// https://www.baeldung.com/java-try-with-resources
-		try (
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				// defining the CSV printer
-				CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), CSVFormat.DEFAULT.withHeader(headers));
-		) {
-			// populating the CSV content
-			for (List<String> record : csvBody)
-				csvPrinter.printRecord(record);
-
-			// writing the underlying stream
-			csvPrinter.flush();
-
-			byteArrayOutputStream = new ByteArrayInputStream(out.toByteArray());
-		} catch (IOException e) {
-			throw new RuntimeException(e.getMessage());
+		CriadorDeRelatorioDeViagem criadorDeRelatorio = new CriadorDeRelatorioDeViagem();
+		try {
+			final var out = criadorDeRelatorio.criaRelatorioDeViagem(viagem);
+			byteArrayOutputStream = new ByteArrayInputStream(out);
+		} catch (FileNotFoundException | DocumentException e) {
+			throw new RuntimeException(e);
 		}
 
 		return new InputStreamResource(byteArrayOutputStream);
