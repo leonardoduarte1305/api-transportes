@@ -29,11 +29,11 @@ spring:
     baseline-on-migrate: true
   datasource:
     url: jdbc:${DB_VENDOR}://${DB_HOST}/${DB_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: ${DB_PLATAFORM_DIALECT}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: none

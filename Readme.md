@@ -38,7 +38,7 @@ Na raiz do projeto você encontra o arquivo [compose.env](./compose.env) e dentr
 ### Levante o Postgres primeiramente executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker-compose up -d postgres
+docker-compose up -d postgresql
 ```
 
 <hr>
@@ -48,7 +48,7 @@ docker-compose up -d postgres
 Conecte-se no container do PostgresSQL usando o comando:
 
 ```bash
-docker exec -it $(docker container ls | grep postgres | awk '{print $1}') /bin/bash
+docker exec -it $(docker container ls | grep postgresql | awk '{print $1}') /bin/bash
 ```
 
 Conecte-se no servidor do Postgres digitando:

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import br.com.transportes.apitransportes.entity.Viagem;
 
 @Repository
-public interface ViagensRepository extends JpaRepository<Viagem, Long> {
+public interface ViagensRepository extends JpaRepository<Viagem, Integer> {
 }

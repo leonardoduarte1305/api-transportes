@@ -76,7 +76,7 @@ public class ViagensController implements ViagensApi {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=viagem.csv");
-		headers.set(HttpHeaders.CONTENT_TYPE, "text/csv");
+		headers.set(HttpHeaders.CONTENT_TYPE, "application/pdf");
 
 		return new ResponseEntity<>(inputStreamResource, headers, HttpStatus.OK);
 	}

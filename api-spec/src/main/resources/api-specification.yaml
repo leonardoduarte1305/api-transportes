@@ -620,14 +620,14 @@ paths:
     get:
       operationId: relatorioDeViagem
       summary: relatorioDeViagem
-      description: "Devolve um relatório de destinos para esta viagem específica."
+      description: "Devolve um relatório sobre esta viagem específica."
       tags:
         - Viagens
       responses:
         200:
-          description: "Devolve um relatório de destinos para esta viagem específica."
+          description: "Conteúdo anexado."
           content:
-            text/csv:
+            application/pdf:
               schema:
                 type: object
 
