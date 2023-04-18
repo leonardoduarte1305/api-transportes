@@ -14,6 +14,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
+	<properties>
+		<!--		<download-spec-project.groupId>groupId</download-spec-project.groupId>-->
+		<!--		<download-spec-project.artifactId>artifactId</download-spec-project.artifactId>-->
+		<!--		<download-spec-project.version>0.0.1-SNAPSHOT</download-spec-project.version>-->
+		<!--		<download-spec-project.filename>output.yaml</download-spec-project.filename>-->
+		<!--		<download-spec-project.package>com.company.service.api.client</download-spec-project.package>-->
+	</properties>
+
 	<dependencies>
 		<!-- Our Own Dependencies-->
 		<dependency>
@@ -160,7 +168,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -208,7 +215,7 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
-							<skipTests>true</skipTests>
+							<skipTests>${skipITs}</skipTests>
 						</configuration>
 					</execution>
 				</executions>
@@ -234,6 +241,62 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Download spec and then generate types -->
+			<!--			<plugin>-->
+			<!--				<artifactId>maven-dependency-plugin</artifactId>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<id>download-specs</id>-->
+			<!--						<phase>initialize</phase>-->
+			<!--						<goals>-->
+			<!--							<goal>copy</goal>-->
+			<!--						</goals>-->
+			<!--						<configuration>-->
+			<!--							<artifactItems>-->
+			<!--								<artifactItem>-->
+			<!--									<groupId>${download-spec-project.groupId}</groupId>-->
+			<!--									<artifactId>${download-spec-project.artifactId}</artifactId>-->
+			<!--									<version>${download-spec-project.version}</version>-->
+			<!--									<classifier>openapi</classifier>-->
+			<!--									<type>yaml</type>-->
+			<!--									<destFileName>${download-spec-project.filename}</destFileName>-->
+			<!--								</artifactItem>-->
+			<!--							</artifactItems>-->
+			<!--							<outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
+			<!--						</configuration>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
+			<!--			<plugin>-->
+			<!--				<groupId>org.openapitools</groupId>-->
+			<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<id>Generating Client Artifacts</id>-->
+			<!--						<goals>-->
+			<!--							<goal>generate</goal>-->
+			<!--						</goals>-->
+			<!--						<configuration>-->
+			<!--							<inputSpec>${project.build.outputDirectory}/${download-spec-project.filename}</inputSpec>-->
+			<!--							<generatorName>java</generatorName>-->
+			<!--							<library>resttemplate</library>-->
+			<!--							<generateApiDocumentation>false</generateApiDocumentation>-->
+			<!--							<generateApiTests>false</generateApiTests>-->
+			<!--							<generateModelDocumentation>false</generateModelDocumentation>-->
+			<!--							<generateModelTests>false</generateModelTests>-->
+			<!--							<configOptions>-->
+			<!--								<apiPackage>${download-spec-project.package}</apiPackage>-->
+			<!--								<modelPackage>${download-spec-project.package}.model</modelPackage>-->
+			<!--								<invokePackage>${download-spec-project.package}.invoker</invokePackage>-->
+			<!--								<configurationpackage>${download-spec-project.package}.configuration</configurationpackage>-->
+
+			<!--								<sourceFolder>src/main/java</sourceFolder>-->
+			<!--								<useSpringBoot3>true</useSpringBoot3>-->
+			<!--							</configOptions>-->
+			<!--						</configuration>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
 		</plugins>
 	</build>
 

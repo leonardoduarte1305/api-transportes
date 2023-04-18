@@ -10,7 +10,7 @@
 
 	<name>api-transportes</name>
 	<description>
-		Aplicação completa com especiicacao Openapi e um service que a implementa
+		Aplicação completa com especificacao Openapi e um service que a implementa
 	</description>
 
 	<parent>
@@ -41,22 +41,26 @@
 		<repository>
 			<id>nexus-maven-releases</id>
 			<name>Maven Hosted Releases Repository</name>
-			<url>http://${registry-ip-port}/repository/nexus-maven-releases/</url>
+			<url>http://${registry-ip}:${registry-port}/repository/${maven-releases-repository.name}/</url>
 		</repository>
 		<snapshotRepository>
 			<id>nexus-maven-snapshots</id>
 			<name>Maven Hosted Snapshots Repository</name>
-			<url>http://${registry-ip-port}/repository/nexus-maven-snapshots/</url>
+			<url>http://${registry-ip}:${registry-port}/repository/${maven-snapshots-repository.name}/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<properties>
 		<!-- Personal properties and local configs -->
-		<registry-ip-port>loclhost:8081</registry-ip-port>
+		<scm-provider>git</scm-provider>
 		<scm-username>leonardoduarte1305</scm-username>
 		<repository-name>api-transportes-spec.git</repository-name>
-		<scm-provider>git</scm-provider>
 		<scm-url>https://github.com</scm-url>
+
+		<registry-ip>localhost</registry-ip>
+		<registry-port>8081</registry-port>
+		<maven-releases-repository.name>nexus-maven-releases</maven-releases-repository.name>
+		<maven-snapshots-repository.name>nexus-maven-snapshots</maven-snapshots-repository.name>
 
 		<!-- JDK - JVM - Maven - Configs -->
 		<java.version>17</java.version>
@@ -68,13 +72,18 @@
 		<project.reporting.source>${encoding}</project.reporting.source>
 		<maven.build.indentSize>4</maven.build.indentSize>
 		<maven.deploy.only>false</maven.deploy.only>
-		<maven-release-plugin>3.0.0</maven-release-plugin>
-		<jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
+		<skipITs>true</skipITs>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
-		<!-- Api-Spec Shoul be the same version of the api-spec module -->
+		<!-- Plugins Versions -->
+		<maven-release-plugin>3.0.0</maven-release-plugin>
+		<jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
+		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
+		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+
+		<!-- Api-Spec Should be the same version of the api-spec module -->
 		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 
 		<!-- Dependency Management Versions -->
@@ -88,10 +97,6 @@
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<itextpdf.version>5.5.13.3</itextpdf.version>
-
-		<!-- Plugins Versions -->
-		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
-		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
 
 		<!-- Docker Infos & Properties -->
 		<docker.tag>${project.version}</docker.tag>
