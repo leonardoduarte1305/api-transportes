@@ -14,7 +14,6 @@ import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 public class GrantedAuthoritiesFromClientRolesExtractor implements Converter<Jwt, Collection<GrantedAuthority>> {

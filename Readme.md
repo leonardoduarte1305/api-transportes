@@ -29,7 +29,10 @@
 #### Sistema Windows (utilizando o bash environment)*
 
 ### Informações Úteis
-Na raiz do projeto você encontra o arquivo [compose.env](./compose.env) e dentro dele, na linha 15 a seguinte expressão: `SPRING_MAIL_PASSWORD=` você deve ir no grupo do Teams e copiar de lá o token para o envio de email. Por motivos de segurança ele não é fornecido junto do projeto.
+
+Na raiz do projeto você encontra o arquivo [compose.env](./compose.env) e dentro dele, na linha 15 a seguinte
+expressão: `SPRING_MAIL_PASSWORD=` você deve ir no grupo do Teams e copiar de lá o token para o envio de email. Por
+motivos de segurança ele não é fornecido junto do projeto.
 
 #### *Lembre-se de nunca commitar credenciais. As credenciais já commitadas são exemplos e apenas para desenvolvimento local da aplicação, elas nunca serão usadas em produção.
 
@@ -130,8 +133,8 @@ export $(xargs < .env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw sp
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
 
-
 ```bash
 docker-compose up -d api-transportes
 ```
+
 #### O arquivo compose.env está junto do projeto, porém você deve pegar no grupo do Teams 

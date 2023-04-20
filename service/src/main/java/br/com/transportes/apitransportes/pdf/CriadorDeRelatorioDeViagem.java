@@ -29,6 +29,10 @@ public class CriadorDeRelatorioDeViagem {
 	private static final Font FONT_14 = fontePadraoComTamanhoDe(14);
 	private static final Font FONT_12 = fontePadraoComTamanhoDe(12);
 
+	private static Font fontePadraoComTamanhoDe(int size) {
+		return FontFactory.getFont(FontFactory.COURIER, size, BaseColor.BLACK);
+	}
+
 	// https://kb.itextpdf.com/home/it5kb/examples/cell-and-table-widths
 	// https://vangjee.wordpress.com/2010/11/02/how-to-create-an-in-memory-pdf-report-and-send-as-an-email-attachment-using-itext-and-java/
 	public byte[] criaRelatorioDeViagem(Viagem viagem) throws FileNotFoundException, DocumentException {
@@ -52,10 +56,6 @@ public class CriadorDeRelatorioDeViagem {
 		document.add(dadosDaViagem(viagem));
 		document.add(dadosDoMotorista(viagem.getMotorista()));
 		document.add(dadosDoVeiculo(viagem.getVeiculo()));
-	}
-
-	private static Font fontePadraoComTamanhoDe(int size) {
-		return FontFactory.getFont(FontFactory.COURIER, size, BaseColor.BLACK);
 	}
 
 	private Paragraph dadosDaViagem(Viagem viagem) {
