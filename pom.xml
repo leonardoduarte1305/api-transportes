@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.3</version>
+		<relativePath/>
+		<!-- lookup parent from repository -->
+	</parent>
 
 	<groupId>br.com.transportes</groupId>
 	<artifactId>api-transportes</artifactId>
@@ -12,24 +19,17 @@
 	<description>
 		Aplicação completa com especificacao Openapi e um service que a implementa
 	</description>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
-	<modules>
-		<module>api-spec</module>
-		<module>service</module>
-	</modules>
-
+	<inceptionYear>2023</inceptionYear>
 	<licenses>
 		<license>
 			<name>Software License 1.0</name>
 		</license>
 	</licenses>
+
+	<modules>
+		<module>api-spec</module>
+		<module>service</module>
+	</modules>
 
 	<scm>
 		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}</connection>
@@ -51,9 +51,13 @@
 	</distributionManagement>
 
 	<properties>
-		<!-- Personal properties and local configs -->
+
+		<!-- ===================================================================== -->
+		<!-- =============== Personal properties and Local configs =============== -->
+		<!-- ===================================================================== -->
+
 		<scm-provider>git</scm-provider>
-		<scm-username>leonardoduarte1305</scm-username>
+		<scm-username>${settings-xml.scm-username}</scm-username>
 		<repository-name>api-transportes-spec.git</repository-name>
 		<scm-url>https://github.com</scm-url>
 
@@ -62,34 +66,60 @@
 		<maven-releases-repository.name>nexus-maven-releases</maven-releases-repository.name>
 		<maven-snapshots-repository.name>nexus-maven-snapshots</maven-snapshots-repository.name>
 
-		<!-- JDK - JVM - Maven - Configs -->
+		<!-- ===================================================================== -->
+		<!-- =============================== Build =============================== -->
+		<!-- ===================================================================== -->
+
 		<java.version>17</java.version>
 		<encoding>UTF-8</encoding>
-		<revision>0.0.1-SNAPSHOT</revision>
 
+		<project.build.indentSize>4</project.build.indentSize>
+		<project.build.lineLength>160</project.build.lineLength>
+		<project.build.os>unknown</project.build.os>
+		<project.build.arch>x86_64</project.build.arch>
 		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 		<project.reporting.source>${encoding}</project.reporting.source>
-		<maven.build.indentSize>4</maven.build.indentSize>
-		<maven.deploy.only>false</maven.deploy.only>
-		<skipITs>true</skipITs>
+		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.parameters>true</maven.compiler.parameters>
+		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+		<maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
+		<maven.build.indentSize>4</maven.build.indentSize>
+		<maven.deploy.only>false</maven.deploy.only>
 
-		<!-- Plugins Versions -->
-		<maven-release-plugin>3.0.0</maven-release-plugin>
+		<skipITs>true</skipITs>
+
+		<!-- ===================================================================== -->
+		<!-- ============================= Plugins =============================== -->
+		<!-- ===================================================================== -->
+
+		<maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+		<maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
 		<jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
 		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
-		<maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
 		<com.puppycrawl.tools.checkstyle.version>10.9.3</com.puppycrawl.tools.checkstyle.version>
+		<tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
 
-		<!-- Api-Spec Should be the same version of the api-spec module -->
+		<checkstyle.failOnViolation>true</checkstyle.failOnViolation>
+		<checkstyle.violationSeverity>error</checkstyle.violationSeverity>
+
+		<docker.tag>${project.version}</docker.tag>
+		<docker.final.name>
+			${settings-xml.dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
+		</docker.final.name>
+
+		<!-- ===================================================================== -->
+		<!-- ============================= Libaries ============================== -->
+		<!-- ===================================================================== -->
+
 		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
+		<revision>0.0.1-SNAPSHOT</revision>
 
-		<!-- Dependency Management Versions -->
-		<spring-boot-starter-parent.version>${project.parent.version}</spring-boot-starter-parent.version>
+		<spring-boot-starter-parent.version>3.0.3</spring-boot-starter-parent.version>
 		<jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
 		<springfox-swagger2.version>3.0.0</springfox-swagger2.version>
 		<swagger-annotations.version>2.2.8</swagger-annotations.version>
@@ -100,15 +130,6 @@
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<itextpdf.version>5.5.13.3</itextpdf.version>
 
-		<!-- Docker Infos & Properties -->
-		<docker.tag>${project.version}</docker.tag>
-		<docker.final.name>
-			${dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
-		</docker.final.name>
-
-		<!-- Checkstyle settings -->
-		<checkstyle.failOnViolation>true</checkstyle.failOnViolation>
-		<checkstyle.violationSeverity>error</checkstyle.violationSeverity>
 	</properties>
 
 	<dependencyManagement>
@@ -231,32 +252,6 @@
 					</executions>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>${maven-enforcer-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>Enforce Plugin in Action</id>
-							<goals>
-								<goal>enforce</goal>
-							</goals>
-							<configuration>
-								<rules>
-									<banDuplicatePomDependencyVersions/>
-									<requireMavenVersion>
-										<version>[3.8.5,)</version>
-										<message>Invalid Maven version. It should, at least, be 3.8.5</message>
-									</requireMavenVersion>
-									<requireJavaVersion>
-										<version>[17,)</version>
-										<message>Invalid Java version. It should, at least, be 17</message>
-									</requireJavaVersion>
-								</rules>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>flatten-maven-plugin</artifactId>
 					<version>${flatten-maven-plugin.version}</version>
@@ -288,36 +283,77 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<version>${maven-release-plugin}</version>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>${maven-checkstyle-plugin.version}</version>
-					<configuration>
-						<includeTestSourceDirectory>true</includeTestSourceDirectory>
-						<configLocation>/src/main/checkstyle/checkstyle.xml</configLocation>
-						<suppressionsLocation>/src/main/checkstyle/checkstyle-suppression.xml</suppressionsLocation>
-
-						<!-- This would break DB migrations scripts, hashes already stored in DB instances. -->
-						<violationIgnore>NewlineAtEndOfFile</violationIgnore>
-					</configuration>
-					<executions>
-						<execution>
-							<id>checkstyle</id>
-							<phase>validate</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>${com.puppycrawl.tools.checkstyle.version}</version>
-						</dependency>
-					</dependencies>
-				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>Enforce Plugin in Action</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<banDuplicatePomDependencyVersions/>
+								<requireMavenVersion>
+									<version>[3.8.5,)</version>
+									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>[17,)</version>
+									<message>Invalid Java version. It should, at least, be 17</message>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin.version}</version>
+				<configuration>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<configLocation>/src/main/checkstyle/checkstyle.xml</configLocation>
+					<suppressionsLocation>/src/main/checkstyle/checkstyle-suppression.xml</suppressionsLocation>
+
+					<!-- This would break DB migrations scripts, hashes already stored in DB instances. -->
+					<violationIgnore>NewlineAtEndOfFile</violationIgnore>
+				</configuration>
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${com.puppycrawl.tools.checkstyle.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tidy-maven-plugin</artifactId>
+				<version>${tidy-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>
