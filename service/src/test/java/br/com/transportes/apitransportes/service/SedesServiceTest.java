@@ -20,7 +20,6 @@ import br.com.transportes.apitransportes.entity.Setor;
 import br.com.transportes.apitransportes.entity.Uf;
 import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.entity.Viagem;
-import br.com.transportes.apitransportes.pdf.CriadorDeRelatorioDeViagem;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,10 +37,12 @@ class SedesServiceTest extends HelperGeralParaTestes {
 		Material material2 = criaMaterial(1, "Monitor 24\"", "Monitor 24\" LCD DELL");
 		MaterialQuantidadeSetor materialQuantidadeSetor2 = criaMaterialQuantidadeSetor(2, material2, 3, setor1, null);
 
-		List<MaterialQuantidadeSetor> materiaisQuantidadeSetor = Arrays.asList(materialQuantidadeSetor1, materialQuantidadeSetor2);
+		List<MaterialQuantidadeSetor> materiaisQuantidadeSetor = Arrays.asList(materialQuantidadeSetor1,
+				materialQuantidadeSetor2);
 
 		List<String> inscritos = Arrays.asList("leonardoduarte1305@gmail.com", "leonardoduarte13052@gmail.com");
-		Sede sede = criaSede(1L, "Rua 01", 1234, "88060-000", "Whiterun", Uf.BA, "Procuradoria Geral do Estado", "Sem observações", inscritos);
+		Sede sede = criaSede(1L, "Rua 01", 1234, "88060-000", "Whiterun", Uf.BA, "Procuradoria Geral do Estado",
+				"Sem observações", inscritos);
 
 		Destino destino = criaDestino(1, sede, materiaisQuantidadeSetor, Confirmacao.CONFIRMADO, null, false);
 		materialQuantidadeSetor1.setDestino(destino);
@@ -58,10 +59,12 @@ class SedesServiceTest extends HelperGeralParaTestes {
 		Setor setor3 = criaSetor(3, "Financeiro");
 		MaterialQuantidadeSetor materialQuantidadeSetor4 = criaMaterialQuantidadeSetor(4, material4, 15, setor3, null);
 
-		List<MaterialQuantidadeSetor> materiaisQuantidadeSetor2 = Arrays.asList(materialQuantidadeSetor3, materialQuantidadeSetor4);
+		List<MaterialQuantidadeSetor> materiaisQuantidadeSetor2 = Arrays.asList(materialQuantidadeSetor3,
+				materialQuantidadeSetor4);
 
 		List<String> inscritos2 = Arrays.asList("leopoldojardim@gmail.com");
-		Sede sede2 = criaSede(2L, "Rua 123 de Oliveira 4", 50, "88060-100", "Riften", Uf.SC, "Juizado de Pequenas Causas", "Advogados pilantras", inscritos2);
+		Sede sede2 = criaSede(2L, "Rua 123 de Oliveira 4", 50, "88060-100", "Riften", Uf.SC,
+				"Juizado de Pequenas Causas", "Advogados pilantras", inscritos2);
 
 		Destino destino2 = criaDestino(1, sede2, materiaisQuantidadeSetor2, Confirmacao.CONFIRMADO, null, false);
 		materialQuantidadeSetor3.setDestino(destino2);
@@ -70,13 +73,17 @@ class SedesServiceTest extends HelperGeralParaTestes {
 		// -------------------------------------------------------------------------------------------------------------------
 
 		Motorista motorista = criaMotorista(1, "Leopoldo Jardim", "12345678910", "leopoldojardim@gmail.com");
-		Veiculo veiculo = criaVeiculo(1, 2021, "Toyotabajata", "Hiluxation Plus", new BigDecimal("123456789"), "Grande", "ABC-1234");
+		Veiculo veiculo = criaVeiculo(1, 2021, "Toyotabajata", "Hiluxation Plus", new BigDecimal("123456789"),
+				"Grande",
+				"ABC-1234");
 		String dataSaida = LocalDateTime.now().plusHours(3).toString();
 		String dataVolta = LocalDateTime.now().plusDays(1).toString();
 
-		Viagem viagem = criaViagem(1, motorista, veiculo, List.of(destino, destino2,destino, destino2,destino, destino2,destino, destino2), dataSaida, dataVolta, Math.toIntExact(sede.getId()), Confirmacao.CONFIRMADO, false, false);
+		Viagem viagem = criaViagem(1, motorista, veiculo,
+				List.of(destino, destino2, destino, destino2, destino, destino2, destino, destino2), dataSaida,
+				dataVolta, Math.toIntExact(sede.getId()), Confirmacao.CONFIRMADO, false, false);
 
-//		CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem = new CriadorDeRelatorioDeViagem();
-//		criadorDeRelatorioDeViagem.criaRelatorioDeViagem(viagem);
+		//		CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem = new CriadorDeRelatorioDeViagem();
+		//		criadorDeRelatorioDeViagem.criaRelatorioDeViagem(viagem);
 	}
 }
