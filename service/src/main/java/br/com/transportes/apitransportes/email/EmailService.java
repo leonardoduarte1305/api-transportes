@@ -24,11 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class EmailService {
 
 	final String USERNAME = "apitransportesfloripa@gmail.com";
-
+	private final CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
 	@Autowired
 	private JavaMailSender emailSender;
-
-	private final CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
 
 	public void enviarEmailSimples(String assunto, String mensagem, byte[] anexo, String... destinatarios) {
 		try {
