@@ -126,10 +126,12 @@ public class DestinosService {
 
 		if ("CONFIRMADO".equals(confirmacao.getConfirmacao().toString())) {
 			encontrado.confirmar();
+			destinosRepository.save(encontrado);
+			// TODO fazer o envio do email de confirmação
 		} else {
 			encontrado.desconfirmar();
+			destinosRepository.save(encontrado);
 		}
-		destinosRepository.save(encontrado);
 	}
 
 	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(Integer id) {
