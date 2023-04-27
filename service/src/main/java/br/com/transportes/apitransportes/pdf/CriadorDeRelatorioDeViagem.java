@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Service;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -24,6 +26,7 @@ import br.com.transportes.apitransportes.entity.Motorista;
 import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.entity.Viagem;
 
+@Service
 public class CriadorDeRelatorioDeViagem {
 
 	private static final Font FONT_14 = fontePadraoComTamanhoDe(14);

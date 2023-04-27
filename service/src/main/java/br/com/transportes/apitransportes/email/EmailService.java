@@ -1,14 +1,20 @@
 package br.com.transportes.apitransportes.email;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.itextpdf.text.DocumentException;
+
 import br.com.transportes.apitransportes.entity.Viagem;
+import br.com.transportes.apitransportes.pdf.CriadorDeRelatorioDeViagem;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,15 +28,22 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender emailSender;
 
-	public void enviarEmailSimples(String assunto, String mensagem, String... destinatarios) {
+	private final CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
+
+	public void enviarEmailSimples(String assunto, String mensagem, byte[] anexo, String... destinatarios) {
 		try {
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setFrom(USERNAME);
-			message.setTo(destinatarios);
-			message.setSubject(assunto);
-			message.setText(mensagem);
+			MimeMessage message = emailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setFrom(USERNAME);
+			helper.setTo(destinatarios);
+			helper.setSubject(assunto);
+			helper.setText(mensagem);
+
+			ByteArrayResource documento = new ByteArrayResource(anexo);
+			helper.addAttachment("confirmacao_de_viagem", documento);
+
 			emailSender.send(message);
-		} catch (MailException e) {
+		} catch (MessagingException e) {
 			e.printStackTrace();
 			log.error("Não foi possível enviar o email.");
 		}
@@ -45,7 +58,7 @@ public class EmailService {
 		String[] emails = new String[destinatarios.size()];
 		String[] destinos = destinatarios.toArray(emails);
 
-		enviarEmailSimples(assunto, mensagem, destinos);
+		enviarEmailSimples(assunto, mensagem, new byte[0], destinos);
 	}
 
 	public void enviarConfirmacaoDeViagem(Viagem viagem) {
@@ -56,7 +69,17 @@ public class EmailService {
 				.append("Confira abaixo os dados completos desta viagem.\n\n")
 				.append(viagem).toString();
 
-		enviarEmailSimples(assunto, mensagem, viagem.getMotorista().getEmail());
+		byte[] confirmacao = new byte[0];
+
+		try {
+			confirmacao = criadorDeRelatorioDeViagem.criaRelatorioDeViagem(viagem);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (DocumentException e) {
+			log.error("Relatório não pôde ser criado.");
+		}
+
+		enviarEmailSimples(assunto, mensagem, confirmacao, viagem.getMotorista().getEmail());
 	}
 
 }
