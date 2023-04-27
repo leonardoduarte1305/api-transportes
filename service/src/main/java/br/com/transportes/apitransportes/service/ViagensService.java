@@ -122,11 +122,12 @@ public class ViagensService {
 		if ("CONFIRMADO".equals(confirmacao.getConfirmacao().toString())) {
 			encontrada.confirmar();
 			encontrada.getDestinos().forEach(br.com.transportes.apitransportes.entity.Destino::confirmar);
+			viagensRepository.save(encontrada);
+			emailService.enviarConfirmacaoDeViagem(encontrada);
 		} else {
 			encontrada.desconfirmar();
+			viagensRepository.save(encontrada);
 		}
-		br.com.transportes.apitransportes.entity.Viagem confirmada = viagensRepository.save(encontrada);
-		emailService.enviarConfirmacaoDeViagem(encontrada);
 	}
 
 	public List<Viagem> listarViagens() {
@@ -177,5 +178,9 @@ public class ViagensService {
 		}
 
 		return new InputStreamResource(byteArrayOutputStream);
+	}
+
+	public Viagem trazerViagemPorId(Integer id) {
+		return viagensMapper.toViagemDto(encontrarViagemPorId(id));
 	}
 }

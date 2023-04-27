@@ -531,6 +531,19 @@ paths:
   /viagens/{id}:
     parameters:
       - $ref: '#/components/parameters/id'
+    get:
+      operationId: trazViagemPorId
+      summary: trazViagemPorId
+      description: "Devolve uma viagem específica, selecionando-a pelo seu ID."
+      tags:
+        - Viagens
+      responses:
+        200:
+          description: "Success."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Viagem'
     put:
       operationId: editarViagem
       summary: editarViagem
@@ -730,9 +743,8 @@ components:
           example: "João da Silva"
         carteira:
           type: string
-          description: "Numero da carteira de motorista."
-          pattern: '\d{11}'
-          example: "63365478917"
+          description: "Dados, número, ou tipo da carteira de motorista."
+          example: "Categoria B"
         email:
           type: string
           description: "Email do motorista."

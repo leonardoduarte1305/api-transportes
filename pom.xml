@@ -12,7 +12,7 @@
 
 	<groupId>br.com.transportes</groupId>
 	<artifactId>api-transportes</artifactId>
-	<version>${revision}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>api-transportes</name>
@@ -108,16 +108,16 @@
 		<checkstyle.violationSeverity>error</checkstyle.violationSeverity>
 
 		<docker.tag>${project.version}</docker.tag>
+		<docker.verbose>true</docker.verbose>
 		<docker.final.name>
 			${settings-xml.dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
 		</docker.final.name>
 
 		<!-- ===================================================================== -->
-		<!-- ============================= Libaries ============================== -->
+		<!-- ============================ Libraries ============================== -->
 		<!-- ===================================================================== -->
 
 		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
-		<revision>0.0.1-SNAPSHOT</revision>
 
 		<spring-boot-starter-parent.version>3.0.3</spring-boot-starter-parent.version>
 		<jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>

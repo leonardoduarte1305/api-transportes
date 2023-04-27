@@ -28,7 +28,7 @@ public class ViagensController implements ViagensApi {
 
 	private final ViagensService viagensService;
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Viagem> criarViagem(UpsertViagem upsertViagem) {
 		Viagem viagemSalva = viagensService.upsertViagem(null, upsertViagem);
 		return ResponseEntity.ok(viagemSalva);
@@ -56,6 +56,12 @@ public class ViagensController implements ViagensApi {
 	@Override public ResponseEntity<List<Destino>> trazDestinosDaViagem(Integer id) {
 		List<Destino> destinosDaViagem = viagensService.listarDestinosDaViagem(id);
 		return ResponseEntity.ok(destinosDaViagem);
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+	@Override public ResponseEntity<Viagem> trazViagemPorId(Integer id) {
+		Viagem encontrada = viagensService.trazerViagemPorId(id);
+		return ResponseEntity.ok(encontrada);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
