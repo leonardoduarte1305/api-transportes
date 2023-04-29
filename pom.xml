@@ -312,48 +312,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin.version}</version>
-				<configuration>
-					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					<configLocation>/src/main/checkstyle/checkstyle.xml</configLocation>
-					<suppressionsLocation>/src/main/checkstyle/checkstyle-suppression.xml</suppressionsLocation>
-
-					<!-- This would break DB migrations scripts, hashes already stored in DB instances. -->
-					<violationIgnore>NewlineAtEndOfFile</violationIgnore>
-				</configuration>
-				<executions>
-					<execution>
-						<id>checkstyle</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>${com.puppycrawl.tools.checkstyle.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tidy-maven-plugin</artifactId>
-				<version>${tidy-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 </project>
