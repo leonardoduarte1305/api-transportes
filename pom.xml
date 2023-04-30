@@ -32,11 +32,17 @@
 	</modules>
 
 	<scm>
-		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}</connection>
-		<developerConnection>scm:${scm-provider}:git@github.com:${scm-username}/${repository-name}</developerConnection>
+		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}.git</connection>
+		<developerConnection>
+			scm:${scm-provider}:git@github.com:${scm-username}/${repository-name}.git
+		</developerConnection>
 		<url>${scm-url}/${scm-username}/${repository-name}</url>
 		<tag>${project.version}</tag>
 	</scm>
+	<issueManagement>
+		<system>Github</system>
+		<url>${scm-url}/${scm-username}/${repository-name}/issues</url>
+	</issueManagement>
 	<distributionManagement>
 		<repository>
 			<id>nexus-maven-releases</id>
@@ -58,7 +64,7 @@
 
 		<scm-provider>git</scm-provider>
 		<scm-username>${settings-xml.scm-username}</scm-username>
-		<repository-name>api-transportes-spec.git</repository-name>
+		<repository-name>api-transportes-spec</repository-name>
 		<scm-url>https://github.com</scm-url>
 
 		<registry-ip>localhost</registry-ip>
