@@ -6,16 +6,16 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.3</version>
-		<relativePath/>
+		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>br.com.transportes</groupId>
 	<artifactId>api-transportes</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>${artifactId}</name>
+	<name>${project.artifactId}</name>
 	<description>
 		Aplicação completa com especificacao Openapi e um service que a implementa
 	</description>
@@ -205,7 +205,6 @@
 						</annotationProcessorPaths>
 						<compilerArgs>
 							<arg>-Amapstruct.defaultComponentModel=spring</arg>
-							<arg>-Amapstruct.unmappedTargetPolicy=ERROR</arg>
 						</compilerArgs>
 					</configuration>
 				</plugin>
@@ -288,7 +287,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven-release-plugin}</version>
+					<version>${maven-release-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -305,7 +304,7 @@
 						</goals>
 						<configuration>
 							<rules>
-								<banDuplicatePomDependencyVersions/>
+								<banDuplicatePomDependencyVersions />
 								<requireMavenVersion>
 									<version>[3.8.5,)</version>
 									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
