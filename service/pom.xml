@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>br.com.transportes</groupId>
 		<artifactId>api-transportes</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 
 	<artifactId>service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>br.com.transportes</groupId>
 			<artifactId>api-spec</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 
 		<!-- Springboot Managed Dependencies-->
@@ -222,10 +222,10 @@
 						<configuration>
 							<target>
 								<exec executable="curl">
-									<arg value="-L"/>
-									<arg value="-o"/>
-									<arg value="${project.build.directory}/${download-spec-project.filename}"/>
-									<arg value="${spec-url-to-download}"/>
+									<arg value="-L" />
+									<arg value="-o" />
+									<arg value="${project.build.directory}/${download-spec-project.filename}" />
+									<arg value="${spec-url-to-download}" />
 								</exec>
 							</target>
 						</configuration>
