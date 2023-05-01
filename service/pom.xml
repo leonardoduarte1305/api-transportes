@@ -13,11 +13,15 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<!--		<download-spec-project.groupId>groupId</download-spec-project.groupId>-->
-		<!--		<download-spec-project.artifactId>artifactId</download-spec-project.artifactId>-->
-		<!--		<download-spec-project.version>0.0.1-SNAPSHOT</download-spec-project.version>-->
-		<!--		<download-spec-project.filename>output.yaml</download-spec-project.filename>-->
-		<!--		<download-spec-project.package>com.company.service.api.client</download-spec-project.package>-->
+		<download-spec-project.groupId>groupId</download-spec-project.groupId>
+		<download-spec-project.artifactId>artifactId</download-spec-project.artifactId>
+		<download-spec-project.version>0.0.1-SNAPSHOT</download-spec-project.version>
+
+		<download-spec-project.package>com.company.service.api.client</download-spec-project.package>
+		<download-spec-project.filename>openapi.yaml</download-spec-project.filename>
+		<spec-url-to-download>
+			https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/${download-spec-project.filename}
+		</spec-url-to-download>
 	</properties>
 
 	<dependencies>
@@ -126,6 +130,11 @@
 			<artifactId>itextpdf</artifactId>
 			<version>${itextpdf.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- Dependencias de teste -->
 		<dependency>
@@ -198,7 +207,71 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
 			</plugin>
-			<!-- Download spec and then generate types -->
+			<!-- Download spec using curl command -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>download-spec</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<exec executable="curl">
+									<arg value="-L"/>
+									<arg value="-o"/>
+									<arg value="${project.build.directory}/${download-spec-project.filename}"/>
+									<arg value="${spec-url-to-download}"/>
+								</exec>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>Generating Client Artifacts</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.build.directory}/${download-spec-project.filename}</inputSpec>
+							<generatorName>java</generatorName>
+							<generateApiTests>false</generateApiTests>
+							<generateModelTests>false</generateModelTests>
+							<output>${project.build.directory}/generated-sources/openapi/</output>
+							<configOptions>
+								<useSpringBoot3>true</useSpringBoot3>
+								<library>resttemplate</library>
+								<dateLibrary>java8</dateLibrary>
+								<useJakartaEe>true</useJakartaEe>
+								<interfaceOnly>true</interfaceOnly>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<apiPackage>${download-spec-project.package}</apiPackage>
+								<modelPackage>${download-spec-project.package}.model</modelPackage>
+								<invokePackage>${download-spec-project.package}.invoker</invokePackage>
+								<configurationpackage>${download-spec-project.package}.configuration
+								</configurationpackage>
+
+								<!--Set Springboot version used in generated code (use recent log4j version)-->
+								<parentGroupId>org.springframework.boot</parentGroupId>
+								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
+								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
+							</configOptions>
+							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Download spec using maven-dependency-plugin -->
 			<!--			<plugin>-->
 			<!--				<artifactId>maven-dependency-plugin</artifactId>-->
 			<!--				<executions>-->
@@ -220,36 +293,6 @@
 			<!--								</artifactItem>-->
 			<!--							</artifactItems>-->
 			<!--							<outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--			</plugin>-->
-			<!--			<plugin>-->
-			<!--				<groupId>org.openapitools</groupId>-->
-			<!--				<artifactId>openapi-generator-maven-plugin</artifactId>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<id>Generating Client Artifacts</id>-->
-			<!--						<goals>-->
-			<!--							<goal>generate</goal>-->
-			<!--						</goals>-->
-			<!--						<configuration>-->
-			<!--							<inputSpec>${project.build.outputDirectory}/${download-spec-project.filename}</inputSpec>-->
-			<!--							<generatorName>java</generatorName>-->
-			<!--							<library>resttemplate</library>-->
-			<!--							<generateApiDocumentation>false</generateApiDocumentation>-->
-			<!--							<generateApiTests>false</generateApiTests>-->
-			<!--							<generateModelDocumentation>false</generateModelDocumentation>-->
-			<!--							<generateModelTests>false</generateModelTests>-->
-			<!--							<configOptions>-->
-			<!--								<apiPackage>${download-spec-project.package}</apiPackage>-->
-			<!--								<modelPackage>${download-spec-project.package}.model</modelPackage>-->
-			<!--								<invokePackage>${download-spec-project.package}.invoker</invokePackage>-->
-			<!--								<configurationpackage>${download-spec-project.package}.configuration</configurationpackage>-->
-
-			<!--								<sourceFolder>src/main/java</sourceFolder>-->
-			<!--								<useSpringBoot3>true</useSpringBoot3>-->
-			<!--							</configOptions>-->
 			<!--						</configuration>-->
 			<!--					</execution>-->
 			<!--				</executions>-->
