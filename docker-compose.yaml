@@ -9,8 +9,6 @@ services:
     restart: always
     networks:
       - stm-network
-    depends_on:
-      - backend
 
   backend:
     image: docker.io/leonardoduarte1305/api-transportes-service:noAuth #27-04
@@ -21,8 +19,6 @@ services:
     restart: always
     networks:
       - stm-network
-    depends_on:
-      - keycloak
 
   keycloak:
     image: docker.io/bitnami/keycloak:20
