@@ -15,7 +15,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>api-transportes</name>
+	<name>${artifactId}</name>
 	<description>
 		Aplicação completa com especificacao Openapi e um service que a implementa
 	</description>
@@ -34,7 +34,7 @@
 	<scm>
 		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}.git</connection>
 		<developerConnection>
-			scm:${scm-provider}:git@github.com:${scm-username}/${repository-name}.git
+			scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
 		</developerConnection>
 		<url>${scm-url}/${scm-username}/${repository-name}</url>
 		<tag>${project.version}</tag>
@@ -63,9 +63,10 @@
 		<!-- ===================================================================== -->
 
 		<scm-provider>git</scm-provider>
+		<scm-url>https://github.com</scm-url>
 		<scm-username>${settings-xml.scm-username}</scm-username>
 		<repository-name>api-transportes-spec</repository-name>
-		<scm-url>https://github.com</scm-url>
+		<ssh-scm-connection>git@github.com</ssh-scm-connection>
 
 		<registry-ip>localhost</registry-ip>
 		<registry-port>8081</registry-port>
