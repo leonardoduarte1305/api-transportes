@@ -12,7 +12,7 @@
 
 	<groupId>br.com.transportes</groupId>
 	<artifactId>api-transportes</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.artifactId}</name>
@@ -37,7 +37,7 @@
 			scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
 		</developerConnection>
 		<url>${scm-url}/${scm-username}/${repository-name}</url>
-		<tag>api-transportes-0.0.1</tag>
+		<tag>${project.version}</tag>
 	</scm>
 	<issueManagement>
 		<system>Github</system>
