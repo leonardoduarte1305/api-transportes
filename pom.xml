@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.3</version>
-		<relativePath />
+		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
 
@@ -288,6 +288,10 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>${maven-release-plugin.version}</version>
+					<configuration>
+						<goals>install</goals>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -304,7 +308,7 @@
 						</goals>
 						<configuration>
 							<rules>
-								<banDuplicatePomDependencyVersions />
+								<banDuplicatePomDependencyVersions/>
 								<requireMavenVersion>
 									<version>[3.8.5,)</version>
 									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
