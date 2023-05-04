@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.3</version>
-		<relativePath />
+		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>br.com.transportes</groupId>
 	<artifactId>api-transportes</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.artifactId}</name>
@@ -37,7 +37,7 @@
 			scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
 		</developerConnection>
 		<url>${scm-url}/${scm-username}/${repository-name}</url>
-		<tag>api-transportes-0.0.2</tag>
+		<tag>${project.version}</tag>
 	</scm>
 	<issueManagement>
 		<system>Github</system>
@@ -308,7 +308,7 @@
 						</goals>
 						<configuration>
 							<rules>
-								<banDuplicatePomDependencyVersions />
+								<banDuplicatePomDependencyVersions/>
 								<requireMavenVersion>
 									<version>[3.8.5,)</version>
 									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
