@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>br.com.transportes</groupId>
 		<artifactId>api-transportes</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.4</version>
 	</parent>
 
 	<artifactId>api-spec</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 
 	<properties>
