@@ -23,6 +23,9 @@ tags:
   - name: "Viagens"
     description: "Descreve os endpoints para o gerenciamento das Viagens"
 
+  - name: "Setores"
+    description: "Descreve os endpoints para o gerenciamento das Setores"
+
 servers:
   - url: "http://localhost:8080/"
     description: "Desenvolvimento local"
@@ -643,6 +646,41 @@ paths:
             application/pdf:
               schema:
                 type: object
+
+  /setores:
+    post:
+      operationId: criarSetor
+      summary: criarSetor
+      description: "Cria um setor com base nos dados fornecidos."
+      tags:
+        - Setores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Setor'
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Setor'
+    get:
+      operationId: listaTodosOsSetores
+      summary: listaTodosOsSetores
+      description: "Lista todos os setores ordenados por ID."
+      tags:
+        - Setores
+      responses:
+        200:
+          description: "Accepted"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Setor'
 
 components:
   schemas:
