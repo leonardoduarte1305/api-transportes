@@ -30,23 +30,27 @@
 
 ### Informações Úteis
 
-Na raiz do projeto você encontra o arquivo [compose.env](./compose.env) e dentro dele, na linha 15 a seguinte
-expressão: `SPRING_MAIL_PASSWORD=` você deve ir no grupo do Teams e copiar de lá o token para o envio de email. Por
-motivos de segurança ele não é fornecido junto do projeto.
+Você deve ir no grupo do Teams e baixar de lá o arquivo local.env e colocá-lo na [raiz](./) do projeto.
 
 #### *Lembre-se de nunca commitar credenciais. As credenciais já commitadas são exemplos e apenas para desenvolvimento local da aplicação, elas nunca serão usadas em produção.
 
 ## 2- Levantando os serviços necessários
 
-### Levante o Postgres primeiramente executando na pasta [raiz](./) do projeto:
+### Comece levantando o banco de dados Postgres executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker-compose up -d postgresql
+docker run -d --rm \
+-p 5432:5432 \
+--name postgresql \
+--env-file local.env \
+-v ./dockerVolumes/postgresql:/var/lib/postgresql \
+-v ./dockerVolumes/postgresql/data:/var/lib/postgresql/data \
+postgres:alpine
 ```
 
 <hr>
 
-## 3 - Criando database no PostgreSQL
+## 3 - Crie os databases necessários
 
 Conecte-se no container do PostgresSQL usando o comando:
 
@@ -85,7 +89,12 @@ Para verificar a criação dos databases use:
 ### Levante o Keycloak executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker-compose up -d keycloak
+docker run -d --rm \
+-p 80:8080 \
+--name keycloak \
+-e KEYCLOAK_DATABASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
+--env-file local.env \
+bitnami/keycloak:21
 ```
 
 Acesse http://localhost:80/admin/
@@ -126,15 +135,33 @@ Na Primeira Utilização é necessário criar:
 ### Execute na pasta [raiz](./) o seguinte comando:
 
 ```bash
-export $(xargs < .env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw spring-boot:run
+export $(xargs < local.env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw spring-boot:run
 ```
-
-#### O arquivo .env não está junto do projeto, você deve baixá-lo no grupo do Teams
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
+### Com Autenticação e autorização
+
+**** NÃO FUNCIONANDO ****
+
+
+## 5 - Rodando a imagem de container Docker da Api-Transportes
+### Sem Autenticação e autorização
 
 ```bash
-docker-compose up -d api-transportes
+docker run -d --rm \
+-p 8080:8080 \
+--name api-transportes \
+-e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
+--env-file local.env \
+leonardoduarte1305/api-transportes-service:noAuth-15-05
 ```
 
-#### O arquivo compose.env está junto do projeto, porém você deve pegar no grupo do Teams 
+## 6 - Rodando a imagem de container Docker do Frontend
+
+```bash
+docker run -d --rm \
+-p 4200:80 \
+--name frontend \
+leonardoduarte1305/stm-frontend:15-05
+```
+Acesse http://localhost:4200
