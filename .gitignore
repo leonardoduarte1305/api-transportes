@@ -60,3 +60,4 @@ variaveis_de_ambiente.env
 dummy.*
 *.env
 *.pdf
+/dockerVolumes

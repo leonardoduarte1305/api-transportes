@@ -985,15 +985,13 @@ components:
               example: "44"
     Setor:
       type: object
-      description: "Todas as informacoes necessarias para o agendamento de uma viagem"
-      required:
-        - datetimeSaida
+      description: "Todas as informacoes necessarias para o registro de um setor"
       properties:
         id:
           type: integer
           description: "Id único que identifica o setor."
         nome:
-          type: integer
+          type: string
           description: "Nome do setor."
 
   responses:
