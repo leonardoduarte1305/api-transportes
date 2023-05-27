@@ -818,8 +818,8 @@ components:
           example: "Hyundai"
         placa:
           type: string
-          description: "Placa do veículo, atributo único."
-          pattern: '[A-Z]{3}\d{4}'
+          description: "Placa do veículo, atributo único, padrão Mercosul ou padrão brasileiro anterior."
+          pattern: '[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2}'
         ano:
           type: integer
           description: "Ano de fabricação do veículo."

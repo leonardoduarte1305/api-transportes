@@ -142,6 +142,17 @@ export $(xargs < local.env) && ./mvnw clean install && cd ${PWD}/service && ./mv
 ### Com Autenticação e autorização
 
 **** NÃO FUNCIONANDO ****
+```bash
+docker run -it --rm \
+-p 8080:8080 \
+--name api-transportes \
+-e AUTH_SERVER_URL=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/auth \
+-e TRUSTED_ISSUERS=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes \
+-e JWK_SET_URI=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes/protocol/openid-connect/certs \
+-e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
+--env-file backendlocal.env \
+leonardoduarte1305/api-transportes-service:Auth-15-05
+```
 
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
