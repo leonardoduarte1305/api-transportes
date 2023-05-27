@@ -151,7 +151,7 @@ docker run -it --rm \
 -e JWK_SET_URI=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes/protocol/openid-connect/certs \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file backendlocal.env \
-leonardoduarte1305/api-transportes-service:Auth-15-05
+leonardoduarte1305/api-transportes-service:Auth-27-05
 ```
 
 
@@ -173,6 +173,6 @@ leonardoduarte1305/api-transportes-service:noAuth-15-05
 docker run -d --rm \
 -p 4200:80 \
 --name frontend \
-leonardoduarte1305/stm-frontend:15-05
+leonardoduarte1305/stm-frontend:27-05
 ```
 Acesse http://localhost:4200
