@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.3</version>
-		<relativePath />
+		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
 
@@ -136,6 +136,7 @@
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<itextpdf.version>5.5.13.3</itextpdf.version>
+		<keycloak-admin-client.version>10.0.0</keycloak-admin-client.version>
 
 	</properties>
 
@@ -166,6 +167,11 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-admin-client</artifactId>
+				<version>${keycloak-admin-client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -304,7 +310,7 @@
 						</goals>
 						<configuration>
 							<rules>
-								<banDuplicatePomDependencyVersions />
+								<banDuplicatePomDependencyVersions/>
 								<requireMavenVersion>
 									<version>[3.8.5,)</version>
 									<message>Invalid Maven version. It should, at least, be 3.8.5</message>

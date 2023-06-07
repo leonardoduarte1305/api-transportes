@@ -135,6 +135,10 @@
 			<artifactId>jackson-databind-nullable</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+		</dependency>
 
 		<!-- Dependencias de teste -->
 		<dependency>

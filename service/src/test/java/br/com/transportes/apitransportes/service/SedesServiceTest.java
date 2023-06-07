@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -85,5 +87,152 @@ class SedesServiceTest extends HelperGeralParaTestes {
 
 		//		CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem = new CriadorDeRelatorioDeViagem();
 		//		criadorDeRelatorioDeViagem.criaRelatorioDeViagem(viagem);
+	}
+
+	@Test
+	void forcaBruta1() {
+		/*
+			Força Bruta:
+			a) Exercício 1: Escreva um programa que encontre todos os pares de números em uma lista cuja soma seja
+			igual a um valor fornecido.
+		 */
+		// lista de numeros
+		// parear todas as alternativas
+		// somar os pares
+		// verificar a maior soma dentre elas
+
+		Integer primeiroNumero = 0;
+		Integer segundoNumero = 0;
+		Integer soma = 0;
+
+		Integer valorFornecido = 205;
+
+		Set<Integer> listaDeNumeros = new HashSet<>();
+		for (int index = 0; index < 200; index++) {
+			Integer numero = gerarNumeroAleatorioAte(120);
+			listaDeNumeros.add(numero);
+		}
+
+		for (int normal = 0; normal < listaDeNumeros.size(); normal++) {
+			for (int reverse = listaDeNumeros.size() - 1; reverse >= 0; reverse--) {
+				if (normal == reverse) {
+					break;
+				}
+
+				Integer somados = normal + reverse;
+				if (somados == valorFornecido) {
+					soma = somados;
+					primeiroNumero = normal;
+					segundoNumero = reverse;
+				}
+			}
+		}
+
+		System.err.println("Primeiro Numero: " + primeiroNumero);
+		System.err.println("Segundo Numero: " + segundoNumero);
+		System.err.println("Soma: " + soma);
+
+	}
+
+	@Test
+	void forcaBruta2() {
+		/*
+			Força Bruta:
+			b) Exercício 2: Escreva um programa que encontre a combinação de números em uma lista que maximize a soma,
+			 sem repetir nenhum elemento.
+		 */
+	}
+
+	@Test
+	void dividirEConquistar1() {
+		/*
+			Dividir e Conquistar:
+			a) Exercício 1: Implemente uma função recursiva para calcular o fatorial de um número inteiro.
+		 */
+	}
+
+	@Test
+	void dividirEConquistar2() {
+		/*
+			Dividir e Conquistar:
+			b) Exercício 2: Escreva um algoritmo para encontrar o número máximo em uma matriz 2D dividindo-a em
+			 submatrizes menores.
+		 */
+	}
+
+	@Test
+	void programacaoDinamica1() {
+		/*
+			Programação Dinâmica:
+			a) Exercício 1: Implemente um programa que calcule o n-ésimo número da sequência de Fibonacci usando
+			programação dinâmica.
+		 */
+	}
+
+	@Test
+	void programacaoDinamica2() {
+		/*
+			Programação Dinâmica:
+			b) Exercício 2: Resolva o problema da mochila (knapsack problem) usando programação dinâmica para
+			encontrar a
+			combinação de itens que maximize o valor total sem exceder uma capacidade pré-definida.
+		 */
+	}
+
+	@Test
+	void algoritmosGulosos1() {
+		/*
+			Algoritmos Gulosos:
+			a) Exercício 1: Implemente um algoritmo que encontre a quantidade mínima de moedas para dar o troco em um
+			determinado valor.
+		 */
+	}
+
+	@Test
+	void algoritmosGulosos2() {
+		/*
+			Algoritmos Gulosos:
+			b) Exercício 2: Escreva um programa que encontre a programação de atividades com o maior número possível de
+			tarefas não sobrepostas.
+		 */
+	}
+
+	@Test
+	void backTracking1() {
+		/*
+			Backtracking:
+			a) Exercício 1: Implemente um programa que encontre todas as permutações de uma string fornecida.
+		 */
+	}
+
+	@Test
+	void backTracking2() {
+		/*
+			Backtracking:
+			b) Exercício 2: Resolva o problema das N Rainhas, encontrando todas as configurações válidas do
+			tabuleiro de xadrez com N rainhas sem se atacarem.
+		 */
+	}
+
+	@Test
+	void buscaEmProfundidadeBuscaEmLargura1() {
+		/*
+			Busca em Profundidade (DFS) e Busca em Largura (BFS):
+			a) Exercício 1: Escreva um programa que encontre um caminho de um vértice inicial para um vértice final
+			em um grafo usando busca em profundidade.
+		 */
+	}
+
+	@Test
+	void buscaEmProfundidadeBuscaEmLargura2() {
+		/*
+			Busca em Profundidade (DFS) e Busca em Largura (BFS):
+			b) Exercício 2: Implemente um algoritmo de busca em largura para encontrar o menor caminho entre dois
+			vértices em um grafo.
+		 */
+	}
+
+	private int gerarNumeroAleatorioAte(Integer limiteMaximo) {
+		return Math.toIntExact(Math.round(Math.random() * limiteMaximo));
 	}
 }

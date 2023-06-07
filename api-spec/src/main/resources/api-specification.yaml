@@ -26,6 +26,9 @@ tags:
   - name: "Setores"
     description: "Descreve os endpoints para o gerenciamento das Setores"
 
+  - name: "Usuarios"
+    description: "Descreve os endpoints para o gerenciamento de Usuarios"
+
 servers:
   - url: "http://localhost:8080/"
     description: "Desenvolvimento local"
@@ -682,8 +685,61 @@ paths:
                 items:
                   $ref: '#/components/schemas/Setor'
 
+  /usuarios:
+    post:
+      tags:
+        - Usuarios
+      summary: Cria um novo usuário
+      operationId: criarUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertUsuario'
+        required: true
+      responses:
+        201:
+          description: "Criado"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+
 components:
   schemas:
+
+    Usuario:
+      allOf:
+        - $ref: '#/components/schemas/UpsertUsuario'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: "Atributo que identifica cada usuário de maneira única."
+              example: "22"
+
+    UpsertUsuario:
+      type: object
+      properties:
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          minLength: 1
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - roles
+        - username
+        - password
+
+    Role:
+      type: string
 
     Endereco:
       type: object
