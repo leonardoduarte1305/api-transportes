@@ -10,7 +10,9 @@ import br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor;
 @Repository
 public interface MaterialQuantidadeSetorRepository extends JpaRepository<MaterialQuantidadeSetor, Integer> {
 
-	List<MaterialQuantidadeSetor> findAllByDestino_Id(Integer destinoId);
+	List<MaterialQuantidadeSetor> findAllByDestinoIdIs(Integer destinoId);
+
+	List<MaterialQuantidadeSetor> findAllByDestinoIdIsIn(List<Integer> destinosId);
 
 	void removeAllByDestino_Id(Integer id);
 }
