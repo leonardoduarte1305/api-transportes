@@ -20,11 +20,19 @@ public class MaterialQuantidadeSetorService {
 		return materialQuantidadeSetorRepository.save(entidade);
 	}
 
-	public List<MaterialQuantidadeSetor> findAllByDestino_Id(Integer destinoId) {
-		return materialQuantidadeSetorRepository.findAllByDestino_Id(destinoId);
+	public List<MaterialQuantidadeSetor> findAllByDestinoId(Integer destinoId) {
+		return materialQuantidadeSetorRepository.findAllByDestinoIdIs(destinoId);
+	}
+
+	public List<MaterialQuantidadeSetor> findAllByDestinoIdIsIn(List<Integer> destinosId) {
+		return materialQuantidadeSetorRepository.findAllByDestinoIdIsIn(destinosId);
 	}
 
 	public void removerMateriaisDoDestino(Integer id) {
 		materialQuantidadeSetorRepository.removeAllByDestino_Id(id);
+	}
+
+	public void salvarTodos(List<MaterialQuantidadeSetor> materiaisSalvos) {
+		materialQuantidadeSetorRepository.saveAll(materiaisSalvos);
 	}
 }

@@ -48,7 +48,7 @@ public class Destino {
 	@Enumerated(EnumType.STRING)
 	private Confirmacao status;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "viagem_id")
 	private Viagem viagem;
 
@@ -75,5 +75,9 @@ public class Destino {
 
 	public String statusToString() {
 		return status.getValue();
+	}
+
+	public void adicionarMaterial(MaterialQuantidadeSetor material) {
+		materiaisQntdSetor.add(material);
 	}
 }

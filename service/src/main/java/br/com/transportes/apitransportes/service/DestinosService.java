@@ -2,6 +2,7 @@ package br.com.transportes.apitransportes.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +21,9 @@ import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.UpsertDestino;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DestinosService {
@@ -57,6 +60,7 @@ public class DestinosService {
 
 		br.com.transportes.apitransportes.entity.Destino destinoSalvo = destinosRepository.save(destinoParaSalvar);
 		materiaisSalvos.forEach(item -> item.setDestino(destinoSalvo));
+		materialQuantidadeSetorService.salvarTodos(materiaisSalvos);
 
 		if (!sede.getInscritos().isEmpty()) {
 			emailService.enviarConfirmacaoDeDestino(sede.getNome(), sede.getInscritos());
@@ -112,7 +116,7 @@ public class DestinosService {
 
 	public Destino trazerDestinoPorId(Integer id) {
 		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materialQuantidadeSetors =
-				materialQuantidadeSetorService.findAllByDestino_Id(id);
+				materialQuantidadeSetorService.findAllByDestinoId(id);
 
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
 		destino.setMateriaisQntdSetor(new ArrayList<>());
@@ -136,7 +140,7 @@ public class DestinosService {
 
 	public List<MaterialQuantidadeSetor> trazMateriaisDoDestino(Integer id) {
 		br.com.transportes.apitransportes.entity.Destino destino = encontrarDestinoPorId(id);
-		return materialQuantidadeSetorService.findAllByDestino_Id(Integer.valueOf(id))
+		return materialQuantidadeSetorService.findAllByDestinoId(Integer.valueOf(id))
 				.stream()
 				.map(materialQuantidadeSetorMapper::toMaterialQuantidadeSetorDto)
 				.collect(Collectors.toList());
@@ -158,7 +162,25 @@ public class DestinosService {
 	}
 
 	public List<br.com.transportes.apitransportes.entity.Destino> trazerDestinosDaViagem(Integer id) {
-		return destinosRepository.findAllByViagem_Id(id);
+		List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosRepository.findAllByViagemId(id);
+
+		List<Integer> destinosIds = new ArrayList<>();
+		for (br.com.transportes.apitransportes.entity.Destino destino : destinos) {
+			destinosIds.add(destino.getId());
+		}
+
+		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> materiais =
+				materialQuantidadeSetorService.findAllByDestinoIdIsIn(destinosIds);
+
+		for (br.com.transportes.apitransportes.entity.Destino destino : destinos) {
+			for (br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor material : materiais) {
+				if (Objects.equals(material.getDestino().getId(), destino.getId())) {
+					destino.adicionarMaterial(material);
+				}
+			}
+		}
+
+		return destinos;
 	}
 
 	public void salvarTodos(List<br.com.transportes.apitransportes.entity.Destino> destinos) {
