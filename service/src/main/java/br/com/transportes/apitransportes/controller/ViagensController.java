@@ -53,7 +53,6 @@ public class ViagensController implements ViagensApi {
 		return ResponseEntity.ok(destinosDaViagem);
 	}
 
-	// TODO Traz a lista de destinos VAZIA
 	@Override public ResponseEntity<Viagem> trazViagemPorId(Integer id) {
 		Viagem encontrada = viagensService.trazerViagemPorId(id);
 		return ResponseEntity.ok(encontrada);

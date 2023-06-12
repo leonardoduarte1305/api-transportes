@@ -181,6 +181,10 @@ public class ViagensService {
 	}
 
 	public Viagem trazerViagemPorId(Integer id) {
-		return viagensMapper.toViagemDto(encontrarViagemPorId(id));
+		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
+		List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosService.trazerDestinosDaViagem(id);
+		encontrada.setDestinos(destinos);
+
+		return viagensMapper.toViagemDto(encontrada);
 	}
 }
