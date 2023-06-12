@@ -164,7 +164,7 @@ docker run -d --rm \
 --name api-transportes \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
-leonardoduarte1305/api-transportes-service:noAuth2
+leonardoduarte1305/api-transportes-service:noAuth3
 ```
 
 ## 6 - Rodando a imagem de container Docker do Frontend

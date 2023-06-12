@@ -133,6 +133,13 @@ public class ViagensService {
 	public List<Viagem> listarViagens() {
 		List<br.com.transportes.apitransportes.entity.Viagem> encontradas =
 				viagensRepository.findAll().stream().filter(item -> !item.isExcluido()).toList();
+
+		encontradas.forEach(viagem -> {
+			List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosService.trazerDestinosDaViagem(
+					viagem.getId());
+			viagem.setDestinos(destinos);
+		});
+
 		return encontradas.stream().map(viagensMapper::toViagemDto).collect(Collectors.toList());
 	}
 
