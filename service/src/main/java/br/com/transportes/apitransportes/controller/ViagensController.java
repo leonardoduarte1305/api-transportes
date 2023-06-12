@@ -42,7 +42,6 @@ public class ViagensController implements ViagensApi {
 		return ResponseEntity.noContent().build();
 	}
 
-	// TODO Lista de Viagens vem com suas listas de destinos VAZIAS
 	@Override public ResponseEntity<List<Viagem>> listaTodasViagens() {
 		List<Viagem> encontradas = viagensService.listarViagens();
 		return ResponseEntity.ok(encontradas);
