@@ -993,7 +993,7 @@ components:
           type: integer
           description: "Id único que identifica o setor."
         nome:
-          type: integer
+          type: string
           description: "Nome do setor."
 
   responses:
