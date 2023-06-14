@@ -1,10 +1,8 @@
 package br.com.transportes.apitransportes.entity;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 public enum Confirmacao {
 
 	CONFIRMADO("CONFIRMADO"),

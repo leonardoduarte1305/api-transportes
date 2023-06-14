@@ -174,6 +174,9 @@ public class ViagensService {
 
 	public InputStreamResource relatorioDeViagem(Integer id) {
 		final br.com.transportes.apitransportes.entity.Viagem viagem = encontrarViagemPorId(id);
+		final var destinos = destinosService.trazerDestinosDaViagem(viagem.getId());
+		viagem.setDestinos(destinos);
+
 		ByteArrayInputStream byteArrayOutputStream;
 
 		CriadorDeRelatorioDeViagem criadorDeRelatorio = new CriadorDeRelatorioDeViagem();
