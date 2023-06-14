@@ -164,7 +164,7 @@ docker run -d --rm \
 --name api-transportes \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
-leonardoduarte1305/api-transportes-service:noAuth-15-05
+leonardoduarte1305/api-transportes-service:noAuth-14-06
 ```
 
 ## 6 - Rodando a imagem de container Docker do Frontend
@@ -173,6 +173,6 @@ leonardoduarte1305/api-transportes-service:noAuth-15-05
 docker run -d --rm \
 -p 4200:80 \
 --name frontend \
-leonardoduarte1305/stm-frontend:27-05
+leonardoduarte1305/stm-frontend:14-06
 ```
 Acesse http://localhost:4200
