@@ -29,8 +29,13 @@ public class MaterialQuantidadeSetorService {
 	}
 
 	public void removerMateriaisDoDestino(Integer id) {
-		materialQuantidadeSetorRepository.removeAllByDestino_Id(id);
+		List<MaterialQuantidadeSetor> listaDeMateriais = materialQuantidadeSetorRepository.findAllByDestinoIdIs(id);
+		for (MaterialQuantidadeSetor material : listaDeMateriais) {
+			material.setDestino(null);
+		}
+		materialQuantidadeSetorRepository.saveAll(listaDeMateriais);
 	}
+
 
 	public void salvarTodos(List<MaterialQuantidadeSetor> materiaisSalvos) {
 		materialQuantidadeSetorRepository.saveAll(materiaisSalvos);
