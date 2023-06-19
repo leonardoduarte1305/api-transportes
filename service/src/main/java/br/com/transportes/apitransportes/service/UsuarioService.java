@@ -59,13 +59,13 @@ public class UsuarioService {
 		String token = getBearerTokenComoString();
 		headers.setBearerAuth(token);
 
-		criarUsuario(upsertUsuario, token);
-		RepresentacaoDeUsuarioDoKeycloak usuarioKeycloak = getUsuarioByUsername(upsertUsuario.getUsername(), token);
-		setarSenha(upsertUsuario.getPassword(), usuarioKeycloak.getId(), token);
+		criarUsuario(upsertUsuario);
+		RepresentacaoDeUsuarioDoKeycloak usuarioKeycloak = getUsuarioByUsername(upsertUsuario.getUsername());
+		setarSenha(upsertUsuario.getPassword(), usuarioKeycloak.getId());
 
-		RepresentacaoDeClientDoKeycloak client = getApiTransportesClientInKeycloak(token);
-		Role role = getRoleParaSalvarNoUsuario(upsertUsuario.getRole(), client.getId(), token);
-		setarRoleNoUsuario(usuarioKeycloak.getId(), client.getId(), role, token);
+		RepresentacaoDeClientDoKeycloak client = getApiTransportesClientInKeycloak();
+		Role role = getRoleParaSalvarNoUsuario(upsertUsuario.getRole(), client.getId());
+		setarRoleNoUsuario(usuarioKeycloak.getId(), client.getId(), role);
 	}
 
 	private String getBearerTokenComoString() {
