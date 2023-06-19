@@ -1,50 +1,294 @@
 package br.com.transportes.apitransportes.service;
 
-import org.keycloak.admin.client.CreatedResponseUtil;
-import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.stereotype.Service;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.transportes.apitransportes.entity.keycloak.Access;
+import br.com.transportes.apitransportes.entity.keycloak.CredenciaisDeUsuarioKeycloak;
+import br.com.transportes.apitransportes.entity.keycloak.RepresentacaoDeClientDoKeycloak;
+import br.com.transportes.apitransportes.entity.keycloak.RepresentacaoDeUsuarioDoKeycloak;
+import br.com.transportes.apitransportes.entity.keycloak.Role;
 import br.com.transportes.server.model.UpsertUsuario;
-import br.com.transportes.server.model.Usuario;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-@AllArgsConstructor
+@Slf4j
+@RequiredArgsConstructor
 public class UsuarioService {
 
-	private final UsersResource usersResource;
+	private static final String TOKEN_URL = "http://127.0.0.1/realms/master/protocol/openid-connect/token";
+	private static final String USUARIOS_URL = "http://127.0.0.1/admin/realms/master/users/";
+	private static final String CLIENTS_URL = "http://127.0.0.1/admin/realms/master/clients/";
+	private static final String CLIENTS_NAME = "api-transportes-client";
+	private static final String ADMIN_USERNAME = "admin";
+	private static final String ADMIN_PASSWORD = "admin";
+	private static final String ERRO_DE_PARSE = "Ops, deu erro na hora de parsear o objeto!!!";
+	private RestTemplate restTemplate;
+	private HttpHeaders headers;
 
-	public Usuario upsertUsuario(Integer id, UpsertUsuario upsertUsuario) {
-		String username = upsertUsuario.getUsername();
-		String password = upsertUsuario.getPassword();
-		String email = upsertUsuario.getEmail();
-
-		UserRepresentation userRepresentation = new UserRepresentation();
-		userRepresentation.setEnabled(true);
-		userRepresentation.setUsername(username);
-		userRepresentation.setEmail(email);
-
-		final var response = usersResource.create(userRepresentation);
-		String userId = CreatedResponseUtil.getCreatedId(response);
-
-		CredentialRepresentation credenciaisDeSenha = criarCredenciaisDeSenha(password);
-
-
-//		UserRepresentation user = keycloakService.createUser(
-//				userRepresentation,
-//				password,
-//				mapRolesToRepresentation(roles)
-//		);
-		return null;
+	@PostConstruct
+	private void setUp() {
+		restTemplate = new RestTemplate();
+		headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
 	}
 
-	private static CredentialRepresentation criarCredenciaisDeSenha(String password) {
-		CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
-		credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
-		credentialRepresentation.setValue(password);
-		credentialRepresentation.setTemporary(false);
-		return credentialRepresentation;
+	public void criarUsuarioCompleto(UpsertUsuario upsertUsuario) {
+		String token = getBearerTokenComoString();
+		headers.setBearerAuth(token);
+
+		criarUsuario(upsertUsuario, token);
+		RepresentacaoDeUsuarioDoKeycloak usuarioKeycloak = getUsuarioByUsername(upsertUsuario.getUsername(), token);
+		setarSenha(upsertUsuario.getPassword(), usuarioKeycloak.getId(), token);
+
+		RepresentacaoDeClientDoKeycloak client = getApiTransportesClientInKeycloak(token);
+		Role role = getRoleParaSalvarNoUsuario(upsertUsuario.getRole(), client.getId(), token);
+		setarRoleNoUsuario(usuarioKeycloak.getId(), client.getId(), role, token);
+	}
+
+	private String getBearerTokenComoString() {
+		String response = "";
+
+		try {
+			response = fazLoginComoAdminEDevolveAResposta();
+		} catch (IOException e) {
+			log.error("Ops, deu erro na hora de gerar o token!!!", e);
+		}
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = null;
+
+		try {
+			jsonNode = objectMapper.readTree(response);
+		} catch (JsonProcessingException e) {
+			log.error("Ops, deu erro na hora de parsear o token!!!", e);
+		}
+
+		return jsonNode.get("access_token").asText();
+	}
+
+	private String fazLoginComoAdminEDevolveAResposta() throws IOException {
+		String cookie = "JSESSIONID=FAFD9F4F86E5CC139DA9C63047AC86CC";
+		String data = "grant_type=password&client_id=admin-cli&username=" +
+				ADMIN_USERNAME + "&password=" + ADMIN_PASSWORD;
+		String contentType = "application/x-www-form-urlencoded";
+
+		URL obj = new URL(TOKEN_URL);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Type", contentType);
+		con.setRequestProperty("Cookie", cookie);
+		con.setDoOutput(true);
+
+		con.getOutputStream().write(data.getBytes(StandardCharsets.UTF_8));
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		StringBuilder response = new StringBuilder();
+		String line;
+
+		while ((line = in.readLine()) != null) {
+			response.append(line);
+		}
+
+		in.close();
+
+		return response.toString();
+	}
+
+	private void criarUsuario(UpsertUsuario upsertUsuario) {
+		String requestBody = "";
+		requestBody = parseObjectParaString(getRepresentacaoDeUsuarioKeycloak(upsertUsuario));
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+		ResponseEntity<String> responseEntity =
+				restTemplate.exchange(USUARIOS_URL, HttpMethod.POST, requestEntity, String.class);
+
+		if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
+			log.info("Usuario criado com sucesso.");
+		} else {
+			log.info("Erro ao criar usuário, StatusCode: {}", responseEntity.getStatusCode());
+		}
+	}
+
+	private RepresentacaoDeUsuarioDoKeycloak getUsuarioByUsername(String username) {
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+		ResponseEntity<String> response =
+				restTemplate.exchange(USUARIOS_URL, HttpMethod.GET, requestEntity, String.class);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = null;
+
+		try {
+			jsonNode = objectMapper.readTree(response.getBody());
+		} catch (JsonProcessingException e) {
+			log.error(erroNoParsearOObjeto(), e);
+		}
+
+		for (JsonNode node : jsonNode) {
+			RepresentacaoDeUsuarioDoKeycloak user = objectMapper.convertValue(
+					node,
+					RepresentacaoDeUsuarioDoKeycloak.class);
+
+			if (user.getUsername().equalsIgnoreCase(username)) {
+				return user;
+			}
+		}
+
+		return new RepresentacaoDeUsuarioDoKeycloak();
+	}
+
+	private void setarSenha(String password, String id) {
+		String content = parseObjectParaString(CredenciaisDeUsuarioKeycloak.builder()
+				.temporary(false)
+				.type("password")
+				.value(password)
+				.build());
+		HttpEntity<String> requestEntity = new HttpEntity<>(content, headers);
+
+		ResponseEntity<String> responseEntity = restTemplate.exchange(
+				USUARIOS_URL +
+						id + "/reset-password",
+				HttpMethod.PUT, requestEntity,
+				String.class);
+
+		if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
+			log.info("Senha adicionada com sucesso.");
+		} else {
+			log.error("Erro ao adicionar a senha, StatusCode: {}", responseEntity.getStatusCode());
+		}
+	}
+
+	private String parseObjectParaString(Object objetoParaConverter) {
+		try {
+			return new ObjectMapper().writeValueAsString(objetoParaConverter);
+		} catch (JsonProcessingException e) {
+			log.error("Erro na hora de converter o objeto para String.", e);
+		}
+		return "";
+	}
+
+	private Role getRoleParaSalvarNoUsuario(UpsertUsuario.RoleEnum role, String clientId) {
+		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+		String url = CLIENTS_URL + clientId + "/roles";
+		ResponseEntity<String> response =
+				restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = null;
+
+		try {
+			jsonNode = objectMapper.readTree(response.getBody());
+		} catch (JsonProcessingException e) {
+			log.error(erroNoParsearOObjeto(), e);
+		}
+
+		for (JsonNode node : jsonNode) {
+			Role keycloakRole = objectMapper.convertValue(
+					node,
+					Role.class);
+
+			if (keycloakRole.getName().equalsIgnoreCase(role.toString())) {
+				return keycloakRole;
+			}
+		}
+
+		return new Role();
+	}
+
+	private void setarRoleNoUsuario(String usuarioId, String clientId, Role role) {
+		String requestBody = "";
+		requestBody = parseObjectParaString(Arrays.asList(role));
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+		String url = USUARIOS_URL + usuarioId + "/role-mappings/clients/" + clientId;
+		ResponseEntity<String> responseEntity =
+				restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+		if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
+			log.info("Role associada com sucesso.");
+		} else {
+			log.error("Erro ao associar a role, StatusCode: {}", responseEntity.getStatusCode());
+		}
+	}
+
+	private RepresentacaoDeUsuarioDoKeycloak getRepresentacaoDeUsuarioKeycloak(UpsertUsuario upsertUsuario) {
+		return RepresentacaoDeUsuarioDoKeycloak.builder()
+				.createdTimestamp(Instant.now().getEpochSecond())
+				.username(upsertUsuario.getUsername())
+				.enabled(true)
+				.totp(false)
+				.emailVerified(true)
+				.firstName(upsertUsuario.getNome())
+				.lastName(upsertUsuario.getSobrenome())
+				.email(upsertUsuario.getEmail())
+				.disableableCredentialTypes(new ArrayList<>())
+				.requiredActions(new ArrayList<>())
+				.notBefore(0)
+				.access(Access.builder()
+						.manageGroupMembership(true)
+						.view(true)
+						.mapRoles(true)
+						.impersonate(true)
+						.manage(true)
+						.build())
+				.realmRoles(new ArrayList<>())
+				.build();
+	}
+
+	private RepresentacaoDeClientDoKeycloak getApiTransportesClientInKeycloak() {
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+		ResponseEntity<String> response =
+				restTemplate.exchange(CLIENTS_URL, HttpMethod.GET, requestEntity, String.class);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = null;
+
+		try {
+			jsonNode = objectMapper.readTree(response.getBody());
+		} catch (JsonProcessingException e) {
+			log.error(erroNoParsearOObjeto());
+		}
+
+		for (JsonNode node : jsonNode) {
+			RepresentacaoDeClientDoKeycloak client = objectMapper.convertValue(
+					node,
+					RepresentacaoDeClientDoKeycloak.class);
+
+			if (client.getClientId().equalsIgnoreCase(CLIENTS_NAME)) {
+				return client;
+			}
+		}
+
+		return new RepresentacaoDeClientDoKeycloak();
+	}
+
+	private String erroNoParsearOObjeto() {
+		return ERRO_DE_PARSE;
 	}
 }

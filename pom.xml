@@ -136,7 +136,6 @@
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<itextpdf.version>5.5.13.3</itextpdf.version>
-		<keycloak-admin-client.version>10.0.0</keycloak-admin-client.version>
 
 	</properties>
 
@@ -167,11 +166,6 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.keycloak</groupId>
-				<artifactId>keycloak-admin-client</artifactId>
-				<version>${keycloak-admin-client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

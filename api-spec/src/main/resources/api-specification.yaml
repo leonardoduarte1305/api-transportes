@@ -700,10 +700,6 @@ paths:
       responses:
         201:
           description: "Criado"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'
 
 components:
   schemas:
@@ -721,25 +717,33 @@ components:
     UpsertUsuario:
       type: object
       properties:
-        email:
-          type: string
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-          minLength: 1
         username:
           type: string
+          example: "talita01"
         password:
           type: string
+          example: "abc123"
+        nome:
+          type: string
+          example: "Talita"
+        sobrenome:
+          type: string
+          example: "da Silva"
+        email:
+          type: string
+          example: "meuemail@gmail.com"
+        role:
+          type: string
+          enum:
+            - ADMIN
+            - USER
+          example: "ADMIN"
+
       required:
         - email
         - roles
         - username
         - password
-
-    Role:
-      type: string
 
     Endereco:
       type: object

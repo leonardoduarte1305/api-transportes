@@ -39,12 +39,10 @@ Você deve ir no grupo do Teams e baixar de lá o arquivo local.env e colocá-lo
 ### Comece levantando o banco de dados Postgres executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker run -d --rm \
+docker run -d \
 -p 5432:5432 \
 --name postgresql \
 --env-file local.env \
--v ./dockerVolumes/postgresql:/var/lib/postgresql \
--v ./dockerVolumes/postgresql/data:/var/lib/postgresql/data \
 postgres:alpine
 ```
 
@@ -151,7 +149,7 @@ docker run -it --rm \
 -e JWK_SET_URI=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes/protocol/openid-connect/certs \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file backendlocal.env \
-leonardoduarte1305/api-transportes-service:Auth-27-05
+leonardoduarte1305/api-transportes-service:Auth-18-06
 ```
 
 
@@ -164,7 +162,7 @@ docker run -d --rm \
 --name api-transportes \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
-leonardoduarte1305/api-transportes-service:noAuth-14-06
+leonardoduarte1305/api-transportes-service:noAuth-18-06
 ```
 
 ## 6 - Rodando a imagem de container Docker do Frontend

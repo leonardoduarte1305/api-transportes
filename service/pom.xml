@@ -136,8 +136,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-admin-client</artifactId>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.11.0</version>
 		</dependency>
 
 		<!-- Dependencias de teste -->
@@ -226,10 +227,10 @@
 						<configuration>
 							<target>
 								<exec executable="curl">
-									<arg value="-L" />
-									<arg value="-o" />
-									<arg value="${project.build.directory}/${download-spec-project.filename}" />
-									<arg value="${spec-url-to-download}" />
+									<arg value="-L"/>
+									<arg value="-o"/>
+									<arg value="${project.build.directory}/${download-spec-project.filename}"/>
+									<arg value="${spec-url-to-download}"/>
 								</exec>
 							</target>
 						</configuration>
