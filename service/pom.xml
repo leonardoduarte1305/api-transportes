@@ -22,6 +22,12 @@
 		<spec-url-to-download>
 			https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/${download-spec-project.filename}
 		</spec-url-to-download>
+
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+		<asciidoctorj.version>2.5.8</asciidoctorj.version>
+		<jruby.version>9.4.2.0</jruby.version>
+		<asciidoctorj-diagram.version>2.2.7</asciidoctorj-diagram.version>
+		<asciidoctorj-pdf.version>2.3.7</asciidoctorj-pdf.version>
 	</properties>
 
 	<dependencies>
@@ -71,6 +77,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-resource-server</artifactId>
 		</dependency>
+
 		<!-- Outras dependencias -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -157,6 +164,11 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs-mockmvc</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -180,7 +192,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -191,6 +202,51 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco-maven-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>${asciidoctor-maven-plugin.version}</version>
+				<dependencies>
+					<!-- Comment this section to use the default AsciidoctorJ artifact provided by the plugin -->
+					<dependency>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctorj</artifactId>
+						<version>${asciidoctorj.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<attributes>
+						<sourcedir>${project.build.sourceDirectory}</sourcedir>
+						<project-version>${project.version}</project-version>
+						<project-name>${project.name}</project-name>
+						<imagesdir>${project.build.directory}/generated-docs/images</imagesdir>
+						<imagesoutdir>${project.build.directory}/generated-docs/images</imagesoutdir>
+						<logHandler>
+							<failIf>
+								<severity>WARN</severity>
+							</failIf>
+						</logHandler>
+					</attributes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html</backend>
+							<doctype>book</doctype>
+							<attributes>
+								<snippets>${snippetsDirectory}</snippets>
+							</attributes>
+							<sourceDirectory>src/docs/asciidocs</sourceDirectory>
+							<outputDirectory>target/generated-docs</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

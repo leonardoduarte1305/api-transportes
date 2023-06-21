@@ -1,4 +1,4 @@
-package br.com.transportes.apitransportes.service;
+package br.com.transportes.apitransportes.helper;
 
 import java.math.BigDecimal;
 import java.util.List;
