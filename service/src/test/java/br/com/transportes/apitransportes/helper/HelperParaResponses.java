@@ -3,6 +3,7 @@ package br.com.transportes.apitransportes.helper;
 import br.com.transportes.server.model.Material;
 import br.com.transportes.server.model.Motorista;
 import br.com.transportes.server.model.Sede;
+import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
 
 public class HelperParaResponses {
@@ -50,5 +51,14 @@ public class HelperParaResponses {
 		motorista.setCarteira(carteira);
 		motorista.setEmail(email);
 		return motorista;
+	}
+
+	public Setor criarSetorResponse(
+			Integer id,
+			String nome) {
+		Setor setor = new Setor();
+		setor.setNome(nome);
+		setor.setId(id);
+		return setor;
 	}
 }
