@@ -13,6 +13,4 @@ public interface MaterialQuantidadeSetorRepository extends JpaRepository<Materia
 	List<MaterialQuantidadeSetor> findAllByDestinoIdIs(Integer destinoId);
 
 	List<MaterialQuantidadeSetor> findAllByDestinoIdIsIn(List<Integer> destinosId);
-
-	void removeAllByDestino_Id(Integer id);
 }
