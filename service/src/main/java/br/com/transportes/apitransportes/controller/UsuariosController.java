@@ -23,7 +23,6 @@ public class UsuariosController implements UsuariosApi {
 	private final UsuarioService usuarioService;
 
 	@PreAuthorize("hasRole('ADMIN')")
-
 	@Override public ResponseEntity<Void> criarUsuario(UpsertUsuario upsertUsuario) {
 		usuarioService.criarUsuarioCompleto(upsertUsuario);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

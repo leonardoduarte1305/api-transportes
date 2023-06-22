@@ -5,6 +5,7 @@ import br.com.transportes.server.model.Motorista;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
+import br.com.transportes.server.model.Usuario;
 
 public class HelperParaResponses {
 
@@ -60,5 +61,24 @@ public class HelperParaResponses {
 		setor.setNome(nome);
 		setor.setId(id);
 		return setor;
+	}
+
+	public Usuario criarUsuarioResponse(
+			Integer id,
+			String username,
+			String password,
+			String nome,
+			String sobrenome,
+			String email,
+			Usuario.RoleEnum role) {
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
+		usuario.setNome(nome);
+		usuario.setSobrenome(sobrenome);
+		usuario.setUsername(username);
+		usuario.setEmail(email);
+		usuario.setPassword(password);
+		usuario.setRole(role);
+		return usuario;
 	}
 }

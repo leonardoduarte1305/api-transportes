@@ -65,7 +65,6 @@ class SetoresControllerTest {
 		BDDMockito.given(setoresService.criaSetor(setorRequest)).willReturn(setorResponse);
 
 		String conteudo = objectMapper.writeValueAsString(setorRequest);
-		System.err.println(conteudo);
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
 				.post(SETORES)
 				.contentType(MediaType.APPLICATION_JSON)

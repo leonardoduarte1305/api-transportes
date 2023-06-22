@@ -738,7 +738,6 @@ components:
             - ADMIN
             - USER
           example: "ADMIN"
-
       required:
         - email
         - roles

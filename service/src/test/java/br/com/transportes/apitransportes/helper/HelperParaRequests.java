@@ -5,6 +5,7 @@ import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
 import br.com.transportes.server.model.UpsertMaterial;
 import br.com.transportes.server.model.UpsertSede;
+import br.com.transportes.server.model.UpsertUsuario;
 
 public class HelperParaRequests {
 
@@ -52,5 +53,22 @@ public class HelperParaRequests {
 		Setor setor = new Setor();
 		setor.setNome(nome);
 		return setor;
+	}
+
+	public UpsertUsuario criarUpsertUsuario(
+			String username,
+			String password,
+			String nome,
+			String sobrenome,
+			String email,
+			UpsertUsuario.RoleEnum role) {
+		UpsertUsuario usuario = new UpsertUsuario();
+		usuario.setNome(nome);
+		usuario.setSobrenome(sobrenome);
+		usuario.setUsername(username);
+		usuario.setEmail(email);
+		usuario.setPassword(password);
+		usuario.setRole(role);
+		return usuario;
 	}
 }
