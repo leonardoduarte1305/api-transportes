@@ -1,6 +1,7 @@
 package br.com.transportes.apitransportes.helper;
 
 import br.com.transportes.server.model.Uf;
+import br.com.transportes.server.model.UpsertMaterial;
 import br.com.transportes.server.model.UpsertSede;
 
 public class HelperParaRequests {
@@ -22,5 +23,14 @@ public class HelperParaRequests {
 		sede.setCidade(cidade);
 		sede.setObservacao(observacao);
 		return sede;
+	}
+
+	public UpsertMaterial criarUpsertMaterial(
+			String nome,
+			String descricao) {
+		br.com.transportes.server.model.UpsertMaterial material = new UpsertMaterial();
+		material.setNome(nome);
+		material.setDescricao(descricao);
+		return material;
 	}
 }

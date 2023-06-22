@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.helper;
 
+import br.com.transportes.server.model.Material;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Uf;
 
@@ -24,5 +25,16 @@ public class HelperParaResponses {
 		sede.setCidade(cidade);
 		sede.setObservacao(observacao);
 		return sede;
+	}
+
+	public Material criarMaterialResponse(
+			Integer id,
+			String nome,
+			String descricao) {
+		br.com.transportes.server.model.Material material = new Material();
+		material.setId(id);
+		material.setNome(nome);
+		material.setDescricao(descricao);
+		return material;
 	}
 }
