@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.helper;
 
+import br.com.transportes.server.model.AtributosMotorista;
 import br.com.transportes.server.model.Uf;
 import br.com.transportes.server.model.UpsertMaterial;
 import br.com.transportes.server.model.UpsertSede;
@@ -32,5 +33,16 @@ public class HelperParaRequests {
 		material.setNome(nome);
 		material.setDescricao(descricao);
 		return material;
+	}
+
+	public AtributosMotorista criarAtributosMotorista(
+			String nome,
+			String carteira,
+			String email) {
+		AtributosMotorista atributosMotorista = new AtributosMotorista();
+		atributosMotorista.setNome(nome);
+		atributosMotorista.setCarteira(carteira);
+		atributosMotorista.setEmail(email);
+		return atributosMotorista;
 	}
 }

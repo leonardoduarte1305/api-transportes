@@ -1,6 +1,7 @@
 package br.com.transportes.apitransportes.helper;
 
 import br.com.transportes.server.model.Material;
+import br.com.transportes.server.model.Motorista;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Uf;
 
@@ -36,5 +37,18 @@ public class HelperParaResponses {
 		material.setNome(nome);
 		material.setDescricao(descricao);
 		return material;
+	}
+
+	public Motorista criarMotoristaResponse(
+			Integer id,
+			String nome,
+			String carteira,
+			String email) {
+		Motorista motorista = new Motorista();
+		motorista.setId(id);
+		motorista.setNome(nome);
+		motorista.setCarteira(carteira);
+		motorista.setEmail(email);
+		return motorista;
 	}
 }
