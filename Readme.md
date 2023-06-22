@@ -38,12 +38,20 @@ Você deve ir no grupo do Teams e baixar de lá o arquivo local.env e colocá-lo
 
 ### Comece levantando o banco de dados Postgres executando na pasta [raiz](./) do projeto:
 
+Use este comando uma vez apenas.
+
 ```bash
 docker run -d \
 -p 5432:5432 \
 --name postgresql \
 --env-file local.env \
 postgres:alpine
+```
+
+Para iniciar novamente o postgres utilize:
+
+```bash
+docker start postgresql
 ```
 
 <hr>
@@ -102,10 +110,6 @@ Acesse http://localhost:80/admin/
 
 Na Primeira Utilização é necessário criar:
 
-    Realm:  Clique no dropdown à esquerda e em Create Realm
-            Preencha o Realm name: api-transportes
-            Clique em Create
-
     Client: Clique em Clients e em Create Client
             Preencha o Client ID: api-transportes-client
             Crie uma descrição se desejar
@@ -137,23 +141,23 @@ export $(xargs < local.env) && ./mvnw clean install && cd ${PWD}/service && ./mv
 ```
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
+
 ### Com Autenticação e autorização
 
-**** NÃO FUNCIONANDO ****
 ```bash
-docker run -it --rm \
+docker run -d --rm \
 -p 8080:8080 \
 --name api-transportes \
 -e AUTH_SERVER_URL=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/auth \
 -e TRUSTED_ISSUERS=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes \
 -e JWK_SET_URI=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes/protocol/openid-connect/certs \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
---env-file backendlocal.env \
-leonardoduarte1305/api-transportes-service:Auth-18-06
+--env-file local.env \
+leonardoduarte1305/api-transportes-service:Auth-21-06
 ```
 
-
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
+
 ### Sem Autenticação e autorização
 
 ```bash
@@ -171,6 +175,7 @@ leonardoduarte1305/api-transportes-service:noAuth-18-06
 docker run -d --rm \
 -p 4200:80 \
 --name frontend \
-leonardoduarte1305/stm-frontend:14-06
+leonardoduarte1305/stm-frontend:21-06
 ```
+
 Acesse http://localhost:4200
