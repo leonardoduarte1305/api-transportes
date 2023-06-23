@@ -1,8 +1,15 @@
-# Api-Transportes
+### Desenvolvedores:
+
+- [Danilo de Jesus Santos](https://www.linkedin.com/in/danilo-jesus-santos/) - danilojesus4847@gmail.com
+- [Gabriel Eduardo dos Santos Garbin](https://www.linkedin.com/in/gabriel-eduardo-sg/) - gabriel.garbin09@gmail.com
+- [Gustavo Cardoso da Costa](https://www.linkedin.com/in/gustavo-cardosodacosta/) - gustavocardosodacosta2@gmail.com
+- [Leonardo Gonçalves Duarte da Silva](https://www.linkedin.com/in/leonardoduarte1305/) - leonardoduarte1305@gmail.com
 
 <hr>
 
-# Overview
+# Api-Transportes - Backend
+
+## Overview
 
 ### O projeto está separado em dois módulos:
 
@@ -30,9 +37,8 @@
 
 ### Informações Úteis
 
-Você deve ir no grupo do Teams e baixar de lá o arquivo local.env e colocá-lo na [raiz](./) do projeto.
-
-#### *Lembre-se de nunca commitar credenciais. As credenciais já commitadas são exemplos e apenas para desenvolvimento local da aplicação, elas nunca serão usadas em produção.
+- Você deve criar um arquivo chamado local.env e colocá-lo na [raiz](./) do projeto. As variáveis de ambiente
+  necessárias se encontram no final deste arquivo de Readme.
 
 ## 2- Levantando os serviços necessários
 
@@ -142,22 +148,6 @@ export $(xargs < local.env) && ./mvnw clean install && cd ${PWD}/service && ./mv
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
 
-### Com Autenticação e autorização
-
-```bash
-docker run -d --rm \
--p 8080:8080 \
---name api-transportes \
--e AUTH_SERVER_URL=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/auth \
--e TRUSTED_ISSUERS=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes \
--e JWK_SET_URI=http://$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep keycloak | awk '{print $1}')):80/realms/api-transportes/protocol/openid-connect/certs \
--e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
---env-file local.env \
-leonardoduarte1305/api-transportes-service:Auth-21-06
-```
-
-## 5 - Rodando a imagem de container Docker da Api-Transportes
-
 ### Sem Autenticação e autorização
 
 ```bash
@@ -179,3 +169,48 @@ leonardoduarte1305/stm-frontend:21-06
 ```
 
 Acesse http://localhost:4200
+
+- O repositório do frontend desenvolvido em Angular pode ser encontrado
+  em: [stm.senac](https://github.com/Danilo4847/stm.senac)
+
+Variáveis de ambiente necessárias para toda a plataforma STM, você precisa modificar os valores de acordo com o seu
+cenário:
+
+```
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=senhaSegura
+DB_DATABASE=apitransportes
+DB_HOST=localhost
+DB_PORT=5432
+DB_VENDOR=postgresql
+
+SPRING_MAIL_HOST=smtp.gmail.com
+SPRING_MAIL_PORT=587
+SPRING_MAIL_USERNAME=email-exemplo@gmail.com
+SPRING_MAIL_PASSWORD=umaSenhaMuitoSegura
+
+ACTIVE_PROFILE=production
+SERVER_PORT=8080
+
+CLIENT_NAME=nosso-keycloak-client
+REALM_NAME=master
+AUTH_PROVIDER_HOST=localhost
+TRUSTED_ISSUERS=http://localhost/realms/master
+JWK_SET_URI=http://localhost/realms/master/protocol/openid-connect/certs
+
+KEYCLOAK_ADMIN_USER=admin
+KEYCLOAK_ADMIN_PASSWORD=admin
+KEYCLOAK_MANAGEMENT_USER=manager
+KEYCLOAK_MANAGEMENT_PASSWORD=manager
+
+KEYCLOAK_DATABASE_USER=postgres
+KEYCLOAK_DATABASE_PASSWORD=senhaSegura
+KEYCLOAK_DATABASE_NAME=bitnami_keycloak
+KEYCLOAK_DATABASE_HOST=localhost
+KEYCLOAK_DATABASE_PORT=5432
+KEYCLOAK_DATABASE_VENDOR=postgresql
+
+AUTH_SERVER_URL=http://localhost:80/auth
+```
+
+Qualquer dúvida entre em contato.
