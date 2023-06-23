@@ -16,7 +16,11 @@ import br.com.transportes.apitransportes.entity.Viagem;
 
 public class HelperGeralParaTestes {
 
-	protected Motorista criaMotorista(Integer id, String nome, String carteira, String email) {
+	protected Motorista criaMotorista(
+			Integer id,
+			String nome,
+			String carteira,
+			String email) {
 		return Motorista.builder()
 				.id(id)
 				.nome(nome)
@@ -25,8 +29,14 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Veiculo criaVeiculo(Integer id, Integer ano, String marca, String modelo, BigDecimal renavan,
-			String tamanho, String placa) {
+	protected Veiculo criaVeiculo(
+			Integer id,
+			Integer ano,
+			String marca,
+			String modelo,
+			BigDecimal renavan,
+			String tamanho,
+			String placa) {
 		return Veiculo.builder()
 				.id(id)
 				.ano(ano)
@@ -38,7 +48,14 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Sede criaSede(Long id, String rua, Integer numero, String cep, String cidade, Uf uf, String nome,
+	protected Sede criaSede(
+			Long id,
+			String rua,
+			Integer numero,
+			String cep,
+			String cidade,
+			Uf uf,
+			String nome,
 			String observacao,
 			List<String> inscritos) {
 		return Sede.builder()
@@ -54,7 +71,10 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Material criaMaterial(Integer id, String nome, String descricao) {
+	protected Material criaMaterial(
+			Integer id,
+			String nome,
+			String descricao) {
 		return Material.builder()
 				.id(id)
 				.nome(nome)
@@ -62,15 +82,21 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Setor criaSetor(Integer id, String nome) {
+	protected Setor criaSetor(
+			Integer id,
+			String nome) {
 		return Setor.builder()
 				.id(id)
 				.nome(nome)
 				.build();
 	}
 
-	protected MaterialQuantidadeSetor criaMaterialQuantidadeSetor(Integer id, Material material, Integer quantidade
-			, Setor setor, Destino destino) {
+	protected MaterialQuantidadeSetor criaMaterialQuantidadeSetor(
+			Integer id,
+			Material material,
+			Integer quantidade,
+			Setor setor,
+			Destino destino) {
 		return MaterialQuantidadeSetor.builder()
 				.id(id)
 				.material(material)
@@ -80,8 +106,13 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Destino criaDestino(Integer id, Sede sede, List<MaterialQuantidadeSetor> materialQuantidadeSetor,
-			Confirmacao status, Viagem viagem, boolean excluido) {
+	protected Destino criaDestino(
+			Integer id,
+			Sede sede,
+			List<MaterialQuantidadeSetor> materialQuantidadeSetor,
+			Confirmacao status,
+			Viagem viagem,
+			boolean excluido) {
 		return Destino.builder()
 				.id(id)
 				.sede(sede)
@@ -92,8 +123,16 @@ public class HelperGeralParaTestes {
 				.build();
 	}
 
-	protected Viagem criaViagem(Integer id, Motorista motorista, Veiculo veiculo, List<Destino> destinos,
-			String dateTimeSaida, String dateTimeVolta, Integer sede, Confirmacao status, boolean excluido,
+	protected Viagem criaViagem(
+			Integer id,
+			Motorista motorista,
+			Veiculo veiculo,
+			List<Destino> destinos,
+			String dateTimeSaida,
+			String dateTimeVolta,
+			Integer sede,
+			Confirmacao status,
+			boolean excluido,
 			boolean encerrado) {
 		return Viagem.builder()
 				.id(id)

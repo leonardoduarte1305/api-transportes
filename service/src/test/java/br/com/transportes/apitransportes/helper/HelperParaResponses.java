@@ -7,7 +7,6 @@ import br.com.transportes.server.model.Motorista;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
-import br.com.transportes.server.model.Usuario;
 import br.com.transportes.server.model.Veiculo;
 
 public class HelperParaResponses {
@@ -21,27 +20,25 @@ public class HelperParaResponses {
 			Uf uf,
 			String rua,
 			Integer numero) {
-		br.com.transportes.server.model.Sede sede = new Sede();
-		sede.setId(id);
-		sede.setUf(uf);
-		sede.setRua(rua);
-		sede.setCep(cep);
-		sede.setNome(nome);
-		sede.setNumero(numero);
-		sede.setCidade(cidade);
-		sede.setObservacao(observacao);
-		return sede;
+		return new Sede()
+				.id(id)
+				.uf(uf)
+				.rua(rua)
+				.cep(cep)
+				.nome(nome)
+				.numero(numero)
+				.cidade(cidade)
+				.observacao(observacao);
 	}
 
 	public Material criarMaterialResponse(
 			Integer id,
 			String nome,
 			String descricao) {
-		br.com.transportes.server.model.Material material = new Material();
-		material.setId(id);
-		material.setNome(nome);
-		material.setDescricao(descricao);
-		return material;
+		return new Material()
+				.id(id)
+				.nome(nome)
+				.descricao(descricao);
 	}
 
 	public Motorista criarMotoristaResponse(
@@ -49,40 +46,19 @@ public class HelperParaResponses {
 			String nome,
 			String carteira,
 			String email) {
-		Motorista motorista = new Motorista();
-		motorista.setId(id);
-		motorista.setNome(nome);
-		motorista.setCarteira(carteira);
-		motorista.setEmail(email);
-		return motorista;
+		return new Motorista()
+				.id(id)
+				.nome(nome)
+				.carteira(carteira)
+				.email(email);
 	}
 
 	public Setor criarSetorResponse(
 			Integer id,
 			String nome) {
-		Setor setor = new Setor();
-		setor.setNome(nome);
-		setor.setId(id);
-		return setor;
-	}
-
-	public Usuario criarUsuarioResponse(
-			Integer id,
-			String username,
-			String password,
-			String nome,
-			String sobrenome,
-			String email,
-			Usuario.RoleEnum role) {
-		Usuario usuario = new Usuario();
-		usuario.setId(id);
-		usuario.setNome(nome);
-		usuario.setSobrenome(sobrenome);
-		usuario.setUsername(username);
-		usuario.setEmail(email);
-		usuario.setPassword(password);
-		usuario.setRole(role);
-		return usuario;
+		return new Setor()
+				.id(id)
+				.nome(nome);
 	}
 
 	public Veiculo criarVeiculoResponse(
@@ -93,8 +69,8 @@ public class HelperParaResponses {
 			Integer ano,
 			BigDecimal renavan,
 			String tamanho) {
-		return new Veiculo().
-				id(id)
+		return new Veiculo()
+				.id(id)
 				.modelo(modelo)
 				.marca(marca)
 				.placa(placa)

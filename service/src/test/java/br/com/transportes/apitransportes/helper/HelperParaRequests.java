@@ -20,42 +20,38 @@ public class HelperParaRequests {
 			Uf uf,
 			String rua,
 			Integer numero) {
-		br.com.transportes.server.model.UpsertSede sede = new UpsertSede();
-		sede.setUf(uf);
-		sede.setRua(rua);
-		sede.setCep(cep);
-		sede.setNome(nome);
-		sede.setNumero(numero);
-		sede.setCidade(cidade);
-		sede.setObservacao(observacao);
-		return sede;
+		return new UpsertSede()
+				.uf(uf)
+				.rua(rua)
+				.cep(cep)
+				.nome(nome)
+				.numero(numero)
+				.cidade(cidade)
+				.observacao(observacao);
 	}
 
 	public UpsertMaterial criarUpsertMaterial(
 			String nome,
 			String descricao) {
-		br.com.transportes.server.model.UpsertMaterial material = new UpsertMaterial();
-		material.setNome(nome);
-		material.setDescricao(descricao);
-		return material;
+		return new UpsertMaterial()
+				.nome(nome)
+				.descricao(descricao);
 	}
 
 	public AtributosMotorista criarAtributosMotorista(
 			String nome,
 			String carteira,
 			String email) {
-		AtributosMotorista atributosMotorista = new AtributosMotorista();
-		atributosMotorista.setNome(nome);
-		atributosMotorista.setCarteira(carteira);
-		atributosMotorista.setEmail(email);
-		return atributosMotorista;
+		return new AtributosMotorista()
+				.nome(nome)
+				.carteira(carteira)
+				.email(email);
 	}
 
 	public Setor criarSetor(
 			String nome) {
-		Setor setor = new Setor();
-		setor.setNome(nome);
-		return setor;
+		return new Setor()
+				.nome(nome);
 	}
 
 	public UpsertUsuario criarUpsertUsuario(
@@ -65,14 +61,13 @@ public class HelperParaRequests {
 			String sobrenome,
 			String email,
 			UpsertUsuario.RoleEnum role) {
-		UpsertUsuario usuario = new UpsertUsuario();
-		usuario.setNome(nome);
-		usuario.setSobrenome(sobrenome);
-		usuario.setUsername(username);
-		usuario.setEmail(email);
-		usuario.setPassword(password);
-		usuario.setRole(role);
-		return usuario;
+		return new UpsertUsuario()
+				.nome(nome)
+				.sobrenome(sobrenome)
+				.username(username)
+				.email(email)
+				.password(password)
+				.role(role);
 	}
 
 	public UpsertVeiculo criarUpsertVeiculo(
