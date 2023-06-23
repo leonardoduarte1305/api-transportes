@@ -1,10 +1,13 @@
 package br.com.transportes.apitransportes.helper;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import br.com.transportes.server.model.AtributosMotorista;
+import br.com.transportes.server.model.MaterialQuantidadeSetor;
 import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
+import br.com.transportes.server.model.UpsertDestino;
 import br.com.transportes.server.model.UpsertMaterial;
 import br.com.transportes.server.model.UpsertSede;
 import br.com.transportes.server.model.UpsertUsuario;
@@ -84,5 +87,23 @@ public class HelperParaRequests {
 				.ano(ano)
 				.renavan(renavan)
 				.tamanho(tamanho);
+	}
+
+	public MaterialQuantidadeSetor criarMaterialQuantidadeSetor(
+			Integer materialId,
+			Integer quantidade,
+			Integer setorDestino) {
+		return new MaterialQuantidadeSetor()
+				.materialId(materialId)
+				.quantidade(quantidade)
+				.setorDestino(setorDestino);
+	}
+
+	public UpsertDestino criarUpsertDestino(
+			Integer sedeId,
+			List<MaterialQuantidadeSetor> materialQntSetorLista) {
+		return new UpsertDestino()
+				.sedeId(sedeId)
+				.materiaisQntdSetor(materialQntSetorLista);
 	}
 }
