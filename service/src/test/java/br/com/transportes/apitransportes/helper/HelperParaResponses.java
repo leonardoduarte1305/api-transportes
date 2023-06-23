@@ -1,11 +1,14 @@
 package br.com.transportes.apitransportes.helper;
 
+import java.math.BigDecimal;
+
 import br.com.transportes.server.model.Material;
 import br.com.transportes.server.model.Motorista;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
 import br.com.transportes.server.model.Usuario;
+import br.com.transportes.server.model.Veiculo;
 
 public class HelperParaResponses {
 
@@ -80,5 +83,23 @@ public class HelperParaResponses {
 		usuario.setPassword(password);
 		usuario.setRole(role);
 		return usuario;
+	}
+
+	public Veiculo criarVeiculoResponse(
+			Integer id,
+			String modelo,
+			String marca,
+			String placa,
+			Integer ano,
+			BigDecimal renavan,
+			String tamanho) {
+		return new Veiculo().
+				id(id)
+				.modelo(modelo)
+				.marca(marca)
+				.placa(placa)
+				.ano(ano)
+				.renavan(renavan)
+				.tamanho(tamanho);
 	}
 }
