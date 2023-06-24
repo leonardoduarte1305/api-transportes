@@ -12,6 +12,7 @@ import br.com.transportes.server.model.UpsertMaterial;
 import br.com.transportes.server.model.UpsertSede;
 import br.com.transportes.server.model.UpsertUsuario;
 import br.com.transportes.server.model.UpsertVeiculo;
+import br.com.transportes.server.model.UpsertViagem;
 
 public class HelperParaRequests {
 
@@ -105,5 +106,21 @@ public class HelperParaRequests {
 		return new UpsertDestino()
 				.sedeId(sedeId)
 				.materiaisQntdSetor(materialQntSetorLista);
+	}
+
+	public UpsertViagem criarUpsertViagem(
+			Integer motoristaId,
+			Integer veiculoId,
+			List<Integer> destinos,
+			String datetimeSaida,
+			String datetimeVolta,
+			Integer sedeId) {
+		return new UpsertViagem()
+				.motoristaId(motoristaId)
+				.veiculoId(veiculoId)
+				.destinos(destinos)
+				.datetimeSaida(datetimeSaida)
+				.datetimeVolta(datetimeVolta)
+				.sede(sedeId);
 	}
 }

@@ -12,6 +12,7 @@ import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Setor;
 import br.com.transportes.server.model.Uf;
 import br.com.transportes.server.model.Veiculo;
+import br.com.transportes.server.model.Viagem;
 
 public class HelperParaResponses {
 
@@ -99,5 +100,23 @@ public class HelperParaResponses {
 			Confirmacao.ConfirmacaoEnum confirmacao) {
 		return new Confirmacao()
 				.confirmacao(confirmacao);
+	}
+
+	public Viagem criarViagem(
+			Integer id,
+			Integer motoristaId,
+			Integer veiculoId,
+			List<Integer> destinos,
+			String datetimeSaida,
+			String datetimeVolta,
+			Integer sedeId) {
+		return new Viagem()
+				.id(id)
+				.motoristaId(motoristaId)
+				.veiculoId(veiculoId)
+				.destinos(destinos)
+				.datetimeSaida(datetimeSaida)
+				.datetimeVolta(datetimeVolta)
+				.sede(sedeId);
 	}
 }

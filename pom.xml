@@ -135,6 +135,7 @@
 		<mapstruct.version>1.5.3.Final</mapstruct.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
+		<commons-io.version>2.13.0</commons-io.version>
 		<itextpdf.version>5.5.13.3</itextpdf.version>
 
 	</properties>
