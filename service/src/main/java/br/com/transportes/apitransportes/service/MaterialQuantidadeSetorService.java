@@ -36,7 +36,6 @@ public class MaterialQuantidadeSetorService {
 		materialQuantidadeSetorRepository.saveAll(listaDeMateriais);
 	}
 
-
 	public void salvarTodos(List<MaterialQuantidadeSetor> materiaisSalvos) {
 		materialQuantidadeSetorRepository.saveAll(materiaisSalvos);
 	}

@@ -632,7 +632,7 @@ paths:
               $ref: '#/components/schemas/Encerramento'
       responses:
         200:
-          description: "Viagem foi confirmada."
+          description: "Viagem foi encerrada."
   /viagens/{id}/exportar:
     parameters:
       - $ref: '#/components/parameters/id'
