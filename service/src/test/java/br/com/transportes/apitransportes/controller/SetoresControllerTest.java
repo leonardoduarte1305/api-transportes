@@ -58,9 +58,9 @@ class SetoresControllerTest {
 	@Test
 	void criarSetor() throws Exception {
 
-		br.com.transportes.server.model.Setor setorRequest = helperParaRequests.criarSetor("Financeiro");
+		Setor setorRequest = helperParaRequests.criarSetor("Financeiro");
 
-		br.com.transportes.server.model.Setor setorResponse = helperParaResponses.criarSetorResponse(1, "Financeiro");
+		Setor setorResponse = helperParaResponses.criarSetorResponse(1, "Financeiro");
 
 		BDDMockito.given(setoresService.criaSetor(setorRequest)).willReturn(setorResponse);
 
@@ -81,9 +81,9 @@ class SetoresControllerTest {
 	@Test
 	void listaTodosOsSetores() throws Exception {
 
-		br.com.transportes.server.model.Setor setorAResponse = helperParaResponses.criarSetorResponse(1, "Financeiro");
+		Setor setorAResponse = helperParaResponses.criarSetorResponse(1, "Financeiro");
 
-		br.com.transportes.server.model.Setor setorBResponse = helperParaResponses.criarSetorResponse(2, "Diretoria");
+		Setor setorBResponse = helperParaResponses.criarSetorResponse(2, "Diretoria");
 
 		List<Setor> listaDeSetores = Arrays.asList(setorAResponse, setorBResponse);
 		BDDMockito.given(setoresService.listaTodosOsSetores()).willReturn(listaDeSetores);

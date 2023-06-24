@@ -28,6 +28,7 @@ import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.helper.HelperParaResponses;
 import br.com.transportes.apitransportes.service.MateriaisService;
 import br.com.transportes.server.model.Material;
+import br.com.transportes.server.model.UpsertMaterial;
 
 @ExtendWith({ SpringExtension.class })
 @WebMvcTest(MaterialController.class)
@@ -58,10 +59,10 @@ class MaterialControllerTest {
 	@Test
 	void criarMaterial() throws Exception {
 
-		br.com.transportes.server.model.UpsertMaterial materialRequest = helperParaRequests.criarUpsertMaterial(
+		UpsertMaterial materialRequest = helperParaRequests.criarUpsertMaterial(
 				"Monitor de 24 DELL", "Lindo monitor de 24 polegadas");
 
-		br.com.transportes.server.model.Material materialResponse = helperParaResponses.criarMaterialResponse(
+		Material materialResponse = helperParaResponses.criarMaterialResponse(
 				2, "Monitor de 24 DELL", "Lindo monitor de 24 polegadas");
 
 		BDDMockito.given(materiaisService.upsertMaterial(null, materialRequest)).willReturn(materialResponse);
@@ -84,11 +85,11 @@ class MaterialControllerTest {
 	@Test
 	void editarCadastroMaterial() throws Exception {
 
-		br.com.transportes.server.model.UpsertMaterial materialRequest = helperParaRequests.criarUpsertMaterial(
+		UpsertMaterial materialRequest = helperParaRequests.criarUpsertMaterial(
 				"Monitor de 24 DELL", "Lindo monitor de 24 polegadas");
 
 		Integer idMaterial = 2;
-		br.com.transportes.server.model.Material materialResponse = helperParaResponses.criarMaterialResponse(
+		Material materialResponse = helperParaResponses.criarMaterialResponse(
 				idMaterial, "Cadeira de balanço", "Linda cadeira de balanço de vime");
 
 		BDDMockito.given(materiaisService.upsertMaterial(idMaterial, materialRequest)).willReturn(materialResponse);
@@ -119,10 +120,10 @@ class MaterialControllerTest {
 	@Test
 	void listaTodosMateriaisCadastrados() throws Exception {
 
-		br.com.transportes.server.model.Material materialAResponse = helperParaResponses.criarMaterialResponse(
+		Material materialAResponse = helperParaResponses.criarMaterialResponse(
 				1, "Monitor de 24 DELL", "Lindo monitor de 24 polegadas");
 
-		br.com.transportes.server.model.Material materialBResponse = helperParaResponses.criarMaterialResponse(
+		Material materialBResponse = helperParaResponses.criarMaterialResponse(
 				2, "Cadeira de balanço", "Linda cadeira de balanço de vime");
 
 		List<Material> listaMateriais = Arrays.asList(materialAResponse, materialBResponse);
@@ -149,7 +150,7 @@ class MaterialControllerTest {
 	void trazMaterialPorId() throws Exception {
 
 		Integer idMaterial = 1;
-		br.com.transportes.server.model.Material materialResponse = helperParaResponses.criarMaterialResponse(
+		Material materialResponse = helperParaResponses.criarMaterialResponse(
 				idMaterial, "Cadeira de balanço", "Linda cadeira de balanço de vime");
 
 		BDDMockito.given(materiaisService.trazerMaterialPorId(idMaterial)).willReturn(materialResponse);

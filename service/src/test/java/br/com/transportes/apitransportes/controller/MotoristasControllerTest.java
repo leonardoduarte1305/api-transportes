@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.helper.HelperParaResponses;
 import br.com.transportes.apitransportes.service.MotoristasService;
+import br.com.transportes.server.model.AtributosMotorista;
 import br.com.transportes.server.model.Motorista;
 
 @ExtendWith({ SpringExtension.class })
@@ -59,11 +60,11 @@ class MotoristasControllerTest {
 	@Test
 	void criarMotorista() throws Exception {
 
-		br.com.transportes.server.model.AtributosMotorista motoristaRequest =
+		AtributosMotorista motoristaRequest =
 				helperParaRequests.criarAtributosMotorista(
 						"Ayrton Senna", "123456789", "ayrton_senna@stm.com");
 
-		br.com.transportes.server.model.Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
+		Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
 				1, "Ayrton Senna", "123456789", "ayrton_senna@stm.com");
 
 		BDDMockito.given(motoristasService.upsertMotorista(null, motoristaRequest)).willReturn(motoristaResponse);
@@ -87,12 +88,12 @@ class MotoristasControllerTest {
 	@Test
 	void editarMotorista() throws Exception {
 
-		br.com.transportes.server.model.AtributosMotorista motoristaRequest =
+		AtributosMotorista motoristaRequest =
 				helperParaRequests.criarAtributosMotorista(
 						"Jacques Villeneuve", "987654321", "jacques_villeneuve@stm.com");
 
 		Integer idMotorista = 1;
-		br.com.transportes.server.model.Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
+		Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
 				idMotorista, "Jacques Villeneuve", "987654321", "jacques_villeneuve@stm.com");
 
 		BDDMockito.given(motoristasService.upsertMotorista(idMotorista, motoristaRequest))
@@ -124,10 +125,10 @@ class MotoristasControllerTest {
 	@Test
 	void listaTodosMotoristas() throws Exception {
 
-		br.com.transportes.server.model.Motorista motoristaAResponse = helperParaResponses.criarMotoristaResponse(1,
+		Motorista motoristaAResponse = helperParaResponses.criarMotoristaResponse(1,
 				"Ayrton Senna", "123456789", "ayrton_senna@stm.com");
 
-		br.com.transportes.server.model.Motorista motoristaBResponse = helperParaResponses.criarMotoristaResponse(
+		Motorista motoristaBResponse = helperParaResponses.criarMotoristaResponse(
 				2, "Jacques Villeneuve", "987654321", "jacques_villeneuve@stm.com");
 
 		List<Motorista> listaDeMotoristas = Arrays.asList(motoristaAResponse, motoristaBResponse);
@@ -156,7 +157,7 @@ class MotoristasControllerTest {
 	void trazMotoristaPorId() throws Exception {
 
 		Integer idMotorista = 1;
-		br.com.transportes.server.model.Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
+		Motorista motoristaResponse = helperParaResponses.criarMotoristaResponse(
 				idMotorista, "Ayrton Senna", "123456789", "ayrton_senna@stm.com");
 
 		BDDMockito.given(motoristasService.trazerMotoristaPorId(idMotorista)).willReturn(motoristaResponse);

@@ -28,7 +28,9 @@ import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.helper.HelperParaResponses;
 import br.com.transportes.apitransportes.service.DestinosService;
 import br.com.transportes.server.model.Confirmacao;
+import br.com.transportes.server.model.Destino;
 import br.com.transportes.server.model.MaterialQuantidadeSetor;
+import br.com.transportes.server.model.UpsertDestino;
 
 @ExtendWith({ SpringExtension.class })
 @WebMvcTest(DestinosController.class)
@@ -61,15 +63,15 @@ class DestinosControllerTest {
 	@Test
 	void criarDestino() throws Exception {
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetor =
+		MaterialQuantidadeSetor materialQntSetor =
 				helperParaRequests.criarMaterialQuantidadeSetor(3, 10, 4);
 
 		Integer sedeId = 1;
-		br.com.transportes.server.model.UpsertDestino destinoRequest = helperParaRequests.
+		UpsertDestino destinoRequest = helperParaRequests.
 				criarUpsertDestino(sedeId, List.of(materialQntSetor));
 
 		Confirmacao confirmacao = helperParaResponses.criarConfirmacao(Confirmacao.ConfirmacaoEnum.CONFIRMADO);
-		br.com.transportes.server.model.Destino destinoResponse =
+		Destino destinoResponse =
 				helperParaResponses.criarDestino(2, sedeId, confirmacao, List.of(materialQntSetor));
 
 		BDDMockito.given(destinosService.upsertDestino(null, destinoRequest)).willReturn(destinoResponse);
@@ -99,19 +101,19 @@ class DestinosControllerTest {
 	@Test
 	void editarDestino() throws Exception {
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetorA =
+		MaterialQuantidadeSetor materialQntSetorA =
 				helperParaRequests.criarMaterialQuantidadeSetor(1, 5, 2);
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetorB =
+		MaterialQuantidadeSetor materialQntSetorB =
 				helperParaRequests.criarMaterialQuantidadeSetor(3, 2, 2);
 
 		Integer sedeId = 1;
-		br.com.transportes.server.model.UpsertDestino destinoRequest = helperParaRequests.
+		UpsertDestino destinoRequest = helperParaRequests.
 				criarUpsertDestino(sedeId, List.of(materialQntSetorA, materialQntSetorB));
 
 		Integer destinoId = 2;
 		Confirmacao confirmacao = helperParaResponses.criarConfirmacao(Confirmacao.ConfirmacaoEnum.CONFIRMADO);
-		br.com.transportes.server.model.Destino destinoResponse =
+		Destino destinoResponse =
 				helperParaResponses.criarDestino(destinoId, sedeId, confirmacao,
 						List.of(materialQntSetorA, materialQntSetorB));
 
@@ -156,12 +158,12 @@ class DestinosControllerTest {
 	@Test
 	void trazDestinoPorId() throws Exception {
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetor =
+		MaterialQuantidadeSetor materialQntSetor =
 				helperParaRequests.criarMaterialQuantidadeSetor(1, 5, 2);
 
 		Integer destinoId = 2;
 		Confirmacao confirmacao = helperParaResponses.criarConfirmacao(Confirmacao.ConfirmacaoEnum.CONFIRMADO);
-		br.com.transportes.server.model.Destino destinoResponse =
+		Destino destinoResponse =
 				helperParaResponses.criarDestino(destinoId, 1, confirmacao, List.of(materialQntSetor));
 
 		BDDMockito.given(destinosService.trazerDestinoPorId(destinoId)).willReturn(destinoResponse);
@@ -189,10 +191,10 @@ class DestinosControllerTest {
 	@Test
 	void trazMateriaisDoDestino() throws Exception {
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetorA =
+		MaterialQuantidadeSetor materialQntSetorA =
 				helperParaRequests.criarMaterialQuantidadeSetor(1, 5, 2);
 
-		br.com.transportes.server.model.MaterialQuantidadeSetor materialQntSetorB =
+		MaterialQuantidadeSetor materialQntSetorB =
 				helperParaRequests.criarMaterialQuantidadeSetor(2, 10, 3);
 
 		Integer destinoId = 2;

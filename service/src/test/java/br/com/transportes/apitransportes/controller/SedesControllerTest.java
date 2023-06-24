@@ -30,6 +30,7 @@ import br.com.transportes.apitransportes.helper.HelperParaResponses;
 import br.com.transportes.apitransportes.service.SedesService;
 import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Uf;
+import br.com.transportes.server.model.UpsertSede;
 
 @ExtendWith({ SpringExtension.class })
 @WebMvcTest(SedesController.class)
@@ -60,10 +61,10 @@ class SedesControllerTest {
 
 	@Test
 	void criarSede() throws Exception {
-		br.com.transportes.server.model.UpsertSede sedeRequest = helperParaRequests.criarUpsertSede("Sede Campeche",
+		UpsertSede sedeRequest = helperParaRequests.criarUpsertSede("Sede Campeche",
 				"88063-100", "Florianópolis", "Uma sede na praia", Uf.SC, "Rua do Gramal", 1234);
 
-		br.com.transportes.server.model.Sede sedeResponse = helperParaResponses.criarSedeResponse(1, "Sede Campeche",
+		Sede sedeResponse = helperParaResponses.criarSedeResponse(1, "Sede Campeche",
 				"88063-100", "Florianópolis", "Uma sede na praia", Uf.SC, "Rua do Gramal", 1234);
 
 		BDDMockito.given(sedesService.upsertSede(null, sedeRequest)).willReturn(sedeResponse);
@@ -89,11 +90,11 @@ class SedesControllerTest {
 
 	@Test
 	void editarSede() throws Exception {
-		br.com.transportes.server.model.UpsertSede sedeRequest = helperParaRequests.criarUpsertSede("Sede Campeche",
+		UpsertSede sedeRequest = helperParaRequests.criarUpsertSede("Sede Campeche",
 				"88063-100", "Florianópolis", "Uma sede na praia", Uf.SC, "Rua do Gramal", 1234);
 
 		Integer idSede = 2;
-		br.com.transportes.server.model.Sede sedeResponse = helperParaResponses.criarSedeResponse(idSede, "Sede UFSC",
+		Sede sedeResponse = helperParaResponses.criarSedeResponse(idSede, "Sede UFSC",
 				"88040-600", "Florianópolis", "Uma na esquerda", Uf.SC, "Rua Capitão Romualdo de Barros",
 				500);
 
@@ -128,10 +129,10 @@ class SedesControllerTest {
 	@Test
 	void listarTodasAsSedes() throws Exception {
 
-		br.com.transportes.server.model.Sede sedeAResponse = helperParaResponses.criarSedeResponse(1, "Sede Campeche",
+		Sede sedeAResponse = helperParaResponses.criarSedeResponse(1, "Sede Campeche",
 				"88063-100", "Florianópolis", "Uma sede na praia", Uf.SC, "Rua do Gramal", 1234);
 
-		br.com.transportes.server.model.Sede sedeBResponse = helperParaResponses.criarSedeResponse(2, "Sede UFSC",
+		Sede sedeBResponse = helperParaResponses.criarSedeResponse(2, "Sede UFSC",
 				"88040-600", "Florianópolis", "Uma na esquerda", Uf.SC, "Rua Capitão Romualdo de Barros",
 				500);
 
@@ -168,7 +169,7 @@ class SedesControllerTest {
 	void trazSedePorId() throws Exception {
 
 		Integer idSede = 2;
-		br.com.transportes.server.model.Sede sedeResponse = helperParaResponses.criarSedeResponse(idSede, "Sede UFSC",
+		Sede sedeResponse = helperParaResponses.criarSedeResponse(idSede, "Sede UFSC",
 				"88040-600", "Florianópolis", "Uma na esquerda", Uf.SC, "Rua Capitão Romualdo de Barros",
 				500);
 

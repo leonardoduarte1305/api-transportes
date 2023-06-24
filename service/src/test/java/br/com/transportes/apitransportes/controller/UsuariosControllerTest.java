@@ -50,7 +50,7 @@ class UsuariosControllerTest {
 	@Test
 	void criarUsuario() throws Exception {
 
-		br.com.transportes.server.model.UpsertUsuario usuarioRequest = helperParaRequests.criarUpsertUsuario(
+		UpsertUsuario usuarioRequest = helperParaRequests.criarUpsertUsuario(
 				"username", "password", "nome", "sobrenome", "email", UpsertUsuario.RoleEnum.ADMIN);
 
 		String conteudo = objectMapper.writeValueAsString(usuarioRequest);

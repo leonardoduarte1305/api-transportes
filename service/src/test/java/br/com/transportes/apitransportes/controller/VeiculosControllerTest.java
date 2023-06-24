@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.helper.HelperParaResponses;
 import br.com.transportes.apitransportes.service.VeiculosService;
+import br.com.transportes.server.model.UpsertVeiculo;
 import br.com.transportes.server.model.Veiculo;
 
 @ExtendWith({ SpringExtension.class })
@@ -60,10 +61,10 @@ class VeiculosControllerTest {
 	@Test
 	void criarVeiculo() throws Exception {
 
-		br.com.transportes.server.model.UpsertVeiculo veiculoRequest = helperParaRequests.criarUpsertVeiculo(
+		UpsertVeiculo veiculoRequest = helperParaRequests.criarUpsertVeiculo(
 				"modelo", "marca", "QJA-5023", 2023, BigDecimal.valueOf(1234567890), "tamanho");
 
-		br.com.transportes.server.model.Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
+		Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
 				1, "modelo", "marca", "QJA-5023", 2023, BigDecimal.valueOf(1234567890), "tamanho");
 
 		BDDMockito.given(veiculosService.upsertVeiculo(null, veiculoRequest)).willReturn(veiculoResponse);
@@ -90,11 +91,11 @@ class VeiculosControllerTest {
 	@Test
 	void editarVeiculo() throws Exception {
 
-		br.com.transportes.server.model.UpsertVeiculo veiculoRequest = helperParaRequests.criarUpsertVeiculo(
+		UpsertVeiculo veiculoRequest = helperParaRequests.criarUpsertVeiculo(
 				"HB20", "Hyundai", "QHQ-6364", 2012, BigDecimal.valueOf(1987654321), "Pequeno");
 
 		Integer idVeiculo = 2;
-		br.com.transportes.server.model.Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
+		Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
 				idVeiculo, "T40", "JAC", "QJA-5023", 2018, BigDecimal.valueOf(1234567890), "Médio");
 
 		BDDMockito.given(veiculosService.upsertVeiculo(idVeiculo, veiculoRequest)).willReturn(veiculoResponse);
@@ -128,10 +129,10 @@ class VeiculosControllerTest {
 	@Test
 	void listaTodosVeiculos() throws Exception {
 
-		br.com.transportes.server.model.Veiculo veiculoAResponse = helperParaResponses.criarVeiculoResponse(
+		Veiculo veiculoAResponse = helperParaResponses.criarVeiculoResponse(
 				1, "HB20", "Hyundai", "QHQ-6364", 2012, BigDecimal.valueOf(1987654321), "Pequeno");
 
-		br.com.transportes.server.model.Veiculo veiculoBResponse = helperParaResponses.criarVeiculoResponse(
+		Veiculo veiculoBResponse = helperParaResponses.criarVeiculoResponse(
 				2, "T40", "JAC", "QJA-5023", 2018, BigDecimal.valueOf(1234567890), "Médio");
 
 		List<Veiculo> listaDeVeiculos = Arrays.asList(veiculoAResponse, veiculoBResponse);
@@ -165,7 +166,7 @@ class VeiculosControllerTest {
 	void trazVeiculoPorId() throws Exception {
 
 		Integer idVeiculo = 2;
-		br.com.transportes.server.model.Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
+		Veiculo veiculoResponse = helperParaResponses.criarVeiculoResponse(
 				idVeiculo, "T40", "JAC", "QJA-5023", 2018, BigDecimal.valueOf(1234567890), "Médio");
 
 		BDDMockito.given(veiculosService.trazerVeiculoPorId(idVeiculo)).willReturn(veiculoResponse);
