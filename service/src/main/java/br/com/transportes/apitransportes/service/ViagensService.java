@@ -152,7 +152,6 @@ public class ViagensService {
 		br.com.transportes.apitransportes.entity.Viagem encontrada = encontrarViagemPorId(id);
 
 		if ("ENCERRAR".equals(encerramento.getEncerrado().toString())) {
-			log.error("VIAGEM ID: {} ENCERRAR ==========================", id);
 			encontrada.encerrar();
 			viagensRepository.save(encontrada);
 		}
