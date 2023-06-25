@@ -1,10 +1,15 @@
 package br.com.transportes.apitransportes.service;
 
+import static br.com.transportes.apitransportes.helper.Constantes.CONFIRMADO;
+import static br.com.transportes.apitransportes.helper.Constantes.MOTORISTA_ID;
+import static br.com.transportes.apitransportes.helper.Constantes.NAO_CONFIRMADO;
+import static br.com.transportes.apitransportes.helper.Constantes.SEDE_ID;
+import static br.com.transportes.apitransportes.helper.Constantes.VEICULO_ID;
+import static br.com.transportes.apitransportes.helper.Constantes.VIAGEM_ID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,35 +31,21 @@ import br.com.transportes.apitransportes.FullApiImplApplication;
 import br.com.transportes.apitransportes.email.EmailService;
 import br.com.transportes.apitransportes.entity.Confirmacao;
 import br.com.transportes.apitransportes.entity.Destino;
-import br.com.transportes.apitransportes.entity.Material;
-import br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor;
 import br.com.transportes.apitransportes.entity.Motorista;
-import br.com.transportes.apitransportes.entity.Sede;
-import br.com.transportes.apitransportes.entity.Setor;
-import br.com.transportes.apitransportes.entity.Uf;
 import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.entity.Viagem;
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
+import br.com.transportes.apitransportes.helper.HelperGeral;
 import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.mapper.DestinosMapper;
 import br.com.transportes.apitransportes.mapper.ViagensMapper;
 import br.com.transportes.apitransportes.pdf.CriadorDeRelatorioDeViagem;
-import br.com.transportes.apitransportes.repository.MaterialQuantidadeSetorRepository;
 import br.com.transportes.apitransportes.repository.ViagensRepository;
 import br.com.transportes.server.model.Encerramento;
 import br.com.transportes.server.model.UpsertViagem;
-import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest(classes = FullApiImplApplication.class)
-@Slf4j
 class ViagensServiceTest {
-
-	private static final Integer MOTORISTA_ID = 37;
-	private static final Integer VEICULO_ID = 44;
-	private static final Integer SEDE_ID = 25;
-	private static final Integer VIAGEM_ID = 94;
-	private String CONFIRMADO = "CONFIRMADO";
-	private String NAO_CONFIRMADO = "NAO_CONFIRMADO";
 
 	@Autowired
 	ViagensService viagensService;
@@ -75,13 +67,20 @@ class ViagensServiceTest {
 	@Mock
 	CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
 
+	HelperGeral helper;
+
+	@BeforeEach
+	void setUp() {
+		helper = new HelperGeral();
+	}
+
 	@Test
 	void deveEncontrarUmaViagemPorId() {
 		String datetimeSaida = LocalDateTime.now().toString();
 		String datetimeVolta = LocalDateTime.now().plusHours(8).toString();
 
-		Destino destino = criarDestinoCompleto();
-		Viagem viagem = criarViagemCompleta(destino, datetimeSaida, datetimeVolta, Confirmacao.NAO_CONFIRMADO);
+		Destino destino = helper.criarDestinoCompleto();
+		Viagem viagem = helper.criarViagemCompleta(destino, datetimeSaida, datetimeVolta, Confirmacao.NAO_CONFIRMADO);
 
 		Mockito.when(viagensRepository.findById(VIAGEM_ID)).thenReturn(Optional.ofNullable(viagem));
 		Mockito.when(destinosService.trazerDestinosDaViagem(VIAGEM_ID)).thenReturn(Arrays.asList(destino));
@@ -133,8 +132,8 @@ class ViagensServiceTest {
 	@Test
 	void emiteRelatorioDeViagemComSucesso() throws DocumentException, IOException {
 
-		Destino destino = criarDestinoCompleto();
-		Viagem viagem = criarViagemCompleta(destino);
+		Destino destino = helper.criarDestinoCompleto();
+		Viagem viagem = helper.criarViagemCompleta(destino);
 
 		byte[] relatorioBytes = "Relatório de Viagem".getBytes();
 
@@ -147,8 +146,8 @@ class ViagensServiceTest {
 
 	@Test
 	void deveTrazerUmaViagemQuandoUmaDeDuasEstaExcluida() {
-		Destino destino = criarDestinoCompleto();
-		Viagem viagemNaoExluida = criarViagemCompleta(destino);
+		Destino destino = helper.criarDestinoCompleto();
+		Viagem viagemNaoExluida = helper.criarViagemCompleta(destino);
 		Viagem viagemExcluida = Viagem.builder().excluido(true).build();
 
 		Mockito.when(viagensRepository.findAll()).thenReturn(Arrays.asList(viagemExcluida, viagemNaoExluida));
@@ -177,7 +176,7 @@ class ViagensServiceTest {
 
 	@Test
 	void deveListar1DestinosQuandoProcurarPeloIdDaViagem() {
-		List<Destino> destinos = Arrays.asList(criarDestinoCompleto());
+		List<Destino> destinos = Arrays.asList(helper.criarDestinoCompleto());
 		Mockito.when(destinosService.trazerDestinosDaViagem(VIAGEM_ID)).thenReturn(destinos);
 
 		List<br.com.transportes.server.model.Destino> destinosEncontrados =
@@ -188,14 +187,14 @@ class ViagensServiceTest {
 
 	@Test
 	void deveConfirmarUmaViagemCorretamente() {
-		Destino destino = criarDestinoCompleto();
-		Viagem viagem = criarViagemCompleta(destino);
+		Destino destino = helper.criarDestinoCompleto();
+		Viagem viagem = helper.criarViagemCompleta(destino);
 
 		Assertions.assertEquals(Confirmacao.NAO_CONFIRMADO, viagem.getStatus());
 
 		Mockito.when(viagensRepository.findById(VIAGEM_ID)).thenReturn(Optional.ofNullable(viagem));
 
-		br.com.transportes.server.model.Confirmacao confirmacao = criarConfirmacao(CONFIRMADO);
+		br.com.transportes.server.model.Confirmacao confirmacao = helper.criarConfirmacao(CONFIRMADO);
 		viagensService.confirmaViagem(VIAGEM_ID, confirmacao);
 
 		Assertions.assertEquals(Confirmacao.CONFIRMADO, viagem.getStatus());
@@ -205,7 +204,7 @@ class ViagensServiceTest {
 
 	@Test
 	void deveDesconfirmarUmaViagemCorretamente() {
-		Destino destino = criarDestinoCompleto();
+		Destino destino = helper.criarDestinoCompleto();
 		Viagem viagem = Viagem.builder()
 				.status(Confirmacao.CONFIRMADO)
 				.destinos(Arrays.asList(destino))
@@ -215,7 +214,7 @@ class ViagensServiceTest {
 
 		Mockito.when(viagensRepository.findById(VIAGEM_ID)).thenReturn(Optional.ofNullable(viagem));
 
-		br.com.transportes.server.model.Confirmacao confirmacao = criarConfirmacao(NAO_CONFIRMADO);
+		br.com.transportes.server.model.Confirmacao confirmacao = helper.criarConfirmacao(NAO_CONFIRMADO);
 		viagensService.confirmaViagem(VIAGEM_ID, confirmacao);
 
 		Assertions.assertEquals(Confirmacao.NAO_CONFIRMADO, viagem.getStatus());
@@ -230,13 +229,14 @@ class ViagensServiceTest {
 				.criarUpsertViagem(MOTORISTA_ID, VEICULO_ID, destinos,
 						LocalDateTime.now().toString(), null, SEDE_ID);
 
-		Motorista motorista = criaMotoristaCompleto();
+		Motorista motorista = helper.criaMotoristaCompleto();
 		Mockito.when(motoristasService.encontrarMotoristaPorId(MOTORISTA_ID)).thenReturn(motorista);
 
-		Veiculo veiculo = criaVeiculoCompleto();
+		Veiculo veiculo = helper.criaVeiculoCompleto();
 		Mockito.when(veiculosService.encontrarVeiculoPorId(VEICULO_ID)).thenReturn(veiculo);
 
-		List<Destino> destinosEncontrados = Arrays.asList(criarDestinoCompleto(1), criarDestinoCompleto(2));
+		List<Destino> destinosEncontrados = Arrays.asList(helper.criarDestinoCompleto(1),
+				helper.criarDestinoCompleto(2));
 		Mockito.when(destinosService.findAllByIdIsIn(destinos)).thenReturn(destinosEncontrados);
 
 		br.com.transportes.server.model.Viagem viagem = viagensService.upsertViagem(null, upsertViagem);
@@ -248,21 +248,21 @@ class ViagensServiceTest {
 	@Test
 	void atualizarViagemFuncionaCorretamente() {
 
-		List<Destino> destinosEncontrados = Arrays.asList(criarDestinoCompleto(3));
+		List<Destino> destinosEncontrados = Arrays.asList(helper.criarDestinoCompleto(3));
 		Mockito.when(destinosService.trazerDestinosDaViagem(VIAGEM_ID)).thenReturn(destinosEncontrados);
 
 		Destino destino = Destino.builder().viagem(null).build();
-		Viagem viagemEncontrada = criarViagemCompleta(destino);
+		Viagem viagemEncontrada = helper.criarViagemCompleta(destino);
 		Mockito.when(viagensRepository.findById(VIAGEM_ID)).thenReturn(Optional.ofNullable(viagemEncontrada));
 
-		Motorista motorista = criaMotoristaCompleto();
+		Motorista motorista = helper.criaMotoristaCompleto();
 		Mockito.when(motoristasService.encontrarMotoristaPorId(MOTORISTA_ID)).thenReturn(motorista);
 
-		Veiculo veiculo = criaVeiculoCompleto();
+		Veiculo veiculo = helper.criaVeiculoCompleto();
 		Mockito.when(veiculosService.encontrarVeiculoPorId(VEICULO_ID)).thenReturn(veiculo);
 
 		List<Integer> destinos = List.of(3);
-		List<Destino> novosDestinos = Arrays.asList(criarDestinoCompleto(1), criarDestinoCompleto(2));
+		List<Destino> novosDestinos = Arrays.asList(helper.criarDestinoCompleto(1), helper.criarDestinoCompleto(2));
 		Mockito.when(destinosService.findAllByIdIsIn(destinos)).thenReturn(novosDestinos);
 
 		UpsertViagem upsertViagem = new HelperParaRequests()
@@ -273,142 +273,4 @@ class ViagensServiceTest {
 
 		Mockito.verify(destinosService, Mockito.times(2)).salvarTodos(anyList());
 	}
-
-	// ================================
-	private br.com.transportes.server.model.Confirmacao criarConfirmacao(String confirmacao) {
-		if ("CONFIRMADO".equals(confirmacao)) {
-			return new br.com.transportes.server.model.Confirmacao().confirmacao(
-					br.com.transportes.server.model.Confirmacao.ConfirmacaoEnum.CONFIRMADO);
-		}
-
-		return new br.com.transportes.server.model.Confirmacao().confirmacao(
-				br.com.transportes.server.model.Confirmacao.ConfirmacaoEnum.NAO_CONFIRMADO);
-	}
-
-	private Viagem criarViagemCompleta(Destino destino) {
-		String datetimeSaida = LocalDateTime.now().toString();
-		String datetimeVolta = LocalDateTime.now().plusHours(8).toString();
-		return criarViagemCompleta(destino, datetimeSaida, datetimeVolta, Confirmacao.NAO_CONFIRMADO);
-	}
-
-	private Viagem criarViagemCompleta(
-			Destino destino,
-			String datetimeSaida,
-			String datetimeVolta,
-			Confirmacao confirmacao) {
-		Motorista motorista = criaMotoristaCompleto();
-		Veiculo veiculo = criaVeiculoCompleto();
-		Viagem viagem = Viagem.builder()
-				.id(VIAGEM_ID)
-				.motorista(motorista)
-				.veiculo(veiculo)
-				.destinos(Arrays.asList(destino))
-				.datetimeSaida(datetimeSaida)
-				.datetimeVolta(datetimeVolta)
-				.sede(SEDE_ID)
-				.status(confirmacao)
-				.excluido(false)
-				.encerrado(false)
-				.build();
-
-		destino.setViagem(viagem);
-		return viagem;
-	}
-
-	private Motorista criaMotoristaCompleto() {
-		Motorista motorista = Motorista.builder()
-				.id(MOTORISTA_ID)
-				.nome("José da Silva")
-				.carteira("1234567897")
-				.email("jose_da_silva@gmail.com")
-				.build();
-		return motorista;
-	}
-
-	private Veiculo criaVeiculoCompleto() {
-		Veiculo veiculo = Veiculo.builder()
-				.id(VEICULO_ID)
-				.ano(2019)
-				.marca("Renaut")
-				.modelo("Sandero")
-				.renavan(new BigDecimal("123"))
-				.tamanho("Médio")
-				.placa("ABCC-1234")
-				.build();
-		return veiculo;
-	}
-
-	private Destino criarDestinoCompleto() {
-		return criarDestinoCompleto(1);
-	}
-
-	private Destino criarDestinoCompleto(Integer destinoId) {
-		Sede sede = Sede.builder()
-				.id(1L)
-				.rua("Rua A")
-				.numero(123)
-				.cep("88111-232")
-				.cidade("Cidade A")
-				.uf(Uf.BA)
-				.nome("Sede Nome A")
-				.observacao("sem obsevação")
-				.inscritos(new ArrayList<>())
-				.build();
-
-		Material materialA = Material.builder()
-				.id(50)
-				.nome("Monitor 24 polegadas")
-				.descricao("Um monitor legal")
-				.build();
-
-		Setor setorDestinoA = Setor.builder()
-				.id(36)
-				.nome("Financeiro")
-				.build();
-
-		MaterialQuantidadeSetor materialQuantidadeSetorA = MaterialQuantidadeSetor.builder()
-				.id(2)
-				.material(materialA)
-				.quantidade(2)
-				.setorDestino(setorDestinoA)
-				.destino(null)
-				.build();
-
-		Material materialB = Material.builder()
-				.id(31)
-				.nome("CPU DELL")
-				.descricao("Uma máquina")
-				.build();
-
-		Setor setorDestinoB = Setor.builder()
-				.id(36)
-				.nome("RH")
-				.build();
-
-		MaterialQuantidadeSetor materialQuantidadeSetorB = MaterialQuantidadeSetor.builder()
-				.id(7)
-				.material(materialB)
-				.quantidade(5)
-				.setorDestino(setorDestinoB)
-				.destino(null)
-				.build();
-
-		List<MaterialQuantidadeSetor> listaDeMateriaisQntdSetor =
-				Arrays.asList(materialQuantidadeSetorA, materialQuantidadeSetorB);
-
-		Destino destino = Destino.builder()
-				.id(destinoId)
-				.sede(sede)
-				.materiaisQntdSetor(listaDeMateriaisQntdSetor)
-				.status(Confirmacao.CONFIRMADO)
-				.viagem(null)
-				.excluido(false)
-				.build();
-
-		materialQuantidadeSetorA.setDestino(destino);
-		materialQuantidadeSetorB.setDestino(destino);
-
-		return destino;
-	}
-
 }
