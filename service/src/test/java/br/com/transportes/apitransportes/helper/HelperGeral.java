@@ -1,7 +1,9 @@
 package br.com.transportes.apitransportes.helper;
 
+import static br.com.transportes.apitransportes.helper.Constantes.DESTINO_ID;
 import static br.com.transportes.apitransportes.helper.Constantes.MOTORISTA_ID;
 import static br.com.transportes.apitransportes.helper.Constantes.SEDE_ID;
+import static br.com.transportes.apitransportes.helper.Constantes.SETOR_ID;
 import static br.com.transportes.apitransportes.helper.Constantes.VEICULO_ID;
 import static br.com.transportes.apitransportes.helper.Constantes.VIAGEM_ID;
 
@@ -88,21 +90,11 @@ public class HelperGeral {
 	}
 
 	public Destino criarDestinoCompleto() {
-		return criarDestinoCompleto(1);
+		return criarDestinoCompleto(DESTINO_ID);
 	}
 
 	public Destino criarDestinoCompleto(Integer destinoId) {
-		Sede sede = Sede.builder()
-				.id(1L)
-				.rua("Rua A")
-				.numero(123)
-				.cep("88111-232")
-				.cidade("Cidade A")
-				.uf(Uf.BA)
-				.nome("Sede Nome A")
-				.observacao("sem obsevação")
-				.inscritos(new ArrayList<>())
-				.build();
+		Sede sede = criarSedeCompleta(Long.valueOf(SEDE_ID));
 
 		Material materialA = Material.builder()
 				.id(50)
@@ -115,32 +107,15 @@ public class HelperGeral {
 				.nome("Financeiro")
 				.build();
 
-		MaterialQuantidadeSetor materialQuantidadeSetorA = MaterialQuantidadeSetor.builder()
-				.id(2)
-				.material(materialA)
-				.quantidade(2)
-				.setorDestino(setorDestinoA)
-				.destino(null)
-				.build();
+		MaterialQuantidadeSetor materialQuantidadeSetorA = criaMaterialQuantidadeSetorCompleto(1, materialA,
+				setorDestinoA);
 
-		Material materialB = Material.builder()
-				.id(31)
-				.nome("CPU DELL")
-				.descricao("Uma máquina")
-				.build();
+		Material materialB = criaMaterialCompleto(31);
 
-		Setor setorDestinoB = Setor.builder()
-				.id(36)
-				.nome("RH")
-				.build();
+		Setor setorDestinoB = criaSetorCompleto(SETOR_ID);
 
-		MaterialQuantidadeSetor materialQuantidadeSetorB = MaterialQuantidadeSetor.builder()
-				.id(7)
-				.material(materialB)
-				.quantidade(5)
-				.setorDestino(setorDestinoB)
-				.destino(null)
-				.build();
+		MaterialQuantidadeSetor materialQuantidadeSetorB = criaMaterialQuantidadeSetorCompleto(2, materialB,
+				setorDestinoB);
 
 		List<MaterialQuantidadeSetor> listaDeMateriaisQntdSetor =
 				Arrays.asList(materialQuantidadeSetorA, materialQuantidadeSetorB);
@@ -158,5 +133,51 @@ public class HelperGeral {
 		materialQuantidadeSetorB.setDestino(destino);
 
 		return destino;
+	}
+
+	public Sede criarSedeCompleta(Long id) {
+		return Sede.builder()
+				.id(id)
+				.rua("Rua A")
+				.numero(123)
+				.cep("88111-232")
+				.cidade("Cidade A")
+				.uf(Uf.BA)
+				.nome("Sede Nome A")
+				.observacao("sem obsevação")
+				.inscritos(new ArrayList<>())
+				.build();
+	}
+
+	public Setor criaSetorCompleto(Integer setorId) {
+		return Setor.builder()
+				.id(setorId)
+				.nome("RH")
+				.build();
+	}
+
+	public MaterialQuantidadeSetor criaMaterialQuantidadeSetorCompleto(Integer id) {
+		return criaMaterialQuantidadeSetorCompleto(id, criaMaterialCompleto(2), criaSetorCompleto(7));
+	}
+
+	private Material criaMaterialCompleto(Integer id) {
+		return Material.builder()
+				.id(id)
+				.nome("CPU DELL")
+				.descricao("Uma máquina")
+				.build();
+	}
+
+	public MaterialQuantidadeSetor criaMaterialQuantidadeSetorCompleto(
+			Integer id,
+			Material material,
+			Setor setor) {
+		return MaterialQuantidadeSetor.builder()
+				.id(id)
+				.material(material)
+				.quantidade(5)
+				.setorDestino(setor)
+				.destino(null)
+				.build();
 	}
 }

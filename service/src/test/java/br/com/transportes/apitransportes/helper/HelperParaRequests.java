@@ -123,4 +123,8 @@ public class HelperParaRequests {
 				.datetimeVolta(datetimeVolta)
 				.sede(sedeId);
 	}
+
+	public MaterialQuantidadeSetor criarMaterialQuantidadeSetorCompleto(Integer materialId) {
+		return criarMaterialQuantidadeSetor(materialId, 10, 15);
+	}
 }
