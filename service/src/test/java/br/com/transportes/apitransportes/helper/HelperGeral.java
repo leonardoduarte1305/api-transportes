@@ -36,6 +36,11 @@ public class HelperGeral {
 				br.com.transportes.server.model.Confirmacao.ConfirmacaoEnum.NAO_CONFIRMADO);
 	}
 
+	public Viagem criarViagemCompleta() {
+		Destino destino = criarDestinoCompleto(22);
+		return criarViagemCompleta(destino);
+	}
+
 	public Viagem criarViagemCompleta(Destino destino) {
 		String datetimeSaida = LocalDateTime.now().toString();
 		String datetimeVolta = LocalDateTime.now().plusHours(8).toString();

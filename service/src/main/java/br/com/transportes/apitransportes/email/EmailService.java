@@ -3,7 +3,6 @@ package br.com.transportes.apitransportes.email;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -25,8 +24,7 @@ public class EmailService {
 
 	final String USERNAME = "apitransportesfloripa@gmail.com";
 	private final CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
-	@Autowired
-	private JavaMailSender emailSender;
+	private final JavaMailSender emailSender;
 
 	public void enviarEmailSimples(String assunto, String mensagem, byte[] anexo, String... destinatarios) {
 		try {
