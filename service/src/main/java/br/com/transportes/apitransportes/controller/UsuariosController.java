@@ -27,4 +27,10 @@ public class UsuariosController implements UsuariosApi {
 		usuarioService.criarUsuarioCompleto(upsertUsuario);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@Override public ResponseEntity<Void> excluirUsuario(String id) {
+		usuarioService.excluiUsuario(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 }

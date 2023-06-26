@@ -700,6 +700,25 @@ paths:
       responses:
         201:
           description: "Criado"
+  /usuarios/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: "O id da entidade que desejamos analisar"
+        schema:
+          type: string
+    delete:
+      operationId: excluirUsuario
+      summary: excluirUsuario
+      description: "Exclui o registro de um usuario específico."
+      tags:
+        - Usuarios
+      responses:
+        204:
+          description: "Excluido"
+        400:
+          description: "Id inválido"
 
 components:
   schemas:

@@ -55,7 +55,7 @@ public class UsuarioService {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 	}
 
-	public void criarUsuarioCompleto(UpsertUsuario upsertUsuario) {
+	public String criarUsuarioCompleto(UpsertUsuario upsertUsuario) {
 		String token = getBearerTokenComoString();
 		headers.setBearerAuth(token);
 
@@ -66,6 +66,8 @@ public class UsuarioService {
 		RepresentacaoDeClientDoKeycloak client = getApiTransportesClientInKeycloak();
 		Role role = getRoleParaSalvarNoUsuario(upsertUsuario.getRole(), client.getId());
 		setarRoleNoUsuario(usuarioKeycloak.getId(), client.getId(), role);
+
+		return usuarioKeycloak.getId();
 	}
 
 	private String getBearerTokenComoString() {
@@ -290,5 +292,21 @@ public class UsuarioService {
 
 	private String erroNoParsearOObjeto() {
 		return ERRO_DE_PARSE;
+	}
+
+	public void excluiUsuario(String usuarioId) {
+		String token = getBearerTokenComoString();
+		headers.setBearerAuth(token);
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+
+		ResponseEntity<String> responseEntity =
+				restTemplate.exchange(USUARIOS_URL + usuarioId, HttpMethod.DELETE, requestEntity, String.class);
+
+		if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
+			log.info("Usuario excluido com sucesso.");
+		} else {
+			log.info("Erro ao excluir usuário, StatusCode: {}", responseEntity.getStatusCode());
+		}
 	}
 }
