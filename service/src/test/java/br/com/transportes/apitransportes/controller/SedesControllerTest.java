@@ -2,6 +2,8 @@ package br.com.transportes.apitransportes.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,10 +20,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +38,7 @@ import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.Uf;
 import br.com.transportes.server.model.UpsertSede;
 
-@ExtendWith({ SpringExtension.class })
+@ExtendWith({ SpringExtension.class, RestDocumentationExtension.class })
 @WebMvcTest(SedesController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class SedesControllerTest {
@@ -54,7 +60,14 @@ class SedesControllerTest {
 	HelperParaResponses helperParaResponses;
 
 	@BeforeEach
-	void setUp() {
+	void setUp(
+			WebApplicationContext webApplicationContext,
+			RestDocumentationContextProvider restDocumentation) {
+
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+				.apply(documentationConfiguration(restDocumentation))
+				.build();
+
 		helperParaRequests = new HelperParaRequests();
 		helperParaResponses = new HelperParaResponses();
 	}
@@ -74,10 +87,12 @@ class SedesControllerTest {
 				.post(SEDES)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(conteudo)
-				.accept(MediaType.APPLICATION_JSON);
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id", is(sedeResponse.getId())))
 				.andExpect(jsonPath("$.cep", is(sedeResponse.getCep())))
@@ -85,7 +100,8 @@ class SedesControllerTest {
 				.andExpect(jsonPath("$.observacao", is(sedeResponse.getObservacao())))
 				.andExpect(jsonPath("$.uf", is(sedeResponse.getUf().toString())))
 				.andExpect(jsonPath("$.rua", is(sedeResponse.getRua())))
-				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())));
+				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())))
+				.andDo(document("save-sede"));
 	}
 
 	@Test
@@ -105,7 +121,9 @@ class SedesControllerTest {
 				.put(SEDES_ID, idSede)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(conteudo)
-				.accept(MediaType.APPLICATION_JSON);
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
 				.andExpect(status().isOk())
@@ -116,14 +134,21 @@ class SedesControllerTest {
 				.andExpect(jsonPath("$.observacao", is(sedeResponse.getObservacao())))
 				.andExpect(jsonPath("$.uf", is(sedeResponse.getUf().toString())))
 				.andExpect(jsonPath("$.rua", is(sedeResponse.getRua())))
-				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())));
+				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())))
+				.andDo(document("update-sede"));
 	}
 
 	@Test
 	void deleteSede() throws Exception {
-		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete(SEDES_ID, 2);
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.delete(SEDES_ID, 2)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
-		mockMvc.perform(request).andExpect(status().isNoContent());
+		mockMvc.perform(request)
+				.andExpect(status()
+						.isNoContent())
+				.andDo(document("delete-sede"));
 	}
 
 	@Test
@@ -142,7 +167,9 @@ class SedesControllerTest {
 
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
 				.get(SEDES)
-				.accept(MediaType.APPLICATION_JSON);
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
 				.andExpect(status().isOk())
@@ -162,7 +189,8 @@ class SedesControllerTest {
 				.andExpect(jsonPath("$.[1].observacao", is(listaDeSedes.get(1).getObservacao())))
 				.andExpect(jsonPath("$.[1].uf", is(listaDeSedes.get(1).getUf().toString())))
 				.andExpect(jsonPath("$.[1].rua", is(listaDeSedes.get(1).getRua())))
-				.andExpect(jsonPath("$.[1].numero", is(listaDeSedes.get(1).getNumero())));
+				.andExpect(jsonPath("$.[1].numero", is(listaDeSedes.get(1).getNumero())))
+				.andDo(document("getAll-sede"));
 	}
 
 	@Test
@@ -177,7 +205,9 @@ class SedesControllerTest {
 
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
 				.get(SEDES_ID, idSede)
-				.accept(MediaType.APPLICATION_JSON);
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
 				.andExpect(status().isOk())
@@ -188,7 +218,8 @@ class SedesControllerTest {
 				.andExpect(jsonPath("$.observacao", is(sedeResponse.getObservacao())))
 				.andExpect(jsonPath("$.uf", is(sedeResponse.getUf().toString())))
 				.andExpect(jsonPath("$.rua", is(sedeResponse.getRua())))
-				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())));
+				.andExpect(jsonPath("$.numero", is(sedeResponse.getNumero())))
+				.andDo(document("getById-sede"));
 	}
 
 	@Test
@@ -205,10 +236,14 @@ class SedesControllerTest {
 				.post(SEDES_ID_INSCREVER, 2)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(conteudo);
+				.content(conteudo)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
-				.andExpect(status().isNoContent());
+				.andExpect(status()
+						.isNoContent())
+				.andDo(document("inscrever-sede"));
 	}
 
 	@Test
@@ -225,10 +260,14 @@ class SedesControllerTest {
 				.post(SEDES_ID_DESINSCREVER, 2)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(conteudo);
+				.content(conteudo)
+				.header("Authorization", "Bearer <jwt-token>")
+				.header("x-apikey", "<x-apikey>");
 
 		mockMvc.perform(request)
-				.andExpect(status().isNoContent());
+				.andExpect(status()
+						.isNoContent())
+				.andDo(document("desinscrever-sede"));
 	}
 
 }

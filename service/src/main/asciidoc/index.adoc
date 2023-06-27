@@ -1,0 +1,182 @@
+= STM REST API
+;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+Esta é a documentação de referência para a API REST do STM
+
+[[version-information]]
+== Informações de Versão
+
+Versão da API: 1.0
+
+[[uri-schema]]
+== Esquema de URI
+
+Host: localhost:8080 +
+BasePath: / +
+Protocol: HTTP
+
+[[overview-http-verbs]]
+== Verbos HTTP
+
+As notas RESTful tentam aderir o mais próximo possível às convenções HTTP e REST padrão em seu uso de verbos HTTP.
+
+|===
+| Verbo | Uso
+
+| `GET`
+| Usado para trazer um recurso do servidor
+
+| `POST`
+| Usado para criar um recurso no servidor
+
+| `PUT`
+| Usado para atualizar um recurso no servidor
+
+| `DELETE`
+| Usado para excluir um recurso do servidor
+|===
+
+As notas RESTful tentam aderir o mais próximo possível às convenções HTTP e REST padrão em seu uso de códigos de status HTTP.
+
+|===
+| Códigos de Status | Uso
+
+| `200 OK`
+| A requisição foi completada com sucesso
+
+| `201 Created`
+| O novo recurso foi criado com sucesso. A URI do novo recurso está disponível no header `Location` da resposta
+
+| `204 No Content`
+| A atualização ou a exclusão do recurso foi feita com sucesso, e mais nenhuma informação de resposta é necessária
+
+| `400 Bad Request`
+| A requisição feita pelo client não está correta. O corpo da resposta pode conter o erro e prover maiores informações sobre o erro
+
+| `404 Not Found`
+| O recurso solicitado não existe
+|===
+
+[[resources]]
+= Resources
+
+[[resources-index]]
+== Sedes
+
+Operações para Sedes
+
+[[resources-sedes-getbyid]]
+=== Buscando uma Sede por id
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/getById-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 200 e no corpo da resposta a representação da entidade Sede, como a seguir.
+
+==== Resposta
+
+include::{snippets}/getById-sede/http-response.adoc[]
+
+[[resources-sedes-criar]]
+=== Criando uma Sede
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/save-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 201 e no corpo da resposta a representação da entidade Sede, como a seguir.
+
+==== Resposta
+
+include::{snippets}/save-sede/http-response.adoc[]
+
+[[resources-sedes-atualizar]]
+=== Atualizando uma Sede
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/update-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 200 e no corpo da resposta a representação da entidade Sede atualizada, como a seguir.
+
+==== Resposta
+
+include::{snippets}/update-sede/http-response.adoc[]
+
+[[resources-sedes-getall]]
+=== Listando todas as Sedes
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/getAll-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 200 e no corpo da resposta uma lista com a representação das entidades Sede como a seguir.
+
+==== Resposta
+
+include::{snippets}/getAll-sede/http-response.adoc[]
+
+[[resources-sedes-excluir]]
+=== Excluindo uma Sede
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/delete-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 204 como a seguir, indicando que a operação foi completada com sucesso e nenhuma informação precisa ser retornada.
+
+==== Resposta
+
+include::{snippets}/delete-sede/http-response.adoc[]
+
+[[resources-sedes-inscrever]]
+=== Se increvendo em uma Sede
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/inscrever-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 204 como a seguir, indicando que a operação foi completada com sucesso e nenhuma informação precisa ser retornada.
+
+==== Resposta
+
+include::{snippets}/inscrever-sede/http-response.adoc[]
+
+[[resources-sedes-desinscrever]]
+=== Se desincrevendo de uma Sede
+
+Utilizando o código a seguir:
+
+==== CURL
+
+include::{snippets}/desinscrever-sede/curl-request.adoc[]
+
+A resposta para a requisição deve retornar um Status Code 204 como a seguir, indicando que a operação foi completada com sucesso e nenhuma informação precisa ser retornada.
+
+==== Resposta
+
+include::{snippets}/desinscrever-sede/http-response.adoc[]
+
+

@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.SedesService;
 import br.com.transportes.server.SedesApi;
@@ -20,12 +22,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SedesController implements SedesApi {
 
+	private static final String SEDE_ID = "/sedes/{id}";
+	private UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 	private final SedesService sedesService;
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
 		Sede sedeSalva = sedesService.upsertSede(null, upsertSede);
-		return ResponseEntity.ok(sedeSalva);
+		URI uri = uriBuilder.path(SEDE_ID).buildAndExpand(sedeSalva.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(sedeSalva);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
