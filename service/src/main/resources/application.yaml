@@ -59,7 +59,11 @@ management:
     metrics:
       enabled: true
 springdoc:
-  show-actuator: true
+  swagger-ui:
+    #For sorting endpoints alphabetically
+    operationsSorter: alpha
+    #For sorting tags alphabetically
+    tagsSorter: alpha
   api-docs:
     enabled: true
 server:

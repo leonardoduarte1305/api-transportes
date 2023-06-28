@@ -3,7 +3,6 @@ package br.com.transportes.apitransportes.security;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -29,18 +28,21 @@ import lombok.extern.slf4j.Slf4j;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
+	private static final String[] SWAGGER_URLS = { "/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**" };
 	@Value("${spring.security.oauth2.resourceserver.jwt.trusted-issuers:[]}")
 	private List<UriTemplate> trustedIssuers;
 
+	// Allowing access to swagger-ui using SpringSecurity
+	// https://stackoverflow.com/questions/70906081/springboot-swagger3-failed-to-load-remote-configuration
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
 			@Value("${spring.security.oauth2.client-name}") String clientId) throws Exception {
 		return http
-				.authorizeHttpRequests(request -> request
-						.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-						.requestMatchers("/swagger-ui*/**").permitAll()
-						.anyRequest().authenticated()
-				)
+				.authorizeHttpRequests()
+				.requestMatchers(SWAGGER_URLS)
+				.permitAll()
+				.anyRequest().authenticated()
+				.and()
 				.oauth2ResourceServer(
 						oAuth2Config -> oAuth2Config.authenticationManagerResolver(
 								this.authenticationManagerResolver(clientId)))

@@ -39,6 +39,8 @@ paths:
       operationId: criarSede
       summary: criarSede
       description: "Cria uma sede com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
@@ -57,6 +59,8 @@ paths:
       operationId: listaTodasAsSedes
       summary: listaTodasAsSedes
       description: "Lista todas as sedes ordenadas por ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
@@ -75,6 +79,8 @@ paths:
       operationId: editarSede
       summary: editarSede
       description: "Altera uma sede com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
@@ -94,6 +100,8 @@ paths:
       summary: excluirSede
       description: "Exclui o registro de uma sede específica. 
           Se esta sede for referenciada em algum Destino ou Viagem ela não será excluída."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
@@ -105,6 +113,8 @@ paths:
       operationId: trazSedePorId
       summary: trazSedePorId
       description: "Devolve uma sede específica, selecionando-a pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
@@ -122,6 +132,8 @@ paths:
       summary: inscrever
       description: "Inscreve um ou mais usuarios em uma fila. Quando alguém adiciona como
        Destino uma sede relevante para esse(s) usuario(s), ele(s) recebe(m) notificação por email."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
@@ -142,6 +154,8 @@ paths:
       summary: desinscrever
       description: "Desinscreve um ou mais usuarios de uma fila. Após ter sua inscricao cancelada, este
       ou estes usuarios não mais receberão notificações referentes à esta sede."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
@@ -160,6 +174,8 @@ paths:
       operationId: criarMotorista
       summary: criarMotorista
       description: "Cria um motorista com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Motoristas
       requestBody:
@@ -178,6 +194,8 @@ paths:
       operationId: listaTodosMotoristas
       summary: listaTodosMotoristas
       description: "Lista todos os motoristas ordenados por ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
@@ -196,6 +214,8 @@ paths:
       operationId: editarMotorista
       summary: editarMotorista
       description: "Altera o cadastro de um motorista com base no seu ID e nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Motoristas
       requestBody:
@@ -214,6 +234,8 @@ paths:
       operationId: excluirMotorista
       summary: excluirMotorista
       description: "Exclui o registro de um motorista específico."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
@@ -225,6 +247,8 @@ paths:
       operationId: trazMotoristaPorId
       summary: trazMotoristaPorId
       description: "Devolve um motorista específico, selecionando-o pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
@@ -240,6 +264,8 @@ paths:
       operationId: criarVeiculo
       summary: criarVeiculo
       description: "Cria um veículo com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Veiculos
       requestBody:
@@ -258,6 +284,8 @@ paths:
       operationId: listaTodosVeiculos
       summary: listaTodosVeiculos
       description: "Lista todos os veiculos ordenados por ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
@@ -276,6 +304,8 @@ paths:
       operationId: editarVeiculo
       summary: editarVeiculo
       description: "Altera o cadastro de um veiculo com base no seu ID e nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Veiculos
       requestBody:
@@ -294,6 +324,8 @@ paths:
       operationId: excluirVeiculo
       summary: excluirVeiculo
       description: "Exclui o registro de um veículo específico."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
@@ -305,6 +337,8 @@ paths:
       operationId: trazVeiculoPorId
       summary: trazVeiculoPorId
       description: "Devolve um veículo específico, selecionando-o pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
@@ -320,6 +354,8 @@ paths:
       operationId: criarMaterial
       summary: criarMaterial
       description: "Cria uma Material com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Materiais
       requestBody:
@@ -338,6 +374,8 @@ paths:
       operationId: listaTodosMateriaisCadastrados
       summary: listaTodosMateriaisCadastrados
       description: "Lista todos os materiais cadastrados ordenados por ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
@@ -357,6 +395,8 @@ paths:
       summary: editarCadastroMaterial
       description: "Altera o cadastro de um material com base no seu ID e nos dados fornecidos.
           Ao alterar este material ele será alterado em todos os lugares onde ele é utilizado."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Materiais
       requestBody:
@@ -376,6 +416,8 @@ paths:
       summary: excluirMaterial
       description: "Exclui o registro de um material específico.
           Ao remover este material ele será removido de todos os lugares onde ele é utilizado."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
@@ -387,6 +429,8 @@ paths:
       operationId: trazMaterialPorId
       summary: trazMaterialPorId
       description: "Devolve um material específico, selecionando-o pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
@@ -404,6 +448,8 @@ paths:
       description: "Cria um Destino com base nos dados fornecidos.
           Se o Admin estiver criando o destino ele já será cadastrado como confirmado.
           Se outro usuário estiver cadastrando o destino ele ainda precisará de confirmação."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
@@ -425,6 +471,8 @@ paths:
       operationId: editarDestino
       summary: editarDestino
       description: "Altera o cadastro de um destino com base no seu ID e nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
@@ -444,6 +492,8 @@ paths:
       summary: excluirDestino
       description: "Exclui o registro de um destino específico.
           Ao remover este destino ele será removido da Viagem onde ele está registrado."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
@@ -455,6 +505,8 @@ paths:
       operationId: trazDestinoPorId
       summary: trazDestinoPorId
       description: "Devolve um destino específico, selecionando-o pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
@@ -471,6 +523,8 @@ paths:
       operationId: trazMateriaisDoDestino
       summary: trazMateriaisDoDestino
       description: "Devolve a lista de materiais deste destino específico."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
@@ -489,6 +543,8 @@ paths:
       operationId: confirmaDestino
       summary: confirmaDestino
       description: "Confirma um destino."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
@@ -505,6 +561,8 @@ paths:
       operationId: criarViagem
       summary: criarViagem
       description: "Cria uma Viagem com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
@@ -523,6 +581,8 @@ paths:
       description: "Lista todas as viagens cadastradas ordenadas por ID."
       summary: listaTodasViagens
       operationId: listaTodasViagens
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -541,6 +601,8 @@ paths:
       operationId: trazViagemPorId
       summary: trazViagemPorId
       description: "Devolve uma viagem específica, selecionando-a pelo seu ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -554,6 +616,8 @@ paths:
       operationId: editarViagem
       summary: editarViagem
       description: "Altera o cadastro de uma viagem com base no seu ID e nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
@@ -574,6 +638,8 @@ paths:
       description: "Exclui o registro de uma viagem específica.
               Aremoção é apenas lógica, o registro continua persistido no banco de dados
               e pode ser consultado apenas utilizando queries contra o banco."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -588,6 +654,8 @@ paths:
       operationId: trazDestinosDaViagem
       summary: trazDestinosDaViagem
       description: "Devolve a lista de destinos desta viagem específica."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -606,6 +674,8 @@ paths:
       operationId: confirmaViagem
       summary: confirmaViagem
       description: "Confirma uma viagem e todos os destinos cadastrados até agora."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
@@ -623,6 +693,8 @@ paths:
       operationId: encerraViagem
       summary: encerraViagem
       description: "Confirma uma viagem e todos os destinos cadastrados até agora."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
@@ -640,6 +712,8 @@ paths:
       operationId: relatorioDeViagem
       summary: relatorioDeViagem
       description: "Devolve um relatório sobre esta viagem específica."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -655,6 +729,8 @@ paths:
       operationId: criarSetor
       summary: criarSetor
       description: "Cria um setor com base nos dados fornecidos."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Setores
       requestBody:
@@ -673,6 +749,8 @@ paths:
       operationId: listaTodosOsSetores
       summary: listaTodosOsSetores
       description: "Lista todos os setores ordenados por ID."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Setores
       responses:
@@ -687,6 +765,8 @@ paths:
 
   /usuarios:
     post:
+      security:
+        - bearerAuth: [ ]
       tags:
         - Usuarios
       summary: Cria um novo usuário
@@ -712,6 +792,8 @@ paths:
       operationId: excluirUsuario
       summary: excluirUsuario
       description: "Exclui o registro de um usuario específico."
+      security:
+        - bearerAuth: [ ]
       tags:
         - Usuarios
       responses:
@@ -1092,6 +1174,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
-security:
-  - bearerAuth: [ ]
