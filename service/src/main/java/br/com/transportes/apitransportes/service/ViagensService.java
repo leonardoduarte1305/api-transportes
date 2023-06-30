@@ -97,10 +97,14 @@ public class ViagensService {
 		viagemParaSalvar.setMotorista(motorista);
 		viagemParaSalvar.setVeiculo(veiculo);
 		viagemParaSalvar.setDestinos(novosDestinos);
+		viagemParaSalvar.setDatetimeVolta(upsertViagem.getDatetimeVolta());
+		viagemParaSalvar.setSede(upsertViagem.getSede());
+		viagemParaSalvar.setDatetimeSaida(upsertViagem.getDatetimeSaida());
 
 		novosDestinos.forEach(destino -> destino.setViagem(viagemParaSalvar));
 		destinosService.salvarTodos(novosDestinos);
 
+		viagensRepository.saveAndFlush(viagemParaSalvar);
 		return viagensMapper.toViagemDto(viagemParaSalvar);
 	}
 

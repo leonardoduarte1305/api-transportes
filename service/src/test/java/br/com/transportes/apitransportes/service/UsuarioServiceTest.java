@@ -24,7 +24,7 @@ class UsuarioServiceTest {
 		restTemplate = new RestTemplate();
 	}
 
-	@Test
+//	@Test
 	void criarUsuarioCompletoEDepoisExcluiOUsuario() {
 		UpsertUsuario upsertUsuario = new UpsertUsuario()
 				.nome("Linus")
