@@ -72,11 +72,14 @@ public class DestinosService {
 		br.com.transportes.apitransportes.entity.Destino destinoParaEditar = encontrarDestinoPorId(id);
 		limparListaDeMateriaisDoDestino(id, destinoParaEditar);
 
+		final var sede = sedesService.encontrarSedePorId(upsertDestino.getSedeId());
+
 		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> novosMateriaisSalvos =
 				new ArrayList<>(salvarTodosOsMateriaisQuantidadeSetor(upsertDestino));
 
 		novosMateriaisSalvos.forEach(item -> item.setDestino(destinoParaEditar));
 		destinoParaEditar.setMateriaisQntdSetor(novosMateriaisSalvos);
+		destinoParaEditar.setSede(sede);
 
 		materialQuantidadeSetorService.salvarTodos(novosMateriaisSalvos);
 		destinosRepository.save(destinoParaEditar);
