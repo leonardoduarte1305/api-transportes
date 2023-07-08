@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfiguration {
 
 	private static final String[] SWAGGER_URLS = { "/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**" };
+	private static final String[] ACTUATOR_URLS = { "/actuator/**" };
 	@Value("${spring.security.oauth2.resourceserver.jwt.trusted-issuers:[]}")
 	private List<UriTemplate> trustedIssuers;
 
@@ -38,9 +39,9 @@ public class SecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http,
 			@Value("${spring.security.oauth2.client-name}") String clientId) throws Exception {
 		return http
-				.authorizeHttpRequests()
-				.requestMatchers(SWAGGER_URLS)
-				.permitAll()
+				.authorizeHttpRequests().requestMatchers(SWAGGER_URLS).permitAll()
+				.and()
+				.authorizeHttpRequests().requestMatchers(ACTUATOR_URLS).permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.oauth2ResourceServer(

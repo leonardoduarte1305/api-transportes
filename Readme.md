@@ -156,7 +156,7 @@ docker run -d --rm \
 --name api-transportes \
 -e DB_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
-leonardoduarte1305/api-transportes-service:noAuth-18-06
+leonardoduarte1305/api-transportes-service:noAuth-01-07
 ```
 
 ## 6 - Rodando a imagem de container Docker do Frontend
@@ -194,9 +194,7 @@ SERVER_PORT=8080
 
 CLIENT_NAME=nosso-keycloak-client
 REALM_NAME=master
-AUTH_PROVIDER_HOST=localhost
 TRUSTED_ISSUERS=http://localhost/realms/master
-JWK_SET_URI=http://localhost/realms/master/protocol/openid-connect/certs
 
 KEYCLOAK_ADMIN_USER=admin
 KEYCLOAK_ADMIN_PASSWORD=admin
@@ -210,7 +208,49 @@ KEYCLOAK_DATABASE_HOST=localhost
 KEYCLOAK_DATABASE_PORT=5432
 KEYCLOAK_DATABASE_VENDOR=postgresql
 
-AUTH_SERVER_URL=http://localhost:80/auth
+IP_MAQUINA_HOST=192.168.0.50
+```
+
+O IP_MAQUINA_HOST é o IP do seu computador na sua rede local. No Linux você pode conseguí-lo como resultado do comando:
+```bash
+ifconfig
+```
+no exemplo a seguir está logo após a palavra *inet*:
+
+```
+wlo1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+  inet 192.168.0.50  netmask 255.255.255.0  broadcast 192.168.0.255
+  inet6 fe80::7e95:7791:1fba:5897  prefixlen 64  scopeid 0x20<link>
+  inet6 2804:14d:baa0:98e2:76ae:fda8:329:d723  prefixlen 128  scopeid 0x0<global>
+  ether ec:63:d7:5b:ae:e6  txqueuelen 1000  (Ethernet)
+  RX packets 288712  bytes 183103075 (183.1 MB)
+  RX errors 0  dropped 0  overruns 0  frame 0
+  TX packets 432888  bytes 140848792 (140.8 MB)
+  TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+Se você usar:
+```bash
+echo "$(ip addr show wlo1 | grep "inet " | awk '{print $2}' | cut -d/ -f1)"
+```
+o resultado deve ser algo parecido com:
+```
+192.168.0.50
 ```
 
 Qualquer dúvida entre em contato.
+
+## Se quiser checar outros recursos da aplicação:
+Para usar o Prometheus e o Grafana algumas configurações a mais são necessárias.
+
+### Levante o container do Prometheus usando:
+```bash
+docker run -d --rm --name prometheus -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml -p 9090:9090 prom/prometheus:latest
+```
+
+### Levante o container do Grafana usando:
+
+```bash
+docker run -d --rm --name grafana -v $(pwd)/Grafana:/var/lib/grafana -p 3000:3000 grafana/grafana
+```
+
+Use: admin como login e senha e na tela seguinte crie um usuário ou apelas clique em skip
