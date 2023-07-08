@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -79,5 +80,9 @@ public class Destino {
 
 	public void adicionarMaterial(MaterialQuantidadeSetor material) {
 		materiaisQntdSetor.add(material);
+	}
+
+	public void limparListaDeMateriais() {
+		this.materiaisQntdSetor = new ArrayList<>();
 	}
 }

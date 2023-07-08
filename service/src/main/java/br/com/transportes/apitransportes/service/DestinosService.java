@@ -68,16 +68,18 @@ public class DestinosService {
 		return destinosMapper.toDestinoDto(destinoSalvo);
 	}
 
-	@Transactional
 	private Destino editarDestinoExistente(Integer id, UpsertDestino upsertDestino) {
 		br.com.transportes.apitransportes.entity.Destino destinoParaEditar = encontrarDestinoPorId(id);
-		limparListaDeMateriaisDoDestino(id);
+		limparListaDeMateriaisDoDestino(id, destinoParaEditar);
 
 		List<br.com.transportes.apitransportes.entity.MaterialQuantidadeSetor> novosMateriaisSalvos =
-				salvarTodosOsMateriaisQuantidadeSetor(upsertDestino);
+				new ArrayList<>(salvarTodosOsMateriaisQuantidadeSetor(upsertDestino));
 
 		novosMateriaisSalvos.forEach(item -> item.setDestino(destinoParaEditar));
 		destinoParaEditar.setMateriaisQntdSetor(novosMateriaisSalvos);
+
+		materialQuantidadeSetorService.salvarTodos(novosMateriaisSalvos);
+		destinosRepository.save(destinoParaEditar);
 
 		return destinosMapper.toDestinoDto(destinoParaEditar);
 	}
@@ -86,8 +88,10 @@ public class DestinosService {
 		return sedesService.encontrarSedePorId(upsertDestino.getSedeId());
 	}
 
-	private void limparListaDeMateriaisDoDestino(Integer id) {
+	private void limparListaDeMateriaisDoDestino(Integer id,
+			br.com.transportes.apitransportes.entity.Destino destino) {
 		materialQuantidadeSetorService.removerMateriaisDoDestino(id);
+		destino.limparListaDeMateriais();
 	}
 
 	private br.com.transportes.apitransportes.entity.Destino getDestinoEntity(Sede sede,
