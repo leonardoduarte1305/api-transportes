@@ -2,6 +2,7 @@ package br.com.transportes.apitransportes.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,8 +92,7 @@ public class ViagensService {
 
 		Motorista motorista = getMotorista(upsertViagem);
 		Veiculo veiculo = getVeiculo(upsertViagem);
-		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = getNovosDestinosParaAViagem(
-				upsertViagem);
+		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = new ArrayList<>(getNovosDestinosParaAViagem(upsertViagem));
 
 		viagemParaSalvar.setMotorista(motorista);
 		viagemParaSalvar.setVeiculo(veiculo);
