@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,9 +39,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UsuarioService {
 
-	private static final String TOKEN_URL = "http://127.0.0.1/realms/master/protocol/openid-connect/token";
-	private static final String USUARIOS_URL = "http://127.0.0.1/admin/realms/master/users/";
-	private static final String CLIENTS_URL = "http://127.0.0.1/admin/realms/master/clients/";
+	private String tokenUrl = "http://127.0.0.1:8081/realms/master/protocol/openid-connect/token";
+	private String usuariosUrl = "http://127.0.0.1:8081/admin/realms/master/users/";
+	private String clientsUrl = "http://127.0.0.1:8081/admin/realms/master/clients/";
 	private static final String CLIENTS_NAME = "api-transportes-client";
 	private static final String ADMIN_USERNAME = "admin";
 	private static final String ADMIN_PASSWORD = "admin";
@@ -97,7 +98,7 @@ public class UsuarioService {
 				ADMIN_USERNAME + "&password=" + ADMIN_PASSWORD;
 		String contentType = "application/x-www-form-urlencoded";
 
-		URL obj = new URL(TOKEN_URL);
+		URL obj = new URL(tokenUrl);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("POST");
 		con.setRequestProperty("Content-Type", contentType);
@@ -126,7 +127,7 @@ public class UsuarioService {
 		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
 		ResponseEntity<String> responseEntity =
-				restTemplate.exchange(USUARIOS_URL, HttpMethod.POST, requestEntity, String.class);
+				restTemplate.exchange(usuariosUrl, HttpMethod.POST, requestEntity, String.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
 			log.info("Usuario criado com sucesso.");
@@ -139,7 +140,7 @@ public class UsuarioService {
 
 		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
 		ResponseEntity<String> response =
-				restTemplate.exchange(USUARIOS_URL, HttpMethod.GET, requestEntity, String.class);
+				restTemplate.exchange(usuariosUrl, HttpMethod.GET, requestEntity, String.class);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = null;
@@ -172,7 +173,7 @@ public class UsuarioService {
 		HttpEntity<String> requestEntity = new HttpEntity<>(content, headers);
 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(
-				USUARIOS_URL +
+				usuariosUrl +
 						id + "/reset-password",
 				HttpMethod.PUT, requestEntity,
 				String.class);
@@ -195,7 +196,7 @@ public class UsuarioService {
 
 	private Role getRoleParaSalvarNoUsuario(UpsertUsuario.RoleEnum role, String clientId) {
 		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-		String url = CLIENTS_URL + clientId + "/roles";
+		String url = clientsUrl + clientId + "/roles";
 		ResponseEntity<String> response =
 				restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 
@@ -227,7 +228,7 @@ public class UsuarioService {
 
 		HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
-		String url = USUARIOS_URL + usuarioId + "/role-mappings/clients/" + clientId;
+		String url = usuariosUrl + usuarioId + "/role-mappings/clients/" + clientId;
 		ResponseEntity<String> responseEntity =
 				restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
@@ -266,7 +267,7 @@ public class UsuarioService {
 
 		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
 		ResponseEntity<String> response =
-				restTemplate.exchange(CLIENTS_URL, HttpMethod.GET, requestEntity, String.class);
+				restTemplate.exchange(clientsUrl, HttpMethod.GET, requestEntity, String.class);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = null;
@@ -301,7 +302,7 @@ public class UsuarioService {
 		HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
 
 		ResponseEntity<String> responseEntity =
-				restTemplate.exchange(USUARIOS_URL + usuarioId, HttpMethod.DELETE, requestEntity, String.class);
+				restTemplate.exchange(usuariosUrl + usuarioId, HttpMethod.DELETE, requestEntity, String.class);
 
 		if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
 			log.info("Usuario excluido com sucesso.");

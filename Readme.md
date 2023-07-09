@@ -102,14 +102,14 @@ Para verificar a criação dos databases use:
 
 ```bash
 docker run -d --rm \
--p 80:8080 \
+-p 8081:8080 \
 --name keycloak \
 -e KEYCLOAK_DATABASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
 bitnami/keycloak:21
 ```
 
-Acesse http://localhost:80/admin/
+Acesse http://localhost:8081/admin/
 
     Longin: admin
     Senha: admin
@@ -194,7 +194,7 @@ SERVER_PORT=8080
 
 CLIENT_NAME=nosso-keycloak-client
 REALM_NAME=master
-TRUSTED_ISSUERS=http://localhost/realms/master
+TRUSTED_ISSUERS=http://localhost:8081/realms/master
 
 KEYCLOAK_ADMIN_USER=admin
 KEYCLOAK_ADMIN_PASSWORD=admin
