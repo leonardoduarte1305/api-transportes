@@ -91,7 +91,7 @@ class ViagensControllerTest {
 				.accept(MediaType.APPLICATION_JSON);
 
 		mockMvc.perform(request)
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id", is(viagemResponse.getId())))
 				.andExpect(jsonPath("$.motoristaId", is(viagemResponse.getMotoristaId())))

@@ -1,9 +1,18 @@
-openapi: 3.0.0
+openapi: 3.0.2
 
 info:
   version: "1.0.0"
   title: Api-Transportes
-
+  description: |
+    Esta Api foi criada como prte integramde do trabalho de conclsão se curso da
+    Faculdade Senac Florianópolis. Esta OAS3 descreve todos os endpoins disponíveis
+    para utilização pelo consumidor desta aplicação
+  termsOfService: "https://www.apache.org/licenses/LICENSE-2.0"
+  contact:
+    email: leonardoduarte1305@gmail.com
+  license:
+    name: Licença Apache
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
 tags:
   - name: "Sedes"
     description: "Descreve os endpoints para o gerenciamento das Sedes"
@@ -30,26 +39,55 @@ tags:
     description: "Descreve os endpoints para o gerenciamento de Usuarios"
 
 servers:
-  - url: "http://localhost:8080/"
-    description: "Desenvolvimento local"
+  - description: Personalizado
+    url: "{protocolo}://{host}:{porta}{raiz}"
+    variables:
+      protocolo:
+        default: http
+        enum:
+          - http
+          - https
+      host:
+        default: localhost
+        enum:
+          - localhost
+          - 127.0.0.1
+      porta:
+        default: '8080'
+        enum:
+          - '8080'
+          - '8081'
+          - '8082'
+      raiz:
+        default: /
+        enum:
+          - /
+          - /v1
 
 paths:
   /sedes:
     post:
       operationId: criarSede
-      summary: criarSede
+      summary: Cria uma sede
       description: "Cria uma sede com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
+        required: true
+        description: "Um objeto UpsertSede deve ser fornecido"
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertSede'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização da sede criada"
+              schema:
+                type: number
+                format: int32
+                example: "/sedes/{id}"
           description: "Created"
           content:
             application/json:
@@ -57,10 +95,8 @@ paths:
                 $ref: '#/components/schemas/Sede'
     get:
       operationId: listaTodasAsSedes
-      summary: listaTodasAsSedes
+      summary: Lista todas as sedes
       description: "Lista todas as sedes ordenadas por ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
@@ -77,13 +113,13 @@ paths:
       - $ref: '#/components/parameters/id'
     put:
       operationId: editarSede
-      summary: editarSede
+      summary: Edita uma sede
       description: "Altera uma sede com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
+        description: "Um objeto UpsertSede deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
@@ -97,24 +133,20 @@ paths:
                 $ref: '#/components/schemas/Sede'
     delete:
       operationId: excluirSede
-      summary: excluirSede
+      summary: Exclui uma sede
       description: "Exclui o registro de uma sede específica. 
           Se esta sede for referenciada em algum Destino ou Viagem ela não será excluída."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
     get:
       operationId: trazSedePorId
-      summary: trazSedePorId
+      summary: Traz uma sede por id
       description: "Devolve uma sede específica, selecionando-a pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       responses:
@@ -129,14 +161,14 @@ paths:
       - $ref: '#/components/parameters/id'
     post:
       operationId: inscrever
-      summary: inscrever
+      summary: Inscerve um usuário em uma sede
       description: "Inscreve um ou mais usuarios em uma fila. Quando alguém adiciona como
        Destino uma sede relevante para esse(s) usuario(s), ele(s) recebe(m) notificação por email."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
+        description: "Uma lista de emails deve ser fornecida"
+        required: true
         content:
           application/json:
             schema:
@@ -144,21 +176,21 @@ paths:
               items:
                 type: string
       responses:
-        200:
+        204:
           description: "Inscrição feita com sucesso."
   /sedes/{id}/desinscrever:
     parameters:
       - $ref: '#/components/parameters/id'
     post:
       operationId: desinscrever
-      summary: desinscrever
+      summary: Desinscerve um usuário de uma sede
       description: "Desinscreve um ou mais usuarios de uma fila. Após ter sua inscricao cancelada, este
       ou estes usuarios não mais receberão notificações referentes à esta sede."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Sedes
       requestBody:
+        description: "Uma lista de emails deve ser fornecida"
+        required: true
         content:
           application/json:
             schema:
@@ -166,25 +198,32 @@ paths:
               items:
                 type: string
       responses:
-        200:
-          description: "Inscrição feita com sucesso."
+        204:
+          description: "Desinscrição feita com sucesso."
 
   /motoristas:
     post:
       operationId: criarMotorista
-      summary: criarMotorista
+      summary: Cria um motorista
       description: "Cria um motorista com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Motoristas
       requestBody:
+        description: "Um objeto AtributosMotorista deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AtributosMotorista'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização do motorista criado"
+              schema:
+                type: number
+                format: int32
+                example: "/motoristas/{id}"
           description: "Created"
           content:
             application/json:
@@ -192,10 +231,8 @@ paths:
                 $ref: '#/components/schemas/Motorista'
     get:
       operationId: listaTodosMotoristas
-      summary: listaTodosMotoristas
+      summary: Lista todos os motoristas
       description: "Lista todos os motoristas ordenados por ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
@@ -212,19 +249,19 @@ paths:
       - $ref: '#/components/parameters/id'
     put:
       operationId: editarMotorista
-      summary: editarMotorista
+      summary: Edita um motorista
       description: "Altera o cadastro de um motorista com base no seu ID e nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Motoristas
       requestBody:
+        description: "Um objeto AtributosMotorista deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AtributosMotorista'
       responses:
-        201:
+        200:
           description: "Updated"
           content:
             application/json:
@@ -232,23 +269,19 @@ paths:
                 $ref: '#/components/schemas/Motorista'
     delete:
       operationId: excluirMotorista
-      summary: excluirMotorista
+      summary: Exclui um motorista
       description: "Exclui o registro de um motorista específico."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
     get:
       operationId: trazMotoristaPorId
-      summary: trazMotoristaPorId
+      summary: Traz um motorista por id
       description: "Devolve um motorista específico, selecionando-o pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Motoristas
       responses:
@@ -262,19 +295,26 @@ paths:
   /veiculos:
     post:
       operationId: criarVeiculo
-      summary: criarVeiculo
+      summary: Cria um veiculo
       description: "Cria um veículo com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Veiculos
       requestBody:
+        description: "Um objeto UpsertVeiculo deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertVeiculo'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização do veiculo criado"
+              schema:
+                type: number
+                format: int32
+                example: "/veiculos/{id}"
           description: "Created"
           content:
             application/json:
@@ -282,10 +322,8 @@ paths:
                 $ref: '#/components/schemas/Veiculo'
     get:
       operationId: listaTodosVeiculos
-      summary: listaTodosVeiculos
+      summary: Lista todos os veiculos
       description: "Lista todos os veiculos ordenados por ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
@@ -302,13 +340,13 @@ paths:
       - $ref: '#/components/parameters/id'
     put:
       operationId: editarVeiculo
-      summary: editarVeiculo
+      summary: Edita um veiculo
       description: "Altera o cadastro de um veiculo com base no seu ID e nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Veiculos
       requestBody:
+        description: "Um objeto UpsertVeiculo deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
@@ -322,23 +360,19 @@ paths:
                 $ref: '#/components/schemas/Veiculo'
     delete:
       operationId: excluirVeiculo
-      summary: excluirVeiculo
+      summary: Exclui um veiculo
       description: "Exclui o registro de um veículo específico."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
     get:
       operationId: trazVeiculoPorId
-      summary: trazVeiculoPorId
+      summary: Traz um veiculo por id
       description: "Devolve um veículo específico, selecionando-o pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Veiculos
       responses:
@@ -352,19 +386,26 @@ paths:
   /materiais:
     post:
       operationId: criarMaterial
-      summary: criarMaterial
+      summary: Cria um material
       description: "Cria uma Material com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Materiais
       requestBody:
+        description: "Um objeto UpsertMaterial deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertMaterial'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização do material criado"
+              schema:
+                type: number
+                format: int32
+                example: "/materiais/{id}"
           description: "Created"
           content:
             application/json:
@@ -372,10 +413,8 @@ paths:
                 $ref: '#/components/schemas/Material'
     get:
       operationId: listaTodosMateriaisCadastrados
-      summary: listaTodosMateriaisCadastrados
+      summary: Lista todos os materiais
       description: "Lista todos os materiais cadastrados ordenados por ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
@@ -392,14 +431,14 @@ paths:
       - $ref: '#/components/parameters/id'
     put:
       operationId: editarCadastroMaterial
-      summary: editarCadastroMaterial
+      summary: Edita um material
       description: "Altera o cadastro de um material com base no seu ID e nos dados fornecidos.
           Ao alterar este material ele será alterado em todos os lugares onde ele é utilizado."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Materiais
       requestBody:
+        description: "Um objeto UpsertMaterial deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
@@ -413,24 +452,20 @@ paths:
                 $ref: '#/components/schemas/Material'
     delete:
       operationId: excluirMaterial
-      summary: excluirMaterial
+      summary: Exclui um material
       description: "Exclui o registro de um material específico.
           Ao remover este material ele será removido de todos os lugares onde ele é utilizado."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
     get:
       operationId: trazMaterialPorId
-      summary: trazMaterialPorId
+      summary: Traz um material por id
       description: "Devolve um material específico, selecionando-o pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Materiais
       responses:
@@ -444,21 +479,28 @@ paths:
   /destinos:
     post:
       operationId: criarDestino
-      summary: criarDestino
+      summary: Cria um destino
       description: "Cria um Destino com base nos dados fornecidos.
           Se o Admin estiver criando o destino ele já será cadastrado como confirmado.
           Se outro usuário estiver cadastrando o destino ele ainda precisará de confirmação."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
+        description: "Um objeto UpsertDestino deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertDestino'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização do destino criado"
+              schema:
+                type: number
+                format: int32
+                example: "/destinos/{id}"
           description: "Created"
           content:
             application/json:
@@ -469,13 +511,13 @@ paths:
       - $ref: '#/components/parameters/id'
     put:
       operationId: editarDestino
-      summary: editarDestino
+      summary: Edita um destino
       description: "Altera o cadastro de um destino com base no seu ID e nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
+        description: "Um objeto UpsertDestino deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
@@ -489,24 +531,20 @@ paths:
                 $ref: '#/components/schemas/Destino'
     delete:
       operationId: excluirDestino
-      summary: excluirDestino
+      summary: Exclui um destino
       description: "Exclui o registro de um destino específico.
           Ao remover este destino ele será removido da Viagem onde ele está registrado."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
     get:
       operationId: trazDestinoPorId
-      summary: trazDestinoPorId
+      summary: Traz um destino por id
       description: "Devolve um destino específico, selecionando-o pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
@@ -521,10 +559,8 @@ paths:
       - $ref: '#/components/parameters/id'
     get:
       operationId: trazMateriaisDoDestino
-      summary: trazMateriaisDoDestino
+      summary: Lista todos os materiais de um destino
       description: "Devolve a lista de materiais deste destino específico."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       responses:
@@ -541,37 +577,44 @@ paths:
       - $ref: '#/components/parameters/id'
     post:
       operationId: confirmaDestino
-      summary: confirmaDestino
+      summary: Contirma um destino
       description: "Confirma um destino."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Destinos
       requestBody:
+        description: "Um objeto Confirmacao deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Confirmacao'
       responses:
-        200:
+        204:
           description: "Destino foi confirmado."
 
   /viagens:
     post:
       operationId: criarViagem
-      summary: criarViagem
+      summary: Cria uma viagem
       description: "Cria uma Viagem com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
+        description: "Um objeto UpsertViagem deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertViagem'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização da viagem criada"
+              schema:
+                type: number
+                format: int32
+                example: "/viagens/{id}"
           description: "Created"
           content:
             application/json:
@@ -579,10 +622,8 @@ paths:
                 $ref: '#/components/schemas/Viagem'
     get:
       description: "Lista todas as viagens cadastradas ordenadas por ID."
-      summary: listaTodasViagens
+      summary: Lista todas as viagens
       operationId: listaTodasViagens
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -599,10 +640,8 @@ paths:
       - $ref: '#/components/parameters/id'
     get:
       operationId: trazViagemPorId
-      summary: trazViagemPorId
+      summary: Traz uma viagem por id
       description: "Devolve uma viagem específica, selecionando-a pelo seu ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -614,13 +653,13 @@ paths:
                 $ref: '#/components/schemas/Viagem'
     put:
       operationId: editarViagem
-      summary: editarViagem
+      summary: Edita uma viagem
       description: "Altera o cadastro de uma viagem com base no seu ID e nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
+        description: "Um objeto UpsertViagem deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
@@ -634,16 +673,14 @@ paths:
                 $ref: '#/components/schemas/Viagem'
     delete:
       operationId: excluirViagem
-      summary: excluirViagem
+      summary: Exclui uma viagem
       description: "Exclui o registro de uma viagem específica.
               Aremoção é apenas lógica, o registro continua persistido no banco de dados
               e pode ser consultado apenas utilizando queries contra o banco."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
-        200:
+        204:
           description: "Deleted"
         400:
           description: "Id inválido"
@@ -652,10 +689,8 @@ paths:
       - $ref: '#/components/parameters/id'
     get:
       operationId: trazDestinosDaViagem
-      summary: trazDestinosDaViagem
+      summary: Lista todos os destinos de uma viagem
       description: "Devolve a lista de destinos desta viagem específica."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -672,48 +707,46 @@ paths:
       - $ref: '#/components/parameters/id'
     post:
       operationId: confirmaViagem
-      summary: confirmaViagem
+      summary: Confirma uma viagem
       description: "Confirma uma viagem e todos os destinos cadastrados até agora."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
+        description: "Um objeto Confirmacao deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Confirmacao'
       responses:
-        200:
+        204:
           description: "Viagem foi confirmada."
   /viagens/{id}/encerramento:
     parameters:
       - $ref: '#/components/parameters/id'
     post:
       operationId: encerraViagem
-      summary: encerraViagem
+      summary: Encerra uma viagem
       description: "Confirma uma viagem e todos os destinos cadastrados até agora."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       requestBody:
+        description: "Um objeto Encerramento deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Encerramento'
       responses:
-        200:
+        204:
           description: "Viagem foi encerrada."
   /viagens/{id}/exportar:
     parameters:
       - $ref: '#/components/parameters/id'
     get:
       operationId: relatorioDeViagem
-      summary: relatorioDeViagem
+      summary: Download do relatrório de uma viagem
       description: "Devolve um relatório sobre esta viagem específica."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Viagens
       responses:
@@ -727,19 +760,26 @@ paths:
   /setores:
     post:
       operationId: criarSetor
-      summary: criarSetor
+      summary: Cria um setor
       description: "Cria um setor com base nos dados fornecidos."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Setores
       requestBody:
+        description: "Um objeto Setor deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Setor'
       responses:
         201:
+          headers:
+            Location:
+              description: "Localização do setor criado"
+              schema:
+                type: number
+                format: int32
+                example: "/setores/{id}"
           description: "Created"
           content:
             application/json:
@@ -747,10 +787,8 @@ paths:
                 $ref: '#/components/schemas/Setor'
     get:
       operationId: listaTodosOsSetores
-      summary: listaTodosOsSetores
+      summary: Lista todos os setores
       description: "Lista todos os setores ordenados por ID."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Setores
       responses:
@@ -765,21 +803,22 @@ paths:
 
   /usuarios:
     post:
-      security:
-        - bearerAuth: [ ]
+      operationId: criarUsuario
+      summary: Cria um usuário
+      description: "Cria um usuário no Keycloak que consegue acessar os recursos da aplicação de acordo
+        com sua Role"
       tags:
         - Usuarios
-      summary: Cria um novo usuário
-      operationId: criarUsuario
       requestBody:
+        description: "Um objeto UpsertUsuario deve ser fornecido"
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpsertUsuario'
-        required: true
       responses:
         201:
-          description: "Criado"
+          description: "Localização do usuario criado"
   /usuarios/{id}:
     parameters:
       - name: id
@@ -790,10 +829,8 @@ paths:
           type: string
     delete:
       operationId: excluirUsuario
-      summary: excluirUsuario
+      summary: Exclui um usuário
       description: "Exclui o registro de um usuario específico."
-      security:
-        - bearerAuth: [ ]
       tags:
         - Usuarios
       responses:
@@ -804,17 +841,15 @@ paths:
 
 components:
   schemas:
-
     Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada usuário de maneira única."
+          example: "22"
       allOf:
         - $ref: '#/components/schemas/UpsertUsuario'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada usuário de maneira única."
-              example: "22"
-
     UpsertUsuario:
       type: object
       properties:
@@ -824,6 +859,8 @@ components:
         password:
           type: string
           example: "abc123"
+          format: password
+          writeOnly: true
         nome:
           type: string
           example: "Talita"
@@ -833,6 +870,7 @@ components:
         email:
           type: string
           example: "meuemail@gmail.com"
+          format: email
         role:
           type: string
           enum:
@@ -922,14 +960,14 @@ components:
         - $ref: '#/components/schemas/Endereco'
         - $ref: '#/components/schemas/AtributosSede'
     Sede:
+      type: object
       allOf:
         - $ref: '#/components/schemas/UpsertSede'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada sede de maneira única."
-              example: "56"
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada sede de maneira única."
+          example: "56"
 
 
     AtributosMotorista:
@@ -955,15 +993,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/AtributosMotorista'
     Motorista:
+      type: object
       allOf:
         - $ref: '#/components/schemas/AtributosMotorista'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada motorista de maneira única."
-              example: "22"
-
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada motorista de maneira única."
+          example: "22"
 
     AtributosVeiculo:
       type: object
@@ -1004,15 +1041,14 @@ components:
       allOf:
         - $ref: '#/components/schemas/AtributosVeiculo'
     Veiculo:
+      type: object
       allOf:
         - $ref: '#/components/schemas/UpsertVeiculo'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada veículo de maneira única."
-              example: "102"
-
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada veículo de maneira única."
+          example: "102"
 
     UpsertMaterial:
       type: object
@@ -1028,15 +1064,14 @@ components:
           description: "Descricao do material a ser transportado."
           example: "Malote de socumentos"
     Material:
+      type: object
       allOf:
         - $ref: '#/components/schemas/UpsertMaterial'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada material de maneira única."
-              example: "188"
-
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada material de maneira única."
+          example: "188"
 
     MaterialQuantidadeSetor:
       type: object
@@ -1065,16 +1100,16 @@ components:
             # -> se o ADMIN criar este destino ele terá status = true
             # -> se outro usuário criar este destino ele terá status = false até que o ADMIN confirme
     Destino:
+      type: object
       allOf:
         - $ref: '#/components/schemas/UpsertDestino'
-        - type: object
-          properties:
-            id:
-              type: integer
-              description: "Atributo que identifica cada destino de maneira única."
-              example: "3"
-            status:
-              $ref: '#/components/schemas/Confirmacao'
+      properties:
+        id:
+          type: integer
+          description: "Atributo que identifica cada destino de maneira única."
+          example: "3"
+        status:
+          $ref: '#/components/schemas/Confirmacao'
 
     Confirmacao:
       type: object
@@ -1125,24 +1160,24 @@ components:
           example: "32"
 
     Viagem:
+      type: object
       allOf:
         - $ref: '#/components/schemas/UpsertViagem'
-        - type: object
-          properties:
-            status:
-              $ref: '#/components/schemas/Confirmacao'
-            encerrado:
-              type: string
-              description: "Atributo que identifica se a viagem já foi encerrada possibilidades: ENCERRADO ou NAO_ENCERRADO"
-              example: "ENCERRADO"
-            sede:
-              type: integer
-              description: "Atributo que identifica a sede de onde parte a viagem."
-              example: "32"
-            id:
-              type: integer
-              description: "Atributo que identifica cada viagem de maneira única."
-              example: "44"
+      properties:
+        status:
+          $ref: '#/components/schemas/Confirmacao'
+        encerrado:
+          type: string
+          description: "Atributo que identifica se a viagem já foi encerrada possibilidades: ENCERRADO ou NAO_ENCERRADO"
+          example: "ENCERRADO"
+        sede:
+          type: integer
+          description: "Atributo que identifica a sede de onde parte a viagem."
+          example: "32"
+        id:
+          type: integer
+          description: "Atributo que identifica cada viagem de maneira única."
+          example: "44"
     Setor:
       type: object
       description: "Todas as informacoes necessarias para o registro de um setor"
@@ -1170,7 +1205,14 @@ components:
         type: integer
 
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+#    BasicAuth:
+#      type: http
+#      scheme: basic
+
+security:
+  - BearerAuth: [ ]
+#  - BasicAuth: [ ]

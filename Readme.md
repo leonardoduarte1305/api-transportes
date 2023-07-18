@@ -212,9 +212,11 @@ IP_MAQUINA_HOST=192.168.0.50
 ```
 
 O IP_MAQUINA_HOST é o IP do seu computador na sua rede local. No Linux você pode conseguí-lo como resultado do comando:
+
 ```bash
 ifconfig
 ```
+
 no exemplo a seguir está logo após a palavra *inet*:
 
 ```
@@ -228,11 +230,15 @@ wlo1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
   TX packets 432888  bytes 140848792 (140.8 MB)
   TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
+
 Se você usar:
+
 ```bash
 echo "$(ip addr show wlo1 | grep "inet " | awk '{print $2}' | cut -d/ -f1)"
 ```
+
 o resultado deve ser algo parecido com:
+
 ```
 192.168.0.50
 ```
@@ -240,9 +246,11 @@ o resultado deve ser algo parecido com:
 Qualquer dúvida entre em contato.
 
 ## Se quiser checar outros recursos da aplicação:
+
 Para usar o Prometheus e o Grafana algumas configurações a mais são necessárias.
 
 ### Levante o container do Prometheus usando:
+
 ```bash
 docker run -d --rm --name prometheus -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml -p 9090:9090 prom/prometheus:latest
 ```

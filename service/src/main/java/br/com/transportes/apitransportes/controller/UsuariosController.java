@@ -1,7 +1,5 @@
 package br.com.transportes.apitransportes.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,18 +17,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UsuariosController implements UsuariosApi {
 
-	@Autowired
+	private static final String USUARIOS_ID = "/admin/realms/master/users/{id}";
 	private final UsuarioService usuarioService;
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> criarUsuario(UpsertUsuario upsertUsuario) {
+	@Override
+	public ResponseEntity<Void> criarUsuario(UpsertUsuario upsertUsuario) {
 		usuarioService.criarUsuarioCompleto(upsertUsuario);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@Override public ResponseEntity<Void> excluirUsuario(String id) {
+	@Override
+	public ResponseEntity<Void> excluirUsuario(String id) {
 		usuarioService.excluiUsuario(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return ResponseEntity.noContent().build();
 	}
 }

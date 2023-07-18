@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.core.io.InputStreamResource;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.ViagensService;
 import br.com.transportes.server.ViagensApi;
@@ -26,12 +28,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ViagensController implements ViagensApi {
 
+	private static final String VIAGENS_ID = "/viagens/{id}";
 	private final ViagensService viagensService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Viagem> criarViagem(UpsertViagem upsertViagem) {
 		Viagem viagemSalva = viagensService.upsertViagem(null, upsertViagem);
-		return ResponseEntity.ok(viagemSalva);
+		URI uri = uriBuilder.path(VIAGENS_ID)
+				.buildAndExpand(viagemSalva.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(viagemSalva);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")

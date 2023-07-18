@@ -1,7 +1,6 @@
 package br.com.transportes.apitransportes.service;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +23,7 @@ class UsuarioServiceTest {
 		restTemplate = new RestTemplate();
 	}
 
-//	@Test
+	//	@Test
 	void criarUsuarioCompletoEDepoisExcluiOUsuario() {
 		UpsertUsuario upsertUsuario = new UpsertUsuario()
 				.nome("Linus")

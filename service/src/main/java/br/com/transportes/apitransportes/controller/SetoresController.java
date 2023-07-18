@@ -1,11 +1,13 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.SetoresService;
 import br.com.transportes.server.SetoresApi;
@@ -18,11 +20,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SetoresController implements SetoresApi {
 
+	private static final String SETORES_ID = "/setores/{id}";
 	private final SetoresService setorService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@Override public ResponseEntity<Setor> criarSetor(Setor setor) {
 		Setor setorSalvo = setorService.criaSetor(setor);
-		return ResponseEntity.ok(setorSalvo);
+		URI uri = uriBuilder.path(SETORES_ID)
+				.buildAndExpand(setorSalvo.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(setorSalvo);
 	}
 
 	@Override public ResponseEntity<List<Setor>> listaTodosOsSetores() {

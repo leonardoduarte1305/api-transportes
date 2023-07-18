@@ -22,14 +22,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SedesController implements SedesApi {
 
-	private static final String SEDE_ID = "/sedes/{id}";
-	private UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
+	private static final String SEDES_ID = "/sedes/{id}";
 	private final SedesService sedesService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
 		Sede sedeSalva = sedesService.upsertSede(null, upsertSede);
-		URI uri = uriBuilder.path(SEDE_ID).buildAndExpand(sedeSalva.getId()).toUri();
+		URI uri = uriBuilder.path(SEDES_ID)
+				.buildAndExpand(sedeSalva.getId()).toUri();
 
 		return ResponseEntity.created(uri).body(sedeSalva);
 	}

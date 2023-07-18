@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,13 +38,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UsuarioService {
 
-	private String tokenUrl = "http://127.0.0.1:8081/realms/master/protocol/openid-connect/token";
-	private String usuariosUrl = "http://127.0.0.1:8081/admin/realms/master/users/";
-	private String clientsUrl = "http://127.0.0.1:8081/admin/realms/master/clients/";
 	private static final String CLIENTS_NAME = "api-transportes-client";
 	private static final String ADMIN_USERNAME = "admin";
 	private static final String ADMIN_PASSWORD = "admin";
 	private static final String ERRO_DE_PARSE = "Ops, deu erro na hora de parsear o objeto!!!";
+	private final String tokenUrl = "http://127.0.0.1:8081/realms/master/protocol/openid-connect/token";
+	private final String usuariosUrl = "http://127.0.0.1:8081/admin/realms/master/users/";
+	private final String clientsUrl = "http://127.0.0.1:8081/admin/realms/master/clients/";
 	private RestTemplate restTemplate;
 	private HttpHeaders headers;
 

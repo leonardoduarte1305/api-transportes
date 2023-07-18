@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.DestinosService;
 import br.com.transportes.server.DestinosApi;
@@ -22,12 +24,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DestinosController implements DestinosApi {
 
+	private static final String DESTINOS_ID = "/destinos/{id}";
 	private final DestinosService destinosService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@Override public ResponseEntity<Destino> criarDestino(UpsertDestino upsertDestino) {
 		Destino destinoSalvo = destinosService.upsertDestino(null, upsertDestino);
-		return ResponseEntity.ok(destinoSalvo);
+		URI uri = uriBuilder.path(DESTINOS_ID)
+				.buildAndExpand(destinoSalvo.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(destinoSalvo);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")

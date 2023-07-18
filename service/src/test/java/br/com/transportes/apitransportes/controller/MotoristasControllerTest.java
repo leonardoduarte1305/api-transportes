@@ -77,7 +77,7 @@ class MotoristasControllerTest {
 				.accept(MediaType.APPLICATION_JSON);
 
 		mockMvc.perform(request)
-				.andExpect(status().isOk())
+				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id", is(motoristaResponse.getId())))
 				.andExpect(jsonPath("$.nome", is(motoristaResponse.getNome())))

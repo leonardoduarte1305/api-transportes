@@ -92,7 +92,8 @@ public class ViagensService {
 
 		Motorista motorista = getMotorista(upsertViagem);
 		Veiculo veiculo = getVeiculo(upsertViagem);
-		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = new ArrayList<>(getNovosDestinosParaAViagem(upsertViagem));
+		List<br.com.transportes.apitransportes.entity.Destino> novosDestinos = new ArrayList<>(
+				getNovosDestinosParaAViagem(upsertViagem));
 
 		viagemParaSalvar.setMotorista(motorista);
 		viagemParaSalvar.setVeiculo(veiculo);

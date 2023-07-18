@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.VeiculosService;
 import br.com.transportes.server.VeiculosApi;
@@ -20,12 +22,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VeiculosController implements VeiculosApi {
 
+	private static final String VEICULOS_ID = "/veiculos/{id}";
 	private final VeiculosService veiculosService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Veiculo> criarVeiculo(UpsertVeiculo upsertVeiculo) {
 		Veiculo veiculoSalvo = veiculosService.upsertVeiculo(null, upsertVeiculo);
-		return ResponseEntity.ok(veiculoSalvo);
+		URI uri = uriBuilder.path(VEICULOS_ID)
+				.buildAndExpand(veiculoSalvo.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(veiculoSalvo);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")

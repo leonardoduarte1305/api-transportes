@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.transportes.apitransportes.service.MotoristasService;
 import br.com.transportes.server.MotoristasApi;
@@ -20,12 +22,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MotoristasController implements MotoristasApi {
 
+	private static final String MOTORISTAS_ID = "/motoristas/{id}";
 	private final MotoristasService motoristasService;
+	private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@Override public ResponseEntity<Motorista> criarMotorista(AtributosMotorista atributosMotorista) {
 		Motorista motoristaSalvo = motoristasService.upsertMotorista(null, atributosMotorista);
-		return ResponseEntity.ok(motoristaSalvo);
+		URI uri = uriBuilder.path(MOTORISTAS_ID)
+				.buildAndExpand(motoristaSalvo.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(motoristaSalvo);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
