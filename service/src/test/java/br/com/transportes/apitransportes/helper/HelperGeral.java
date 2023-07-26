@@ -23,6 +23,7 @@ import br.com.transportes.apitransportes.entity.Setor;
 import br.com.transportes.apitransportes.entity.Uf;
 import br.com.transportes.apitransportes.entity.Veiculo;
 import br.com.transportes.apitransportes.entity.Viagem;
+import br.com.transportes.apitransportes.fixtures.SedeFixture;
 
 public class HelperGeral {
 
@@ -99,7 +100,7 @@ public class HelperGeral {
 	}
 
 	public Destino criarDestinoCompleto(Integer destinoId) {
-		Sede sede = criarSedeCompleta(Long.valueOf(SEDE_ID));
+		Sede sede = SedeFixture.builder().setId(SEDE_ID).build();
 
 		Material materialA = Material.builder()
 				.id(50)

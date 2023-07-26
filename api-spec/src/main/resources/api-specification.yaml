@@ -38,6 +38,9 @@ tags:
   - name: "Usuarios"
     description: "Descreve os endpoints para o gerenciamento de Usuarios"
 
+  - name: "Eventos"
+    description: "Descreve os endpoints para quaisquer outras implementações que eu ache legais de fazer. Hehehe"
+
 servers:
   - description: Personalizado
     url: "{protocolo}://{host}:{porta}{raiz}"
@@ -838,6 +841,24 @@ paths:
           description: "Excluido"
         400:
           description: "Id inválido"
+
+  /eventos/sedes:
+    post:
+      operationId: criarSedeUsandoEvento
+      summary: "Cria uma sede usando evento"
+      description: "Cria uma sede com base nos dados fornecidos usando Spring Events."
+      tags:
+        - Eventos
+      requestBody:
+        description: "Um objeto UpsertSede deve ser fornecido"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertSede'
+      responses:
+        201:
+          description: "Created"
 
 components:
   schemas:

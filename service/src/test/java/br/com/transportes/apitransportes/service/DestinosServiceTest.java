@@ -27,6 +27,7 @@ import br.com.transportes.apitransportes.entity.Material;
 import br.com.transportes.apitransportes.entity.Sede;
 import br.com.transportes.apitransportes.entity.Setor;
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
+import br.com.transportes.apitransportes.fixtures.SedeFixture;
 import br.com.transportes.apitransportes.helper.HelperGeral;
 import br.com.transportes.apitransportes.helper.HelperParaRequests;
 import br.com.transportes.apitransportes.mapper.DestinosMapper;
@@ -77,7 +78,7 @@ class DestinosServiceTest {
 	void deveSalvarDestinoCorretamente() {
 
 		Integer sedeId = 10;
-		Sede sedeEncontrada = helper.criarSedeCompleta(1L);
+		Sede sedeEncontrada = SedeFixture.builder().setId(1).build();
 		sedeEncontrada.inscreverUsuario("usuario@gmail.com");
 		Mockito.when(sedesService.encontrarSedePorId(sedeId)).thenReturn(sedeEncontrada);
 
@@ -132,7 +133,7 @@ class DestinosServiceTest {
 		Mockito.when(destinosRepository.findById(any(Long.class))).thenReturn(destinoEncontrado);
 
 		Integer sedeId = 10;
-		Sede sedeEncontrada = helper.criarSedeCompleta(1L);
+		Sede sedeEncontrada = SedeFixture.builder().setId(1).build();
 		sedeEncontrada.inscreverUsuario("usuario@gmail.com");
 		Mockito.when(sedesService.encontrarSedePorId(sedeId)).thenReturn(sedeEncontrada);
 
