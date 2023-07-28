@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -70,7 +71,9 @@ public class UsuarioService {
 		return usuarioKeycloak.getId();
 	}
 
-	private String getBearerTokenComoString() {
+	@Cacheable("access_token") // FIXME Não funciona neste método (imagino que por causa do retorno)
+	public String getBearerTokenComoString() {
+		log.info("Gerando access_token.");
 		String response = "";
 
 		try {

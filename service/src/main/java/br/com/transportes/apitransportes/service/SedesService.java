@@ -2,6 +2,7 @@ package br.com.transportes.apitransportes.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
@@ -11,7 +12,9 @@ import br.com.transportes.server.model.Sede;
 import br.com.transportes.server.model.UpsertSede;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SedesService {
@@ -38,7 +41,14 @@ public class SedesService {
 		}
 	}
 
+	@Cacheable(value = "sedes")
 	public List<Sede> listarTodas() {
+		try {
+			Thread.sleep(10000L);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		log.info("Buscando sedes.");
 		List<br.com.transportes.apitransportes.entity.Sede> encontradas = sedesRepository.findAll();
 		return encontradas.stream().map(sedesMapper::toSedeDto).toList();
 	}

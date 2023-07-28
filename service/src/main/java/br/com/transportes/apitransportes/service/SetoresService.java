@@ -3,6 +3,7 @@ package br.com.transportes.apitransportes.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
@@ -33,7 +34,14 @@ public class SetoresService {
 		return setoresMapper.toSetorDto(setoresRepository.save(setoresMapper.toSetorEntity(setor)));
 	}
 
+	@Cacheable(value = "setores")
 	public List<Setor> listaTodosOsSetores() {
+		try {
+			Thread.sleep(8000L);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		log.info("Buscando setores.");
 		List<br.com.transportes.apitransportes.entity.Setor> setores = setoresRepository.findAll();
 		return setores.stream().map(setoresMapper::toSetorDto).collect(Collectors.toList());
 	}

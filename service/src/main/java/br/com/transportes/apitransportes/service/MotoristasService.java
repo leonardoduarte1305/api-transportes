@@ -3,6 +3,7 @@ package br.com.transportes.apitransportes.service;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import br.com.transportes.apitransportes.exception.EntidadeNaoEncontradaException;
@@ -36,7 +37,14 @@ public class MotoristasService {
 		}
 	}
 
+	@Cacheable(value = "motoristas")
 	public List<Motorista> listarTodos() {
+		try {
+			Thread.sleep(7000L);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		log.info("Buscando motoristas.");
 		List<br.com.transportes.apitransportes.entity.Motorista> encontrados = motoristasRepository.findAll();
 		return encontrados.stream().map(motoristasMapper::toMotoristaDto).toList();
 	}

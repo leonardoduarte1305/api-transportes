@@ -43,6 +43,21 @@ spring:
       hibernate:
         format_sql: false
         show_sql: false
+  cache:
+    cache-names:
+      - setores
+      - sedes
+      - motoristas
+      - token
+    caffeine:
+      spec: recordStats
+transportes-api:
+  cache:
+    specs:
+      setores: expireAfterWrite=10s,recordStats
+      sedes: expireAfterWrite=30s,recordStats
+      motoristas: expireAfterWrite=5s,recordStats
+      token: expireAfterWrite=60s,recordStats
 management:
   endpoints:
     enabled-by-default: true
