@@ -69,7 +69,7 @@
 		<ssh-scm-connection>git@github.com</ssh-scm-connection>
 
 		<registry-ip>localhost</registry-ip>
-		<registry-port>8081</registry-port>
+		<registry-port>8082</registry-port>
 		<maven-releases-repository.name>nexus-maven-releases</maven-releases-repository.name>
 		<maven-snapshots-repository.name>nexus-maven-snapshots</maven-snapshots-repository.name>
 

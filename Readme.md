@@ -106,7 +106,7 @@ docker run -d --rm \
 --name keycloak \
 -e KEYCLOAK_DATABASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
 --env-file local.env \
-bitnami/keycloak:21
+bitnami/keycloak:22.0.4
 ```
 
 Acesse http://localhost:8081/admin/
