@@ -15,9 +15,7 @@ import br.com.transportes.server.model.UpsertViagem;
 @Mapper(uses = { VeiculosMapper.class, MotoristasMapper.class, DestinosMapper.class })
 public interface ViagensMapper {
 
-	ViagensMapper INSTANCE = Mappers.getMapper(ViagensMapper.class);
-
-	@Mapping(target = "id", ignore = true)
+	@ToEntity
 	@Mapping(target = "status", ignore = true)
 	default Viagem toViagemEntity(UpsertViagem viagem, Motorista motorista, Veiculo veiculo, List<Destino> destinos) {
 		if (viagem == null) {

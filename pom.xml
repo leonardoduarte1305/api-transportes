@@ -113,6 +113,7 @@
 		<asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
 		<spring-restdocs-asciidoctor.version>3.0.1</spring-restdocs-asciidoctor.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
 
 		<checkstyle.failOnViolation>true</checkstyle.failOnViolation>
 		<checkstyle.violationSeverity>error</checkstyle.violationSeverity>
@@ -135,7 +136,7 @@
 		<swagger-annotations.version>2.2.8</swagger-annotations.version>
 		<jsr305.version>3.0.2</jsr305.version>
 		<micrometer-registry-prometheus.version>1.12.5</micrometer-registry-prometheus.version>
-		<mapstruct.version>1.5.3.Final</mapstruct.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
 		<commons-csv.version>1.10.0</commons-csv.version>
 		<commons-io.version>2.16.1</commons-io.version>
@@ -207,8 +208,16 @@
 								<version>${mapstruct.version}</version>
 							</path>
 						</annotationProcessorPaths>
+						<showWarnings>true</showWarnings>
 						<compilerArgs>
+							<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
+							<arg>-Amapstruct.verbose=true</arg>
+							<arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
 							<arg>-Amapstruct.defaultComponentModel=spring</arg>
+							<arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
+							<arg>-Amapstruct.unmappedTargetPolicy=WARN</arg>
+							<arg>-Amapstruct.unmappedSourcePolicy=WARN</arg>
+							<arg>-Amapstruct.disableBuilders=false</arg>
 						</compilerArgs>
 					</configuration>
 				</plugin>
@@ -301,32 +310,26 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>Enforce Plugin in Action</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<banDuplicatePomDependencyVersions/>
-								<requireMavenVersion>
-									<version>[3.8.5,)</version>
-									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<version>[17,)</version>
-									<message>Invalid Java version. It should, at least, be 17</message>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>${maven-toolchains-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>17</version>
+                            <vendor>openjdk</vendor>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>

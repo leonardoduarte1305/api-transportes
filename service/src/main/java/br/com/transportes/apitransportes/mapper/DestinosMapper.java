@@ -2,6 +2,7 @@ package br.com.transportes.apitransportes.mapper;
 
 import java.util.List;
 
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -12,9 +13,7 @@ import br.com.transportes.apitransportes.entity.Sede;
 @Mapper(uses = { SedesMapper.class, MaterialQuantidadeSetorMapper.class })
 public interface DestinosMapper {
 
-	DestinosMapper INSTANCE = Mappers.getMapper(DestinosMapper.class);
-
-	@Mapping(target = "id", ignore = true)
+	@ToEntity
 	@Mapping(target = "status", ignore = true)
 	default Destino toDestinoEntity(
 			Sede sede,
