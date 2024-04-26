@@ -12,9 +12,7 @@ import br.com.transportes.apitransportes.entity.Sede;
 @Mapper(uses = { SedesMapper.class, MaterialQuantidadeSetorMapper.class })
 public interface DestinosMapper {
 
-	DestinosMapper INSTANCE = Mappers.getMapper(DestinosMapper.class);
-
-	@Mapping(target = "id", ignore = true)
+	@ToEntity
 	@Mapping(target = "status", ignore = true)
 	default Destino toDestinoEntity(
 			Sede sede,

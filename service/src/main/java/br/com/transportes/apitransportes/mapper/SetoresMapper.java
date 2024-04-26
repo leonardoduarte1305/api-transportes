@@ -9,10 +9,9 @@ import br.com.transportes.apitransportes.entity.Setor;
 @Mapper
 public interface SetoresMapper {
 
-	SetoresMapper INSTANCE = Mappers.getMapper(SetoresMapper.class);
-
-	@Mapping(target = "id", ignore = true)
+	@ToEntity
 	Setor toSetorEntity(br.com.transportes.server.model.Setor setor);
 
+	@ToDto
 	br.com.transportes.server.model.Setor toSetorDto(Setor setor);
 }

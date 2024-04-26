@@ -1,5 +1,6 @@
 package br.com.transportes.apitransportes.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -10,8 +11,6 @@ import br.com.transportes.apitransportes.entity.Setor;
 
 @Mapper(uses = { MateriaisMapper.class, SetoresMapper.class })
 public interface MaterialQuantidadeSetorMapper {
-
-	MaterialQuantidadeSetorMapper INSTANCE = Mappers.getMapper(MaterialQuantidadeSetorMapper.class);
 
 	@Mapping(target = "id", ignore = true)
 	default MaterialQuantidadeSetor toMaterialQuantidadeSetorEntity(
