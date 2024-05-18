@@ -1,7 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
@@ -16,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "material_quantidade_setor")
@@ -27,26 +26,27 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 public class MaterialQuantidadeSetor {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "materialId", nullable = false)
-	private Material material;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "materialId", nullable = false)
+    private Material material;
 
-	@JoinColumn(nullable = false)
-	private Integer quantidade;
+    @JoinColumn(nullable = false)
+    private Integer quantidade;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "setorId", nullable = false)
-	private Setor setorDestino;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "setorId", nullable = false)
+    private Setor setorDestino;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "destinoId")
-	private Destino destino;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "destinoId")
+    private Destino destino;
 
-	@Override public String toString() {
-		return "Material: " + material.toString() + ", Quantidade: " + quantidade + ", Setor de destino: " + setorDestino + "\n";
-	}
+    @Override
+    public String toString() {
+        return "Material: " + material.toString() + ", Quantidade: " + quantidade + ", Setor de destino: " + setorDestino + "\n";
+    }
 }

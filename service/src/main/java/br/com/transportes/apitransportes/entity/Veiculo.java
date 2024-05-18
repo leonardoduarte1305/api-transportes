@@ -1,9 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import java.math.BigDecimal;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +12,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "veiculo")
@@ -27,29 +26,30 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 public class Veiculo {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@JoinColumn(nullable = false)
-	private String modelo;
+    @JoinColumn(nullable = false)
+    private String modelo;
 
-	@JoinColumn(nullable = false)
-	private String marca;
+    @JoinColumn(nullable = false)
+    private String marca;
 
-	@JoinColumn(nullable = false)
-	private String placa;
+    @JoinColumn(nullable = false)
+    private String placa;
 
-	@JoinColumn(nullable = false)
-	private Integer ano;
+    @JoinColumn(nullable = false)
+    private Integer ano;
 
-	@JoinColumn(nullable = false)
-	private BigDecimal renavan;
+    @JoinColumn(nullable = false)
+    private BigDecimal renavan;
 
-	@JoinColumn(nullable = false)
-	private String tamanho;
+    @JoinColumn(nullable = false)
+    private String tamanho;
 
-	@Override public String toString() {
-		return "Modelo: " + modelo + " - " + marca + ", Placa: " + placa + " - " + ano + ", Tamanho: " + tamanho;
-	}
+    @Override
+    public String toString() {
+        return "Modelo: " + modelo + " - " + marca + ", Placa: " + placa + " - " + ano + ", Tamanho: " + tamanho;
+    }
 }

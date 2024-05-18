@@ -1,417 +1,418 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>br.com.transportes</groupId>
-		<artifactId>api-transportes</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>br.com.transportes</groupId>
+        <artifactId>api-transportes</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>service</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <artifactId>service</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-	<properties>
-		<download-spec-project.groupId>groupId</download-spec-project.groupId>
-		<download-spec-project.artifactId>artifactId</download-spec-project.artifactId>
-		<download-spec-project.version>0.0.1-SNAPSHOT</download-spec-project.version>
+    <properties>
+        <download-spec-project.groupId>groupId</download-spec-project.groupId>
+        <download-spec-project.artifactId>artifactId</download-spec-project.artifactId>
+        <download-spec-project.version>0.0.1-SNAPSHOT</download-spec-project.version>
 
-		<download-spec-project.package>com.company.service.api.client</download-spec-project.package>
-		<download-spec-project.filename>openapi.yaml</download-spec-project.filename>
-		<spec-url-to-download>
-			https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/${download-spec-project.filename}
-		</spec-url-to-download>
-	</properties>
+        <download-spec-project.package>com.company.service.api.client</download-spec-project.package>
+        <download-spec-project.filename>openapi.yaml</download-spec-project.filename>
+        <spec-url-to-download>
+            https://raw.githubusercontent.com/swagger-api/swagger-petstore/master/src/main/resources/${download-spec-project.filename}
+        </spec-url-to-download>
+    </properties>
 
-	<dependencies>
-		<!-- Our Own Dependencies-->
-		<dependency>
-			<groupId>br.com.transportes</groupId>
-			<artifactId>api-spec</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
+    <dependencies>
+        <!-- Our Own Dependencies-->
+        <dependency>
+            <groupId>br.com.transportes</groupId>
+            <artifactId>api-spec</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
 
-		<!-- Springboot Managed Dependencies-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-jose</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-resource-server</artifactId>
-		</dependency>
+        <!-- Springboot Managed Dependencies-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
 
-		<!-- Outras dependencias -->
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.persistence</groupId>
-			<artifactId>jakarta.persistence-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct-processor</artifactId>
-			<version>${mapstruct.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<version>${micrometer-registry-prometheus.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-csv</artifactId>
-			<version>${commons-csv.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>${itextpdf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openapitools</groupId>
-			<artifactId>jackson-databind-nullable</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<version>4.11.0</version>
-		</dependency>
+        <!-- Outras dependencias -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer-registry-prometheus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${commons-csv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>${itextpdf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.11.0</version>
+        </dependency>
 
-		<!-- Dependencias de teste -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.restdocs</groupId>
-			<artifactId>spring-restdocs-mockmvc</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- Dependencias de teste -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<filtering>true</filtering>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${spring-boot-starter-parent.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven-failsafe-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco-maven-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>flatten-maven-plugin</artifactId>
-				<version>${flatten-maven-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>${maven-release-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin.version}</version>
-			</plugin>
-			<!-- Download spec using curl command -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>download-spec</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<exec executable="curl">
-									<arg value="-L"/>
-									<arg value="-o"/>
-									<arg value="${project.build.directory}/${download-spec-project.filename}"/>
-									<arg value="${spec-url-to-download}"/>
-								</exec>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>${openapi-generator-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>Generating Client Artifacts</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.build.directory}/${download-spec-project.filename}</inputSpec>
-							<generatorName>java</generatorName>
-							<generateApiTests>false</generateApiTests>
-							<generateModelTests>false</generateModelTests>
-							<output>${project.build.directory}/generated-sources/openapi/</output>
-							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
-								<library>resttemplate</library>
-								<dateLibrary>java8</dateLibrary>
-								<useJakartaEe>true</useJakartaEe>
-								<interfaceOnly>true</interfaceOnly>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<apiPackage>${download-spec-project.package}</apiPackage>
-								<modelPackage>${download-spec-project.package}.model</modelPackage>
-								<invokePackage>${download-spec-project.package}.invoker</invokePackage>
-								<configurationpackage>${download-spec-project.package}.configuration
-								</configurationpackage>
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-starter-parent.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+            </plugin>
+            <!-- Download spec using curl command -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>download-spec</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <exec executable="curl">
+                                    <arg value="-L"/>
+                                    <arg value="-o"/>
+                                    <arg value="${project.build.directory}/${download-spec-project.filename}"/>
+                                    <arg value="${spec-url-to-download}"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>Generating Client Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.build.directory}/${download-spec-project.filename}</inputSpec>
+                            <generatorName>java</generatorName>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <output>${project.build.directory}/generated-sources/openapi/</output>
+                            <configOptions>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <library>resttemplate</library>
+                                <dateLibrary>java8</dateLibrary>
+                                <useJakartaEe>true</useJakartaEe>
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <apiPackage>${download-spec-project.package}</apiPackage>
+                                <modelPackage>${download-spec-project.package}.model</modelPackage>
+                                <invokePackage>${download-spec-project.package}.invoker</invokePackage>
+                                <configurationpackage>${download-spec-project.package}.configuration
+                                </configurationpackage>
 
-								<!--Set Springboot version used in generated code (use recent log4j version)-->
-								<parentGroupId>org.springframework.boot</parentGroupId>
-								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
-								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
-							</configOptions>
-							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Download spec using maven-dependency-plugin -->
-			<!--			<plugin>-->
-			<!--				<artifactId>maven-dependency-plugin</artifactId>-->
-			<!--				<executions>-->
-			<!--					<execution>-->
-			<!--						<id>download-specs</id>-->
-			<!--						<phase>initialize</phase>-->
-			<!--						<goals>-->
-			<!--							<goal>copy</goal>-->
-			<!--						</goals>-->
-			<!--						<configuration>-->
-			<!--							<artifactItems>-->
-			<!--								<artifactItem>-->
-			<!--									<groupId>${download-spec-project.groupId}</groupId>-->
-			<!--									<artifactId>${download-spec-project.artifactId}</artifactId>-->
-			<!--									<version>${download-spec-project.version}</version>-->
-			<!--									<classifier>openapi</classifier>-->
-			<!--									<type>yaml</type>-->
-			<!--									<destFileName>${download-spec-project.filename}</destFileName>-->
-			<!--								</artifactItem>-->
-			<!--							</artifactItems>-->
-			<!--							<outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
-			<!--						</configuration>-->
-			<!--					</execution>-->
-			<!--				</executions>-->
-			<!--			</plugin>-->
+                                <!--Set Springboot version used in generated code (use recent log4j version)-->
+                                <parentGroupId>org.springframework.boot</parentGroupId>
+                                <parentArtifactId>spring-boot-starter-parent</parentArtifactId>
+                                <parentVersion>${spring-boot-starter-parent.version}</parentVersion>
+                            </configOptions>
+                            <additionalProperties>removeEnumValuePrefix=false</additionalProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Download spec using maven-dependency-plugin -->
+            <!--			<plugin>-->
+            <!--				<artifactId>maven-dependency-plugin</artifactId>-->
+            <!--				<executions>-->
+            <!--					<execution>-->
+            <!--						<id>download-specs</id>-->
+            <!--						<phase>initialize</phase>-->
+            <!--						<goals>-->
+            <!--							<goal>copy</goal>-->
+            <!--						</goals>-->
+            <!--						<configuration>-->
+            <!--							<artifactItems>-->
+            <!--								<artifactItem>-->
+            <!--									<groupId>${download-spec-project.groupId}</groupId>-->
+            <!--									<artifactId>${download-spec-project.artifactId}</artifactId>-->
+            <!--									<version>${download-spec-project.version}</version>-->
+            <!--									<classifier>openapi</classifier>-->
+            <!--									<type>yaml</type>-->
+            <!--									<destFileName>${download-spec-project.filename}</destFileName>-->
+            <!--								</artifactItem>-->
+            <!--							</artifactItems>-->
+            <!--							<outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
+            <!--						</configuration>-->
+            <!--					</execution>-->
+            <!--				</executions>-->
+            <!--			</plugin>-->
 
 
-			<!-- maven-resources-plugin should be after asciidoctor-maven-plugin -->
-			<plugin>
-				<groupId>org.asciidoctor</groupId>
-				<artifactId>asciidoctor-maven-plugin</artifactId>
-				<version>${asciidoctor-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>generate-docs</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>process-asciidoc</goal>
-						</goals>
-						<configuration>
-							<backend>html</backend>
-							<doctype>book</doctype>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.restdocs</groupId>
-						<artifactId>spring-restdocs-asciidoctor</artifactId>
-						<version>${spring-restdocs-asciidoctor.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.outputDirectory}/static/docs
-							</outputDirectory>
-							<resources>
-								<resource>
-									<directory>
-										${project.build.directory}/generated-docs
-									</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+            <!-- maven-resources-plugin should be after asciidoctor-maven-plugin -->
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-docs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html</backend>
+                            <doctype>book</doctype>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.restdocs</groupId>
+                        <artifactId>spring-restdocs-asciidoctor</artifactId>
+                        <version>${spring-restdocs-asciidoctor.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/static/docs
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/generated-docs
+                                    </directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<profiles>
-		<profile>
-			<id>docker-build-push</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>${spring-boot-starter-parent.version}</version>
-						<executions>
-							<execution>
-								<id>spring-image</id>
-								<goals>
-									<goal>build-image</goal>
-								</goals>
-								<configuration>
-									<layers>
-										<enabled>true</enabled>
-									</layers>
-									<image>
-										<name>${docker.final.name}</name>
-										<publish>true</publish>
-									</image>
-									<docker>
-										<publishRegistry>
-											<!--suppress UnresolvedMavenProperty -->
-											<username>${settings-xml.dockerhub.username}</username>
-											<!--suppress UnresolvedMavenProperty -->
-											<password>${settings-xml.dockerhub.password}</password>
-											<!--suppress UnresolvedMavenProperty -->
-											<url>${settings-xml.dockerhub.registry}</url>
-											<!--suppress UnresolvedMavenProperty -->
-											<email>${settings-xml.dockerhub.email}</email>
-										</publishRegistry>
-									</docker>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>docker-build-push</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot-starter-parent.version}</version>
+                        <executions>
+                            <execution>
+                                <id>spring-image</id>
+                                <goals>
+                                    <goal>build-image</goal>
+                                </goals>
+                                <configuration>
+                                    <layers>
+                                        <enabled>true</enabled>
+                                    </layers>
+                                    <image>
+                                        <name>${docker.final.name}</name>
+                                        <publish>true</publish>
+                                    </image>
+                                    <docker>
+                                        <publishRegistry>
+                                            <!--suppress UnresolvedMavenProperty -->
+                                            <username>${settings-xml.dockerhub.username}</username>
+                                            <!--suppress UnresolvedMavenProperty -->
+                                            <password>${settings-xml.dockerhub.password}</password>
+                                            <!--suppress UnresolvedMavenProperty -->
+                                            <url>${settings-xml.dockerhub.registry}</url>
+                                            <!--suppress UnresolvedMavenProperty -->
+                                            <email>${settings-xml.dockerhub.email}</email>
+                                        </publishRegistry>
+                                    </docker>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

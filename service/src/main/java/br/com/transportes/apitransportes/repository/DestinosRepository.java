@@ -1,17 +1,16 @@
 package br.com.transportes.apitransportes.repository;
 
-import java.util.List;
-
+import br.com.transportes.apitransportes.entity.Destino;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.transportes.apitransportes.entity.Destino;
+import java.util.List;
 
 @Repository
 public interface DestinosRepository extends JpaRepository<Destino, Long> {
-	List<Destino> findByIdIsIn(List<Integer> destinos);
+    List<Destino> findByIdIsIn(List<Integer> destinos);
 
-	List<Destino> findAllByViagemId(Integer id);
+    List<Destino> findAllByViagemId(Integer id);
 
-	void removeAllByViagem_Id(Integer id);
+    void removeAllByViagem_Id(Integer id);
 }

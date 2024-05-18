@@ -1,341 +1,342 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
-		<relativePath/>
-		<!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+        <!-- lookup parent from repository -->
+    </parent>
 
-	<groupId>br.com.transportes</groupId>
-	<artifactId>api-transportes</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>br.com.transportes</groupId>
+    <artifactId>api-transportes</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>${project.artifactId}</name>
-	<description>
-		Aplicação completa com especificacao Openapi e um service que a implementa
-	</description>
-	<inceptionYear>2023</inceptionYear>
-	<licenses>
-		<license>
-			<name>Software License 1.0</name>
-		</license>
-	</licenses>
+    <name>${project.artifactId}</name>
+    <description>
+        Aplicação completa com especificacao Openapi e um service que a implementa
+    </description>
+    <inceptionYear>2023</inceptionYear>
+    <licenses>
+        <license>
+            <name>Software License 1.0</name>
+        </license>
+    </licenses>
 
-	<modules>
-		<module>api-spec</module>
-		<module>service</module>
-	</modules>
+    <modules>
+        <module>api-spec</module>
+        <module>service</module>
+    </modules>
 
-	<scm>
-		<connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}.git</connection>
-		<developerConnection>
-			scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
-		</developerConnection>
-		<url>${scm-url}/${scm-username}/${repository-name}</url>
-		<tag>${project.version}</tag>
-	</scm>
-	<issueManagement>
-		<system>Github</system>
-		<url>${scm-url}/${scm-username}/${repository-name}/issues</url>
-	</issueManagement>
-	<distributionManagement>
-		<repository>
-			<id>nexus-maven-releases</id>
-			<name>Maven Hosted Releases Repository</name>
-			<url>http://${registry-ip}:${registry-port}/repository/${maven-releases-repository.name}/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-maven-snapshots</id>
-			<name>Maven Hosted Snapshots Repository</name>
-			<url>http://${registry-ip}:${registry-port}/repository/${maven-snapshots-repository.name}/</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <scm>
+        <connection>scm:${scm-provider}:${scm-url}/${scm-username}/${repository-name}.git</connection>
+        <developerConnection>
+            scm:${scm-provider}:${ssh-scm-connection}:${scm-username}/${repository-name}.git
+        </developerConnection>
+        <url>${scm-url}/${scm-username}/${repository-name}</url>
+        <tag>${project.version}</tag>
+    </scm>
+    <issueManagement>
+        <system>Github</system>
+        <url>${scm-url}/${scm-username}/${repository-name}/issues</url>
+    </issueManagement>
+    <distributionManagement>
+        <repository>
+            <id>nexus-maven-releases</id>
+            <name>Maven Hosted Releases Repository</name>
+            <url>http://${registry-ip}:${registry-port}/repository/${maven-releases-repository.name}/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-maven-snapshots</id>
+            <name>Maven Hosted Snapshots Repository</name>
+            <url>http://${registry-ip}:${registry-port}/repository/${maven-snapshots-repository.name}/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<properties>
+    <properties>
 
-		<!-- ===================================================================== -->
-		<!-- =============== Personal properties and Local configs =============== -->
-		<!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+        <!-- =============== Personal properties and Local configs =============== -->
+        <!-- ===================================================================== -->
 
-		<scm-provider>git</scm-provider>
-		<scm-url>https://github.com</scm-url>
-		<scm-username>${settings-xml.scm-username}</scm-username>
-		<repository-name>api-transportes-spec</repository-name>
-		<ssh-scm-connection>git@github.com</ssh-scm-connection>
+        <scm-provider>git</scm-provider>
+        <scm-url>https://github.com</scm-url>
+        <scm-username>${settings-xml.scm-username}</scm-username>
+        <repository-name>api-transportes-spec</repository-name>
+        <ssh-scm-connection>git@github.com</ssh-scm-connection>
 
-		<registry-ip>localhost</registry-ip>
-		<registry-port>8082</registry-port>
-		<maven-releases-repository.name>nexus-maven-releases</maven-releases-repository.name>
-		<maven-snapshots-repository.name>nexus-maven-snapshots</maven-snapshots-repository.name>
+        <registry-ip>localhost</registry-ip>
+        <registry-port>8082</registry-port>
+        <maven-releases-repository.name>nexus-maven-releases</maven-releases-repository.name>
+        <maven-snapshots-repository.name>nexus-maven-snapshots</maven-snapshots-repository.name>
 
-		<!-- ===================================================================== -->
-		<!-- =============================== Build =============================== -->
-		<!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+        <!-- =============================== Build =============================== -->
+        <!-- ===================================================================== -->
 
-		<java.version>17</java.version>
-		<encoding>UTF-8</encoding>
+        <java.version>17</java.version>
+        <encoding>UTF-8</encoding>
 
-		<project.build.indentSize>4</project.build.indentSize>
-		<project.build.lineLength>160</project.build.lineLength>
-		<project.build.os>unknown</project.build.os>
-		<project.build.arch>x86_64</project.build.arch>
-		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-		<project.reporting.source>${encoding}</project.reporting.source>
-		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <project.build.indentSize>4</project.build.indentSize>
+        <project.build.lineLength>160</project.build.lineLength>
+        <project.build.os>unknown</project.build.os>
+        <project.build.arch>x86_64</project.build.arch>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.source>${encoding}</project.reporting.source>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<maven.compiler.parameters>true</maven.compiler.parameters>
-		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-		<maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
-		<maven.build.indentSize>4</maven.build.indentSize>
-		<maven.deploy.only>false</maven.deploy.only>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+        <maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
+        <maven.build.indentSize>4</maven.build.indentSize>
+        <maven.deploy.only>false</maven.deploy.only>
 
-		<skipITs>true</skipITs>
+        <skipITs>true</skipITs>
 
-		<!-- ===================================================================== -->
-		<!-- ============================= Plugins =============================== -->
-		<!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+        <!-- ============================= Plugins =============================== -->
+        <!-- ===================================================================== -->
 
-		<maven-release-plugin.version>3.0.0</maven-release-plugin.version>
-		<maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
-		<jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
-		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
-		<flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
-		<com.puppycrawl.tools.checkstyle.version>10.9.3</com.puppycrawl.tools.checkstyle.version>
-		<tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
-		<asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
-		<spring-restdocs-asciidoctor.version>3.0.1</spring-restdocs-asciidoctor.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+        <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
+        <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
+        <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+        <com.puppycrawl.tools.checkstyle.version>10.9.3</com.puppycrawl.tools.checkstyle.version>
+        <tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
+        <asciidoctor-maven-plugin.version>2.2.3</asciidoctor-maven-plugin.version>
+        <spring-restdocs-asciidoctor.version>3.0.1</spring-restdocs-asciidoctor.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
 
-		<checkstyle.failOnViolation>true</checkstyle.failOnViolation>
-		<checkstyle.violationSeverity>error</checkstyle.violationSeverity>
+        <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
+        <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
 
-		<docker.tag>${project.version}</docker.tag>
-		<docker.verbose>true</docker.verbose>
-		<docker.final.name>
-			${settings-xml.dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
-		</docker.final.name>
+        <docker.tag>${project.version}</docker.tag>
+        <docker.verbose>true</docker.verbose>
+        <docker.final.name>
+            ${settings-xml.dockerhub.username}/${project.parent.artifactId}-${project.artifactId}:${docker.tag}
+        </docker.final.name>
 
-		<!-- ===================================================================== -->
-		<!-- ============================ Libraries ============================== -->
-		<!-- ===================================================================== -->
+        <!-- ===================================================================== -->
+        <!-- ============================ Libraries ============================== -->
+        <!-- ===================================================================== -->
 
-		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
+        <api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 
-		<spring-boot-starter-parent.version>3.0.3</spring-boot-starter-parent.version>
-		<jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-		<springfox-swagger2.version>3.0.0</springfox-swagger2.version>
-		<swagger-annotations.version>2.2.8</swagger-annotations.version>
-		<jsr305.version>3.0.2</jsr305.version>
-		<micrometer-registry-prometheus.version>1.12.5</micrometer-registry-prometheus.version>
-		<mapstruct.version>1.5.5.Final</mapstruct.version>
-		<springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
-		<commons-csv.version>1.10.0</commons-csv.version>
-		<commons-io.version>2.16.1</commons-io.version>
-		<itextpdf.version>5.5.13.3</itextpdf.version>
+        <spring-boot-starter-parent.version>3.0.3</spring-boot-starter-parent.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
+        <swagger-annotations.version>2.2.8</swagger-annotations.version>
+        <jsr305.version>3.0.2</jsr305.version>
+        <micrometer-registry-prometheus.version>1.12.5</micrometer-registry-prometheus.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
+        <commons-csv.version>1.10.0</commons-csv.version>
+        <commons-io.version>2.16.1</commons-io.version>
+        <itextpdf.version>5.5.13.3</itextpdf.version>
 
-	</properties>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.openapitools</groupId>
-				<artifactId>jackson-databind-nullable</artifactId>
-				<version>${jackson-databind-nullable.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox-swagger2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.swagger.core.v3</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger-annotations.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>${jsr305.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.openapitools</groupId>
+                <artifactId>jackson-databind-nullable</artifactId>
+                <version>${jackson-databind-nullable.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<goals>
-								<goal>build-info</goal>
-								<goal>repackage</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>${maven.compiler.source}</source>
-						<target>${maven.compiler.target}</target>
-						<annotationProcessorPaths>
-							<path>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok</artifactId>
-								<version>${lombok.version}</version>
-							</path>
-							<path>
-								<groupId>org.mapstruct</groupId>
-								<artifactId>mapstruct-processor</artifactId>
-								<version>${mapstruct.version}</version>
-							</path>
-						</annotationProcessorPaths>
-						<showWarnings>true</showWarnings>
-						<compilerArgs>
-							<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
-							<arg>-Amapstruct.verbose=true</arg>
-							<arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
-							<arg>-Amapstruct.defaultComponentModel=spring</arg>
-							<arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
-							<arg>-Amapstruct.unmappedTargetPolicy=WARN</arg>
-							<arg>-Amapstruct.unmappedSourcePolicy=WARN</arg>
-							<arg>-Amapstruct.disableBuilders=false</arg>
-						</compilerArgs>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<configuration>
-						<!-- This a temporary workaround to deal with https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
-						<useSystemClassLoader>false</useSystemClassLoader>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <showWarnings>true</showWarnings>
+                        <compilerArgs>
+                            <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
+                            <arg>-Amapstruct.verbose=true</arg>
+                            <arg>-Amapstruct.suppressGeneratorVersionInfoComment=true</arg>
+                            <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                            <arg>-Amapstruct.defaultInjectionStrategy=constructor</arg>
+                            <arg>-Amapstruct.unmappedTargetPolicy=WARN</arg>
+                            <arg>-Amapstruct.unmappedSourcePolicy=WARN</arg>
+                            <arg>-Amapstruct.disableBuilders=false</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <!-- This a temporary workaround to deal with https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
+                        <useSystemClassLoader>false</useSystemClassLoader>
 
-						<systemPropertyVariables>
-							<project.version>${project.version}</project.version>
-						</systemPropertyVariables>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>integration-tests</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-							<configuration>
-								<skipTests>${skipITs}</skipTests>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${jacoco-maven-plugin.version}</version>
-					<configuration>
-						<excludes>
-							<exclude>**/company/**</exclude>
-						</excludes>
-					</configuration>
-					<executions>
-						<execution>
-							<id>prepare-agent</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-							<phase>test-compile</phase>
-						</execution>
-						<execution>
-							<id>report</id>
-							<goals>
-								<goal>report</goal>
-							</goals>
-							<phase>test</phase>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>flatten-maven-plugin</artifactId>
-					<version>${flatten-maven-plugin.version}</version>
-					<configuration>
-						<flattenMode>bom</flattenMode>
-					</configuration>
-					<executions>
-						<!-- enable flattening -->
-						<execution>
-							<id>Activate Flatten</id>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>flatten</goal>
-							</goals>
-						</execution>
+                        <systemPropertyVariables>
+                            <project.version>${project.version}</project.version>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>integration-tests</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <skipTests>${skipITs}</skipTests>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/company/**</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <phase>test-compile</phase>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <phase>test</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                    <configuration>
+                        <flattenMode>bom</flattenMode>
+                    </configuration>
+                    <executions>
+                        <!-- enable flattening -->
+                        <execution>
+                            <id>Activate Flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
 
-						<!-- ensure proper cleanup -->
-						<execution>
-							<id>Flatten Clean</id>
-							<phase>clean</phase>
-							<goals>
-								<goal>clean</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven-release-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>Enforce Plugin in Action</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<banDuplicatePomDependencyVersions/>
-								<requireMavenVersion>
-									<version>[3.8.5,)</version>
-									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
-								</requireMavenVersion>
-								<requireJavaVersion>
-									<version>[17,)</version>
-									<message>Invalid Java version. It should, at least, be 17</message>
-								</requireJavaVersion>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+                        <!-- ensure proper cleanup -->
+                        <execution>
+                            <id>Flatten Clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>Enforce Plugin in Action</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicatePomDependencyVersions/>
+                                <requireMavenVersion>
+                                    <version>[3.8.5,)</version>
+                                    <message>Invalid Maven version. It should, at least, be 3.8.5</message>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[17,)</version>
+                                    <message>Invalid Java version. It should, at least, be 17</message>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

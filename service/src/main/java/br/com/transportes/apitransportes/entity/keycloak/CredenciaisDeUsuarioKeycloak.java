@@ -15,8 +15,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class CredenciaisDeUsuarioKeycloak {
 
-	private String type;
-	private String value;
-	private boolean temporary;
+    private String type;
+    private String value;
+    private boolean temporary;
 
 }

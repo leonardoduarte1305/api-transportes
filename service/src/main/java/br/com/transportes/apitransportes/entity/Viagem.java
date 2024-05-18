@@ -1,10 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -23,6 +18,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "viagem")
@@ -34,68 +33,68 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 public class Viagem {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "motoristaId", nullable = false)
-	private Motorista motorista;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "motoristaId", nullable = false)
+    private Motorista motorista;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "veiculoId", nullable = false)
-	private Veiculo veiculo;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "veiculoId", nullable = false)
+    private Veiculo veiculo;
 
-	@OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-	private List<Destino> destinos = new ArrayList<>();
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    private List<Destino> destinos = new ArrayList<>();
 
-	@JoinColumn(nullable = false)
-	private String datetimeSaida;
+    @JoinColumn(nullable = false)
+    private String datetimeSaida;
 
-	private String datetimeVolta;
+    private String datetimeVolta;
 
-	@Column(name = "id_sede")
-	private Integer sede;
+    @Column(name = "id_sede")
+    private Integer sede;
 
-	@Enumerated(EnumType.STRING)
-	@JoinColumn(nullable = false)
-	private Confirmacao status;
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(nullable = false)
+    private Confirmacao status;
 
-	@JoinColumn(nullable = true)
-	private boolean excluido;
+    @JoinColumn(nullable = true)
+    private boolean excluido;
 
-	@JoinColumn(nullable = true)
-	private boolean encerrado;
+    @JoinColumn(nullable = true)
+    private boolean encerrado;
 
-	public void confirmar() {
-		status = Confirmacao.CONFIRMADO;
-	}
+    public void confirmar() {
+        status = Confirmacao.CONFIRMADO;
+    }
 
-	public void desconfirmar() {
-		status = Confirmacao.NAO_CONFIRMADO;
-	}
+    public void desconfirmar() {
+        status = Confirmacao.NAO_CONFIRMADO;
+    }
 
-	public void excluirDoBancoLogicamente() {
-		excluido = true;
-	}
+    public void excluirDoBancoLogicamente() {
+        excluido = true;
+    }
 
-	public void encerrar() {
-		encerrado = true;
-	}
+    public void encerrar() {
+        encerrado = true;
+    }
 
-	public String isEncerrado() {
-		return encerrado ? "ENCERRADO" : "NAO_ENCERRADO";
-	}
+    public String isEncerrado() {
+        return encerrado ? "ENCERRADO" : "NAO_ENCERRADO";
+    }
 
-	@Override
-	public String toString() {
-		return "Viagem: " +
-				"\nMotorista: " + motorista.toString() +
-				", \nVeiculo: " + veiculo.toString() +
-				", \nDestinos: " + destinos.toString() +
-				", \nData de Saída: '" + datetimeSaida + '\'' +
-				", \nData de Volta: '" + datetimeVolta + '\'' +
-				", \nStatus: " + status +
-				", \nencerrado: " + isEncerrado();
-	}
+    @Override
+    public String toString() {
+        return "Viagem: " +
+                "\nMotorista: " + motorista.toString() +
+                ", \nVeiculo: " + veiculo.toString() +
+                ", \nDestinos: " + destinos.toString() +
+                ", \nData de Saída: '" + datetimeSaida + '\'' +
+                ", \nData de Volta: '" + datetimeVolta + '\'' +
+                ", \nStatus: " + status +
+                ", \nencerrado: " + isEncerrado();
+    }
 }

@@ -1,10 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -22,6 +17,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sede")
@@ -33,45 +32,46 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 public class Sede {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@JoinColumn(nullable = false)
-	private String rua;
+    @JoinColumn(nullable = false)
+    private String rua;
 
-	@JoinColumn(nullable = false)
-	private Integer numero;
+    @JoinColumn(nullable = false)
+    private Integer numero;
 
-	@JoinColumn(nullable = false)
-	private String cep;
+    @JoinColumn(nullable = false)
+    private String cep;
 
-	@JoinColumn(nullable = false)
-	private String cidade;
+    @JoinColumn(nullable = false)
+    private String cidade;
 
-	@Enumerated(EnumType.STRING)
-	private Uf uf;
+    @Enumerated(EnumType.STRING)
+    private Uf uf;
 
-	@JoinColumn(nullable = false)
-	private String nome;
+    @JoinColumn(nullable = false)
+    private String nome;
 
-	@JoinColumn(nullable = false)
-	private String observacao;
+    @JoinColumn(nullable = false)
+    private String observacao;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@Column(name = "inscritos_emails")
-	private List<String> inscritos = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "inscritos_emails")
+    private List<String> inscritos = new ArrayList<>();
 
-	@Override public String toString() {
-		return "Nome: " + nome + ", Observações" + observacao +
-				"\nEndereco: Rua " + rua + ", " + numero + " - CEP'" + cep + ", " + cidade + "/" + uf;
-	}
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", Observações" + observacao +
+                "\nEndereco: Rua " + rua + ", " + numero + " - CEP'" + cep + ", " + cidade + "/" + uf;
+    }
 
-	public void inscreverUsuario(String email) {
-		this.inscritos.add(email);
-	}
+    public void inscreverUsuario(String email) {
+        this.inscritos.add(email);
+    }
 
-	public void removerInscrito(String email) {
-		this.inscritos.remove(email);
-	}
+    public void removerInscrito(String email) {
+        this.inscritos.remove(email);
+    }
 }

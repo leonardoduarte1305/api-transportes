@@ -15,10 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Role {
 
-	public String id;
-	public String name;
-	public String description;
-	public boolean composite;
-	public boolean clientRole;
-	public String containerId;
+    public String id;
+    public String name;
+    public String description;
+    public boolean composite;
+    public boolean clientRole;
+    public String containerId;
 }

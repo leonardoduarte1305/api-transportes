@@ -1,10 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -23,6 +18,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "destino")
@@ -35,54 +34,55 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 public class Destino {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "sedeId", nullable = false)
-	private Sede sede;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sedeId", nullable = false)
+    private Sede sede;
 
-	@OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
-	private List<MaterialQuantidadeSetor> materiaisQntdSetor;
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    private List<MaterialQuantidadeSetor> materiaisQntdSetor;
 
-	@Enumerated(EnumType.STRING)
-	private Confirmacao status;
+    @Enumerated(EnumType.STRING)
+    private Confirmacao status;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "viagem_id")
-	private Viagem viagem;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "viagem_id")
+    private Viagem viagem;
 
-	@JoinColumn(nullable = true)
-	private boolean excluido;
+    @JoinColumn(nullable = true)
+    private boolean excluido;
 
-	public void confirmar() {
-		status = Confirmacao.CONFIRMADO;
-	}
+    public void confirmar() {
+        status = Confirmacao.CONFIRMADO;
+    }
 
-	public void desconfirmar() {
-		status = Confirmacao.NAO_CONFIRMADO;
-	}
+    public void desconfirmar() {
+        status = Confirmacao.NAO_CONFIRMADO;
+    }
 
-	public void excluirDoBancoLogicamente() {
-		excluido = true;
-	}
+    public void excluirDoBancoLogicamente() {
+        excluido = true;
+    }
 
-	@Override public String toString() {
-		return "\nSede: " + sede.toString() +
-				", Lista de materiais: " + materiaisQntdSetor.toString() +
-				", status: " + status + "\n";
-	}
+    @Override
+    public String toString() {
+        return "\nSede: " + sede.toString() +
+                ", Lista de materiais: " + materiaisQntdSetor.toString() +
+                ", status: " + status + "\n";
+    }
 
-	public String statusToString() {
-		return status.getValue();
-	}
+    public String statusToString() {
+        return status.getValue();
+    }
 
-	public void adicionarMaterial(MaterialQuantidadeSetor material) {
-		materiaisQntdSetor.add(material);
-	}
+    public void adicionarMaterial(MaterialQuantidadeSetor material) {
+        materiaisQntdSetor.add(material);
+    }
 
-	public void limparListaDeMateriais() {
-		this.materiaisQntdSetor = new ArrayList<>();
-	}
+    public void limparListaDeMateriais() {
+        this.materiaisQntdSetor = new ArrayList<>();
+    }
 }

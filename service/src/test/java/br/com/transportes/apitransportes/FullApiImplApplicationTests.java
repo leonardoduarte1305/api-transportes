@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = FullApiImplApplication.class)
 class FullApiImplApplicationTests {
 
-	@Test
-	void contextLoads() {
-		Assertions.assertEquals("UPPER_CASE", "upper_case".toUpperCase());
-	}
+    @Test
+    void contextLoads() {
+        Assertions.assertEquals("UPPER_CASE", "upper_case".toUpperCase());
+    }
 
 }

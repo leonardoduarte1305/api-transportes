@@ -1,7 +1,5 @@
 package br.com.transportes.apitransportes.entity;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "motorista")
@@ -25,20 +24,21 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 public class Motorista {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@JoinColumn(nullable = false)
-	private String nome;
+    @JoinColumn(nullable = false)
+    private String nome;
 
-	@JoinColumn(nullable = false)
-	private String carteira;
+    @JoinColumn(nullable = false)
+    private String carteira;
 
-	@JoinColumn(nullable = false)
-	private String email;
+    @JoinColumn(nullable = false)
+    private String email;
 
-	@Override public String toString() {
-		return "Nome: " + nome + ", Email: " + email;
-	}
+    @Override
+    public String toString() {
+        return "Nome: " + nome + ", Email: " + email;
+    }
 }
