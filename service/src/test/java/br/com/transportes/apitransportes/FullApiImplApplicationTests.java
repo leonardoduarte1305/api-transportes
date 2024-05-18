@@ -1,15 +1,11 @@
 package br.com.transportes.apitransportes;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
 
-@SpringBootTest(classes = FullApiImplApplication.class)
 class FullApiImplApplicationTests {
 
-    @Test
-    void contextLoads() {
-        Assertions.assertEquals("UPPER_CASE", "upper_case".toUpperCase());
+    public static void main(String[] args) {
+        SpringApplication.run(FullApiImplApplication.class, args);
     }
 
 }

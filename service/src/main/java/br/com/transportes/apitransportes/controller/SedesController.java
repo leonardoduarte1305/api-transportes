@@ -19,11 +19,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class SedesController implements SedesApi {
-
     private static final String SEDES_ID = "/sedes/{id}";
     private final SedesService sedesService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Sede> criarSede(UpsertSede upsertSede) {
@@ -34,13 +32,11 @@ public class SedesController implements SedesApi {
         return ResponseEntity.created(uri).body(sedeSalva);
     }
 
-
     @Override
     public ResponseEntity<Sede> editarSede(Integer id, UpsertSede upsertSede) {
         Sede sedeEditada = sedesService.upsertSede(id, upsertSede);
         return ResponseEntity.ok(sedeEditada);
     }
-
 
     @Override
     public ResponseEntity<Void> excluirSede(Integer id) {
@@ -48,13 +44,11 @@ public class SedesController implements SedesApi {
         return ResponseEntity.noContent().build();
     }
 
-
     @Override
     public ResponseEntity<List<Sede>> listaTodasAsSedes() {
         List<Sede> sedes = sedesService.listarTodas();
         return ResponseEntity.ok(sedes);
     }
-
 
     @Override
     public ResponseEntity<Sede> trazSedePorId(Integer id) {
@@ -62,13 +56,11 @@ public class SedesController implements SedesApi {
         return ResponseEntity.ok(encontrada);
     }
 
-
     @Override
     public ResponseEntity<Void> inscrever(Integer id, List<String> emails) {
         sedesService.inscreverUsuarios(id, emails);
         return ResponseEntity.noContent().build();
     }
-
 
     @Override
     public ResponseEntity<Void> desinscrever(Integer id, List<String> emails) {

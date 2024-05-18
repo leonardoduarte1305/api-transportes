@@ -43,6 +43,7 @@ public class ViagensService {
     private final DestinosMapper destinosMapper;
     private final EmailService emailService;
 
+    @Transactional
     public Viagem upsertViagem(Integer id, UpsertViagem upsertViagem) {
         if (id == null) {
             return salvarNovaViagem(upsertViagem);
@@ -51,7 +52,6 @@ public class ViagensService {
         }
     }
 
-    @Transactional
     private Viagem salvarNovaViagem(UpsertViagem upsertViagem) {
         Motorista motorista = getMotorista(upsertViagem);
         Veiculo veiculo = getVeiculo(upsertViagem);
@@ -83,7 +83,6 @@ public class ViagensService {
         return viagensMapper.toViagemEntity(upsertViagem, motorista, veiculo, destinosEncontrados);
     }
 
-    @Transactional
     private Viagem editarViagemExistente(Integer id, UpsertViagem upsertViagem) {
         limparListaDeDestinos(id);
         br.com.transportes.apitransportes.entity.Viagem viagemParaSalvar = encontrarViagemPorId(id);
@@ -112,7 +111,6 @@ public class ViagensService {
         return destinosService.findAllByIdIsIn(upsertViagem.getDestinos());
     }
 
-    @Transactional
     private void limparListaDeDestinos(Integer id) {
         List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosService.trazerDestinosDaViagem(id);
         destinos.forEach(destino -> destino.setViagem(null));
@@ -143,12 +141,12 @@ public class ViagensService {
             viagem.setDestinos(destinos);
         });
 
-        return encontradas.stream().map(viagensMapper::toViagemDto).collect(Collectors.toList());
+        return encontradas.stream().map(viagensMapper::toViagemDto).toList();
     }
 
     public List<Destino> listarDestinosDaViagem(Integer id) {
         List<br.com.transportes.apitransportes.entity.Destino> destinos = destinosService.trazerDestinosDaViagem(id);
-        return destinos.stream().map(destinosMapper::toDestinoDto).collect(Collectors.toList());
+        return destinos.stream().map(destinosMapper::toDestinoDto).toList();
     }
 
     public void encerraViagem(Integer id, Encerramento encerramento) {

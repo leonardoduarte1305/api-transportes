@@ -19,11 +19,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class VeiculosController implements VeiculosApi {
-
     private static final String VEICULOS_ID = "/veiculos/{id}";
     private final VeiculosService veiculosService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Veiculo> criarVeiculo(UpsertVeiculo upsertVeiculo) {
@@ -34,13 +32,11 @@ public class VeiculosController implements VeiculosApi {
         return ResponseEntity.created(uri).body(veiculoSalvo);
     }
 
-
     @Override
     public ResponseEntity<Veiculo> editarVeiculo(Integer id, UpsertVeiculo upsertVeiculo) {
         Veiculo veiculoEditado = veiculosService.upsertVeiculo(id, upsertVeiculo);
         return ResponseEntity.ok(veiculoEditado);
     }
-
 
     @Override
     public ResponseEntity<Void> excluirVeiculo(Integer id) {
@@ -48,13 +44,11 @@ public class VeiculosController implements VeiculosApi {
         return ResponseEntity.noContent().build();
     }
 
-
     @Override
     public ResponseEntity<List<Veiculo>> listaTodosVeiculos() {
         List<Veiculo> veiculos = veiculosService.listarTodos();
         return ResponseEntity.ok(veiculos);
     }
-
 
     @Override
     public ResponseEntity<Veiculo> trazVeiculoPorId(Integer id) {

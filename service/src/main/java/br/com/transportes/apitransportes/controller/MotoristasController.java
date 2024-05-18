@@ -19,11 +19,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class MotoristasController implements MotoristasApi {
-
     private static final String MOTORISTAS_ID = "/motoristas/{id}";
     private final MotoristasService motoristasService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Motorista> criarMotorista(AtributosMotorista atributosMotorista) {
@@ -34,13 +32,11 @@ public class MotoristasController implements MotoristasApi {
         return ResponseEntity.created(uri).body(motoristaSalvo);
     }
 
-
     @Override
     public ResponseEntity<Motorista> editarMotorista(Integer id, AtributosMotorista atributosMotorista) {
         Motorista motoristaEditado = motoristasService.upsertMotorista(id, atributosMotorista);
         return ResponseEntity.ok(motoristaEditado);
     }
-
 
     @Override
     public ResponseEntity<Void> excluirMotorista(Integer id) {
@@ -54,7 +50,6 @@ public class MotoristasController implements MotoristasApi {
         List<Motorista> motoristas = motoristasService.listarTodos();
         return ResponseEntity.ok(motoristas);
     }
-
 
     @Override
     public ResponseEntity<Motorista> trazMotoristaPorId(Integer id) {

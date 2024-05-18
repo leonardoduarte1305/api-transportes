@@ -19,11 +19,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class MaterialController implements MateriaisApi {
-
     private static final String MATERIAIS_ID = "/materiais/{id}";
     private final MateriaisService materialsService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Material> criarMaterial(UpsertMaterial upsertMaterial) {
@@ -34,13 +32,11 @@ public class MaterialController implements MateriaisApi {
         return ResponseEntity.created(uri).body(materialSalvo);
     }
 
-
     @Override
     public ResponseEntity<Material> editarCadastroMaterial(Integer id, UpsertMaterial upsertMaterial) {
         Material materialEditado = materialsService.upsertMaterial(id, upsertMaterial);
         return ResponseEntity.ok(materialEditado);
     }
-
 
     @Override
     public ResponseEntity<Void> excluirMaterial(Integer id) {
@@ -48,13 +44,11 @@ public class MaterialController implements MateriaisApi {
         return ResponseEntity.noContent().build();
     }
 
-
     @Override
     public ResponseEntity<List<Material>> listaTodosMateriaisCadastrados() {
         List<Material> materials = materialsService.listarTodos();
         return ResponseEntity.ok(materials);
     }
-
 
     @Override
     public ResponseEntity<Material> trazMaterialPorId(Integer id) {

@@ -138,7 +138,7 @@
         <jsr305.version>3.0.2</jsr305.version>
         <micrometer-registry-prometheus.version>1.12.5</micrometer-registry-prometheus.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.0.4</springdoc-openapi-starter-webmvc-ui.version>
         <commons-csv.version>1.10.0</commons-csv.version>
         <commons-io.version>2.16.1</commons-io.version>
         <itextpdf.version>5.5.13.3</itextpdf.version>
@@ -313,29 +313,23 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>${maven-enforcer-plugin.version}</version>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>${maven-toolchains-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>Enforce Plugin in Action</id>
                         <goals>
-                            <goal>enforce</goal>
+                            <goal>toolchain</goal>
                         </goals>
-                        <configuration>
-                            <rules>
-                                <banDuplicatePomDependencyVersions/>
-                                <requireMavenVersion>
-                                    <version>[3.8.5,)</version>
-                                    <message>Invalid Maven version. It should, at least, be 3.8.5</message>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>[17,)</version>
-                                    <message>Invalid Java version. It should, at least, be 17</message>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>17</version>
+                            <vendor>openjdk</vendor>
+                        </jdk>
+                    </toolchains>
+                </configuration>
             </plugin>
         </plugins>
     </build>

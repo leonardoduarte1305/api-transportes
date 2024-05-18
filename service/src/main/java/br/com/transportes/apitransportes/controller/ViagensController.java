@@ -12,7 +12,6 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +25,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class ViagensController implements ViagensApi {
-
     private static final String VIAGENS_ID = "/viagens/{id}";
     private final ViagensService viagensService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Viagem> criarViagem(UpsertViagem upsertViagem) {
@@ -41,13 +38,11 @@ public class ViagensController implements ViagensApi {
         return ResponseEntity.created(uri).body(viagemSalva);
     }
 
-
     @Override
     public ResponseEntity<Viagem> editarViagem(Integer id, UpsertViagem upsertViagem) {
         Viagem viagemEditada = viagensService.upsertViagem(id, upsertViagem);
         return ResponseEntity.ok(viagemEditada);
     }
-
 
     @Override
     public ResponseEntity<Void> confirmaViagem(Integer id, Confirmacao confirmacao) {
@@ -55,13 +50,11 @@ public class ViagensController implements ViagensApi {
         return ResponseEntity.noContent().build();
     }
 
-
     @Override
     public ResponseEntity<List<Viagem>> listaTodasViagens() {
         List<Viagem> encontradas = viagensService.listarViagens();
         return ResponseEntity.ok(encontradas);
     }
-
 
     @Override
     public ResponseEntity<List<Destino>> trazDestinosDaViagem(Integer id) {
@@ -75,21 +68,18 @@ public class ViagensController implements ViagensApi {
         return ResponseEntity.ok(encontrada);
     }
 
-
     @Override
     public ResponseEntity<Void> encerraViagem(Integer id, Encerramento encerramento) {
         viagensService.encerraViagem(id, encerramento);
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @Override
     public ResponseEntity<Void> excluirViagem(Integer id) {
         viagensService.excluirViagem(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @Override
     public ResponseEntity<Object> relatorioDeViagem(Integer id) {
         InputStreamResource inputStreamResource = viagensService.relatorioDeViagem(id);

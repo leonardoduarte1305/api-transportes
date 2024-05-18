@@ -57,7 +57,7 @@ exemplo.yaml
 variaveis_de_ambiente.env
 .vscode
 **/**/.flattened-pom.xml
-dummy.*
+*dummy*.*
 *.env
 *.pdf
 dockerVolumes

@@ -18,7 +18,6 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class SetoresController implements SetoresApi {
-
     private static final String SETORES_ID = "/setores/{id}";
     private final SetoresService setorService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();

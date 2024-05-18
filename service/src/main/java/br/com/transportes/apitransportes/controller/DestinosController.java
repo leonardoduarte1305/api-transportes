@@ -21,11 +21,9 @@ import java.util.List;
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class DestinosController implements DestinosApi {
-
     private static final String DESTINOS_ID = "/destinos/{id}";
     private final DestinosService destinosService;
     private final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance();
-
 
     @Override
     public ResponseEntity<Destino> criarDestino(UpsertDestino upsertDestino) {
@@ -36,13 +34,11 @@ public class DestinosController implements DestinosApi {
         return ResponseEntity.created(uri).body(destinoSalvo);
     }
 
-
     @Override
     public ResponseEntity<Destino> editarDestino(Integer id, UpsertDestino upsertDestino) {
         Destino destinoEditado = destinosService.upsertDestino(id, upsertDestino);
         return ResponseEntity.ok(destinoEditado);
     }
-
 
     @Override
     public ResponseEntity<Void> excluirDestino(Integer id) {
@@ -50,20 +46,17 @@ public class DestinosController implements DestinosApi {
         return ResponseEntity.noContent().build();
     }
 
-
     @Override
     public ResponseEntity<Destino> trazDestinoPorId(Integer id) {
         Destino encontrado = destinosService.trazerDestinoPorId(id);
         return ResponseEntity.ok(encontrado);
     }
 
-
     @Override
     public ResponseEntity<List<MaterialQuantidadeSetor>> trazMateriaisDoDestino(Integer id) {
         List<MaterialQuantidadeSetor> materiais = destinosService.trazMateriaisDoDestino(id);
         return ResponseEntity.ok(materiais);
     }
-
 
     @Override
     public ResponseEntity<Void> confirmaDestino(Integer id, Confirmacao body) {

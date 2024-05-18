@@ -19,8 +19,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class EmailService {
-
-    final String USERNAME = "apitransportesfloripa@gmail.com";
+    static final String USERNAME = "apitransportesfloripa@gmail.com";
     private final CriadorDeRelatorioDeViagem criadorDeRelatorioDeViagem;
     private final JavaMailSender emailSender;
 

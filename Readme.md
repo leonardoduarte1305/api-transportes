@@ -48,16 +48,16 @@ Use este comando uma vez apenas.
 
 ```bash
 docker run -d \
--p 5432:5432 \
---name postgresql \
---env-file local.env \
-postgres:alpine
+  -p 5432:5432 \
+  --name postgres-api-transportes \
+  --env-file .env \
+  postgres:alpine
 ```
 
 Para iniciar novamente o postgres utilize:
 
 ```bash
-docker start postgresql
+docker start postgres-api-transportes
 ```
 
 <hr>
@@ -67,7 +67,7 @@ docker start postgresql
 Conecte-se no container do PostgresSQL usando o comando:
 
 ```bash
-docker exec -it $(docker container ls | grep postgresql | awk '{print $1}') /bin/bash
+docker exec -it $(docker container ls | grep postgres-api-transportes | awk '{print $1}') /bin/bash
 ```
 
 Conecte-se no servidor do Postgres digitando:
@@ -101,12 +101,12 @@ Para verificar a criação dos databases use:
 ### Levante o Keycloak executando na pasta [raiz](./) do projeto:
 
 ```bash
-docker run -d --rm \
--p 8081:8080 \
---name keycloak \
--e KEYCLOAK_DATABASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgresql | awk '{print $1}')) \
---env-file local.env \
-bitnami/keycloak:22.0.4
+docker run -it --rm \
+  -p 8081:8080 \
+  --name keycloak \
+  -e KEYCLOAK_DATABASE_HOST=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker container ls | grep postgres-api-transportes | awk '{print $1}')) \
+  --env-file local.env \
+  bitnami/keycloak:24.0.4
 ```
 
 Acesse http://localhost:8081/admin/
@@ -116,25 +116,40 @@ Acesse http://localhost:8081/admin/
 
 Na Primeira Utilização é necessário criar:
 
-    Client: Clique em Clients e em Create Client
-            Preencha o Client ID: api-transportes-client
-            Crie uma descrição se desejar
-            Clique em Next e depois em Save
+    Client: Clique em Clients no menu da lateral esquerda
+              Clique em: Create client
+            Você estará no menu: General Settings
+              Preencha o Client ID: api-transportes-client
+              Crie um nome e uma descrição se desejar
+              Clique em Next
+            Voce estará no menu: Capability config
+              Marque a opção: Client authentication 
+              Marque a opção: Authorization
+              Clique em Next
+            Você estará no menu: Login settings
+              Preencha o campo: Web origins com um *
+              Clique em Save
 
-    Roles:  Na página final do passo anterior clique em Roles
-            Clique em Create Roles
-            Preencha a Role name: ADMIN ou USER
-            Crie uma descrição se desejar
-            Clique em Save
-    
-    Usuário:Clique em Users e em Create new user
-            Preencha o username e todos os dados que desejar neste passo
-            Clique em Create e depois em Role mapping
-            Clique em Assign role e depois no dropdown à esquerda
-            Selecione no dropdown: Filter by clients
-            Marque a role que você anteriormente: ADMIN ou USER
-            O nome do client que você cadastrou aparece à esquerda do nome da Role
-            Clique em Assign
+    Roles:  Clique na aba superior: Roles
+              Clique em Create role
+                Preencha a Role name: ADMIN ou USER
+                Crie uma descrição se desejar
+                Clique em Save
+
+    Usuário: Clique em Users no menu da lateral esquerda
+              Clique em Add user
+                Preencha o username e todos os dados que desejar neste passo
+                Clique em Create 
+              Clique em Role mapping na aba superior
+                Clique em Assign role e depois no dropdown à esquerda
+                Selecione no dropdown: Filter by clients
+                Marque a role que você anteriormente: ADMIN ou USER
+                O nome do client que você cadastrou aparece à esquerda do nome da Role
+                Clique em Assign
+              Clique em Credentials
+                Clique em Set password
+                Preencha a senha 2x e dermarque a opção Temporary
+                Clique em Save e depois confirme clicando em Save password
 
 <hr>
 
@@ -143,7 +158,7 @@ Na Primeira Utilização é necessário criar:
 ### Execute na pasta [raiz](./) o seguinte comando:
 
 ```bash
-export $(xargs < local.env) && ./mvnw clean install && cd ${PWD}/service && ./mvnw spring-boot:run
+export $(xargs < local.env) && ./mvnw clean install -DskipTests && cd service/ && ./mvnw spring-boot:run
 ```
 
 ## 5 - Rodando a imagem de container Docker da Api-Transportes
