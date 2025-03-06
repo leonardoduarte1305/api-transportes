@@ -390,13 +390,13 @@
                                     <docker>
                                         <publishRegistry>
                                             <!--suppress UnresolvedMavenProperty -->
-                                            <username>${settings-xml.dockerhub.username}</username>
+                                            <username>${dockerhub.username}</username>
                                             <!--suppress UnresolvedMavenProperty -->
-                                            <password>${settings-xml.dockerhub.password}</password>
+                                            <password>${dockerhub.password}</password>
                                             <!--suppress UnresolvedMavenProperty -->
-                                            <url>${settings-xml.dockerhub.registry}</url>
+                                            <url>${dockerhub.registry}</url>
                                             <!--suppress UnresolvedMavenProperty -->
-                                            <email>${settings-xml.dockerhub.email}</email>
+                                            <email>${dockerhub.email}</email>
                                         </publishRegistry>
                                     </docker>
                                 </configuration>
